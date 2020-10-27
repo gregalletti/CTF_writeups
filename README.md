@@ -1,9 +1,9 @@
 # MetaCTF CyberGames 2020 Write-ups
-Event: **MetaCTF CyberGames 2020, 24-25 October 2020**
+Event: **MetaCTF CyberGames 2020, 24-25 October 2020** | [official URL](https://metactf.com/cybergames)
 
-Final position: **32th in Students-only Scoreboard, 49th in Global Scoreboard**
+Final position: **32th in Students-only Scoreboard, 49th in Global Scoreboard** | [Full Scoreboard here](https://ctftime.org/event/1106)
 
-Our Team: **CangureTheFlat**
+Our Team: **CangureTheFlat** | [CTFtime page](https://ctftime.org/team/137370)
 
 Formed by: 
 * [Gregorio Galletti](https://github.com/gregalletti)
@@ -40,6 +40,7 @@ From now on it was pretty easy: we knew the algorithms and that we had to always
 We submitted this as the last flag, and to be honest we were so tired that we didn't even feel like to write a python script to do that. We bruteforced all the following characters until we blocked for some reason, and the admins told us to submit the flag anyway. 
 
 Partial (or maybe final) flag: 
+
 **MetaCTF{it333r@@@tive_ha$$hing_wor-ks_w0nders_78h2brfdjaq_!**
 
 ## Forensics
@@ -49,9 +50,10 @@ We were given a pcap file with loads of packets involved. I opened the file with
 Firstly I tried to analyze the traffic manually, but I soon realized that this was unfeasible (yes it took me a while to realize, but It was 4 am for me come on).
 
 Then I tried to use the filter option to get only the open ports but I had no idea on how to use it, so I had to get them in another way. I remembered that, when a port on a server is open, the number of packets in a single communication will be at least 3: SYN, SYN-ACK, ACK.
-I then displayed all the conversations, selected TCP, and ignored all of them with packer number less than 3. For the remaining ports (80, 443, 23, 21, 53, 22, 3128) I checked if the number of packets actually represented the fact that the port was open, in order to avoid possible packet retransmissions.
+I then displayed all the conversations, selected TCP, and ignored all of them with packet number less than 3. For the remaining ports (80, 443, 23, 21, 53, 22, 3128) I checked if the number of packets actually represented the fact that the port was open, in order to avoid possible packet retransmissions.
 
 All of them were good so the solution is simply the sum: 
+
 **MetaCTF{3770}**
 
 ## Reconnaissance
@@ -83,11 +85,12 @@ Knowing that, we guessed a possible shift correlation between the original strin
 So: we grouped both strings in 9 groups of 3 chars, took every group of the first string and shifted by the last char of the corresponding group of the second string.
 
 An easy calculation and the flag is here: 
+
 **MetaCTF{}**
 
 ## Reverse Engineering
 ### [REDACTED] - 225 pts
 #### author: grigg0swagg0
 
-### [Password Here Please] - 325 pts
+### Password Here Please - 325 pts
 #### author: baga

@@ -97,9 +97,16 @@ An easy calculation and the flag is here:
 
 We are given a PDF file and told that it has been modified to cover a One Time Password: if we simply open it, a black rectangle is shown over the password.
 I first tried to open it on a hex editor and analyze the magic bytes and search if for some reason the password was hidden in the metadata, but nothing. I then tried to use ```binwalk``` on the file in order to find possible hidden files, but also nothing.
-The solution was actually simpler: knowing the layer structure of every PDF file we could open with any program like Photoshop or Illustrator and see the original image. During the CTF we used an online tool, [this](), but while writing this I tried to also open it in ```Photoshop```. 
+The solution was actually simpler: knowing the layer structure of every PDF file we could open with any program like Photoshop or Illustrator and see the original image. During the CTF we used an online tool, [this](https://pdfcandy.com/extract-images.html), but while writing this I tried to also open it in ```Photoshop```. 
 
 Here is the simple procedure:
+* Open the file selecting Images ("Immagini" in Italian)
+
+![Alt text](./Cattura.PNG?raw=true "Title")
+
+* Look at the original image 
+
+![Alt text](./Cattura2.PNG?raw=true "Title")
 
 And here is the flag:
 

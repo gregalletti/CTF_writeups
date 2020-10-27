@@ -77,7 +77,7 @@ I started by counting the length of the given string (27) trying to see of It wa
 There were 9 pictures, so finding a way to extract 3 characters from every pic would have been a good start.
 Then I proceeded by easily solving them (I often play chess and solve this type of quiz), writing down every winning move in the standard chess notation like Qh7 = Queen moves in h7.
 
-In the meanwhile one of my teammates randomly tried to decrypt the given string with a ROT decryption, discovering some interesting characters like { and }. Looks like a flag ;)
+In the meanwhile one of my teammates randomly tried to decrypt the given string with a ROT decryption, discovering some interesting characters like { and }. Looks like a flag :smirk:
 
 Knowing that, we guessed a possible shift correlation between the original string and the chess-obtained string, and observing the outcome of some experiments it turned out that only the numerical characters of the second one were relevant.
 So: we grouped both strings in 9 groups of 3 chars, took every group of the first string and shifted by the last char of the corresponding group of the second string.

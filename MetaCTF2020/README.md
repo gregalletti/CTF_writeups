@@ -38,7 +38,7 @@ The answer was yes, and by simply trying I was able to pull out also the other u
 * 4th string: SHA3-256
 
 From now on it was pretty easy: we knew the algorithms and that we had to always add only a new character.
-We submitted this as the last flag, and to be honest we were so tired that we didn't even feel like to write a python script to do that. We bruteforced all the following characters until we blocked for some reason, and the admins told us to submit the flag anyway. 
+We submitted this as the last flag, and to be honest we were so tired that we didn't even feel like to write a python script to do that. We bruteforced all the following characters with ```hashcat``` and a dictionary of all the possible chars until we blocked for some reason, and the admins told us to submit the flag anyway. 
 
 Partial (or maybe final) flag: 
 
@@ -48,7 +48,7 @@ Partial (or maybe final) flag:
 ### Open Thermal Exhaust Port
 ![c](https://img.shields.io/badge/Forensics-ff69b4) ![p](https://img.shields.io/badge/Points-275-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
-We were given a pcap file with loads of packets involved. I opened the file with Wireshark and instantly filtered on TCP packets only. 
+We were given a pcap file with loads of packets involved. I opened the file with ```Wireshark``` and instantly filtered on TCP packets only. 
 Firstly I tried to analyze the traffic manually, but I soon realized that this was unfeasible (yes it took me a while to realize, but It was 4 am for me come on).
 
 Then I tried to use the filter option to get only the open ports but I had no idea on how to use it, so I had to get them in another way. I remembered that, when a port on a server is open, the number of packets in a single communication will be at least 3: SYN, SYN-ACK, ACK.
@@ -108,7 +108,7 @@ And here is the flag:
 ### Password Here Please
 ![c](https://img.shields.io/badge/Reverse_Engineering-2c3e50) ![p](https://img.shields.io/badge/Points-325-success) ![a](https://img.shields.io/badge/author-b4g4-lightgrey)
 
-The challenge consinsted in reverse engineering a python code to find the string that gets throught each check. The first step was just understanding that the problem could be divided in 4 parts.
+The challenge consinsted in reverse engineering a ```Python``` code to find the string that gets throught each check. The first step was just understanding that the problem could be divided in 4 parts.
 
 The first part (lines 5-7) was just a check on the lenght of the string that must be 24 characters. 
 

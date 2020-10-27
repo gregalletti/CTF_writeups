@@ -13,6 +13,7 @@ Our members:
 * [Ibrahim El Shemy](https://github.com/ibriaco)
 
 Here there are all the CTFs we took part in:
-| Name | Position | Date |Link|
-|------|---------|--------|---|
-|Reply CyberSecurity Challenge|227th|15 Oct 2020|x|
+| Name | Position | Date |Link|Write-ups|
+|------|---------|--------|---|----------|
+|MetaCFT CyberGames|32th students, 49th global|24 Oct 2020|x|x|
+|Reply CyberSecurity Challenge|227th|10 Oct 2020|x|x|

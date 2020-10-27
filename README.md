@@ -5,6 +5,7 @@ Final position: 32th in Students-only Scoreboard
 Our Team: CangureTheFlat
 
 Formed by: 
+* Gregorio Galletti
 
 # Write Up
 CRYPTOGRAPHY

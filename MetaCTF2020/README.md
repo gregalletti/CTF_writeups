@@ -16,6 +16,7 @@ Formed by:
 
 ### Blake's secret message
 ![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-350-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
+
 The challenge started with a file containing bunch of alphanumerical strings, and 4 strings that were the first 4 strings in the file; the challenge name also states "Blake" which could refer to an hashing algorithm, interesting.
 
 After a quick analysis I noticed that their length was repeated in a cyclic way, so maybe this was a clue: I calculated their length, and the result was:
@@ -46,6 +47,7 @@ Partial (or maybe final) flag:
 ## Forensics
 ### Open Thermal Exhaust Port
 ![c](https://img.shields.io/badge/Forensics-ff69b4) ![p](https://img.shields.io/badge/Points-275-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
+
 We were given a pcap file with loads of packets involved. I opened the file with Wireshark and instantly filtered on TCP packets only. 
 Firstly I tried to analyze the traffic manually, but I soon realized that this was unfeasible (yes it took me a while to realize, but It was 4 am for me come on).
 
@@ -75,6 +77,7 @@ All of them were good so the solution is simply the sum:
 
 ### Checkmate in 1
 ![c](https://img.shields.io/badge/Other-18bc9c) ![p](https://img.shields.io/badge/Points-350-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
+
 I started by counting the length of the given string (27) trying to see of It was somehow a well known length, but no. After downloading the pictures given in the challenge, I saw that they were chess games situations. Despite I did not actually read the name of the challenge, I figured out that they were a sort of chess quiz with White winning in one move.
 There were 9 pictures, so finding a way to extract 3 characters from every pic would have been a good start.
 Then I proceeded by easily solving them (I often play chess and solve this type of quiz), writing down every winning move in the standard chess notation like Qh7 = Queen moves in h7.
@@ -94,6 +97,7 @@ An easy calculation and the flag is here:
 
 ### Password Here Please
 ![c](https://img.shields.io/badge/Reverse_Engineering-2c3e50) ![p](https://img.shields.io/badge/Points-325-success) ![a](https://img.shields.io/badge/author-b4g4-lightgrey)
+
 The challenge consinsted in reverse engineering a python code to find the string that gets throught each check. The first step was just understanding that the problem could be divided in 4 parts.
 
 The first part (lines 5-7) was just a check on the lenght of the string that must be 24 characters. 

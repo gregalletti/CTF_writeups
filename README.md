@@ -1,7 +1,7 @@
 # CangureTheFlat
 [Find us on CTFtime!](https://ctftime.org/team/137370)
 
-We are a group of Computer Science Engineering from Politecnico of Milan.
+We are a group of Computer Science Engineering students from Politecnico of Milan.
 
 We started capturing flags in October 2020, and we won't stop soon!
 

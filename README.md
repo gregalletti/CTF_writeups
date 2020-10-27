@@ -1,19 +1,22 @@
 # MetaCTF CyberGames 2020 Write-ups
-Event: MetaCTF CyberGames 2020, 24-25 October 2020 
+Event: MetaCTF CyberGames 2020, 24-25 October 2020
+
 Final position: 32th in Students-only Scoreboard
+
 Our Team: CangureTheFlat
 
 Formed by: 
-* Gregorio Galletti
+* Gregorio Galletti @gregalletti
 * Marco Gasperini
 * Stefano Bagarin
 * Francesco Filippini
 
-# Write Ups
-## CRYPTOGRAPHY
+# Write Ups - Categories and Points
+## Cryptography
 
-### Blake's secret message
+### Blake's secret message - 350 pts
 The challenge started with a file containing bunch of alphanumerical strings, and 4 strings that were the first 4 strings in the file; the challenge name also states "Blake" which could refer to an hashing algorithm, interesting.
+
 After a quick analysis I noticed that their lenght was repeated in a cyclic way, so maybe this was a clue: I calculated their lenght, and the result was:
 -1st string: 128 chars
 -2nd string: 40 chars
@@ -22,7 +25,9 @@ After a quick analysis I noticed that their lenght was repeated in a cyclic way,
 -and then repeated  
 
 Given the nature of the strings and their lenght, the supposition that they were hashes of some well-known algorithm was stronger, and in particular I was pretty sure that the 2nd one was SHA1.
+
 The challenge said "You'll need to iteratively break each hash from here, but once you break the one hash, you can break the next one just by adding one more character.", so I thought that by recognizing this string I would have been able to recognize also the other 3 given.
+
 I then tried to bruteforce it (da39a3ee5e6b4b0d3255bfef95601890afd80709), resulting in an empty string hashed with SHA1. Ok so maybe also the other 3 correspond to an empty string? 
 The answer was yes, and by simply trying I was able to pull out also the other used algorithms, reaching this situation:
 -1st string: Blake 2b Hash
@@ -37,9 +42,9 @@ Partial (or maybe final) flag:
 MetaCTF{it333r@@@tive_ha$$hing_wor-ks_w0nders_78h2brfdjaq_!
 
 
-FORENSICS
+## FORENSICS
 
-************ Open Thermal Exhaust Port
+### Open Thermal Exhaust Port
 We were given a pcap file with loads of packets involved. I opened the file with Wireshark and instantly filtered on TCP packets only. 
 Firstly I tried to analyze the traffic manually, but I soon realized that this was unfeasible (yes it took me a while to realize, but It was 4 am for me come on).
 
@@ -49,20 +54,20 @@ I then displayed all the conversations, selected TCP, and ignored all of them wi
 All of them were good so the solution is simply the sum: 
 MetaCTF{3770}
 
-RECONNAISSANCE
-************ Complete Transparency
+## RECONNAISSANCE
+### Complete Transparency
 
-************ Finding Mr. Casyn
+### Finding Mr. Casyn
 
-************ Ring Ring
+### Ring Ring
 
-************ Hangout Spots
+### Hangout Spots
 
-OTHER
+## OTHER
 
-************ Watermarked
+### Watermarked
 
-************ Checkmate in 1
+### Checkmate in 1
 I started by counting the length of the given string (27) trying to see of It was somehow a well known length, but no. After downloading the pictures given in the challenge, I saw that they were chess games situations. Despite I did not actually read the name of the challenge, I figured out that they were a sort of chess quiz with White winning in one move.
 There were 9 pictures, so finding a way to extract 3 characters from every pic would have been a good start.
 Then I proceeded by easily solving them (I often play chess and solve this type of quiz), writing down every winning move in the standard chess notation like Qh7 = Queen moves in h7.
@@ -75,6 +80,6 @@ So: we grouped both strings in 9 groups of 3 chars, took every group of the firs
 An easy calculation and the flag is bere: MetaCTF{}
 
 
-REVERSE ENGINEERING
+## REVERSE ENGINEERING
 
-************ [REDACTED]
+### [REDACTED]

@@ -18,14 +18,14 @@ Formed by:
 #### author: grigg0swagg0
 The challenge started with a file containing bunch of alphanumerical strings, and 4 strings that were the first 4 strings in the file; the challenge name also states "Blake" which could refer to an hashing algorithm, interesting.
 
-After a quick analysis I noticed that their lenght was repeated in a cyclic way, so maybe this was a clue: I calculated their lenght, and the result was:
+After a quick analysis I noticed that their length was repeated in a cyclic way, so maybe this was a clue: I calculated their length, and the result was:
 * 1st string: 128 chars
 * 2nd string: 40 chars
 * 3rd string: 64 chars
 * 4th string: 64 chars
 * and then repeated  
 
-Given the nature of the strings and their lenght, the supposition that they were hashes of some well-known algorithm was stronger, and in particular I was pretty sure that the 2nd one was SHA1.
+Given the nature of the strings and their length, the supposition that they were hashes of some well-known algorithm was stronger, and in particular I was pretty sure that the 2nd one was SHA1.
 
 The challenge said *"You'll need to iteratively break each hash from here, but once you break the one hash, you can break the next one just by adding one more character."*, so I thought that by recognizing this string I would have been able to recognize also the other 3 given.
 

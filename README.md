@@ -1,16 +1,18 @@
 # MetaCTF CyberGames 2020 Write-ups
-MetaCTF CyberGames 2020, 24-25 October 2020 
-
+Event: MetaCTF CyberGames 2020, 24-25 October 2020 
 Final position: 32th in Students-only Scoreboard
 Our Team: CangureTheFlat
 
 Formed by: 
 * Gregorio Galletti
+* Marco Gasperini
+* Stefano Bagarin
+* Francesco Filippini
 
-# Write Up
-CRYPTOGRAPHY
+# Write Ups
+## CRYPTOGRAPHY
 
-************ Blake's secret message
+### Blake's secret message
 The challenge started with a file containing bunch of alphanumerical strings, and 4 strings that were the first 4 strings in the file; the challenge name also states "Blake" which could refer to an hashing algorithm, interesting.
 After a quick analysis I noticed that their lenght was repeated in a cyclic way, so maybe this was a clue: I calculated their lenght, and the result was:
 -1st string: 128 chars

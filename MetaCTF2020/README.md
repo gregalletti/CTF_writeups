@@ -14,8 +14,8 @@ Formed by:
 # Write Ups - Categories and Points
 ## Cryptography
 
-### Blake's secret message - 350 pts 
-#### author: grigg0swagg0
+### Blake's secret message
+![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-350-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 The challenge started with a file containing bunch of alphanumerical strings, and 4 strings that were the first 4 strings in the file; the challenge name also states "Blake" which could refer to an hashing algorithm, interesting.
 
 After a quick analysis I noticed that their length was repeated in a cyclic way, so maybe this was a clue: I calculated their length, and the result was:
@@ -44,8 +44,8 @@ Partial (or maybe final) flag:
 **MetaCTF{it333r@@@tive_ha$$hing_wor-ks_w0nders_78h2brfdjaq_!**
 
 ## Forensics
-### Open Thermal Exhaust Port - 275 pts
-#### author: grigg0swagg0
+### Open Thermal Exhaust Port
+![c](https://img.shields.io/badge/Forensics-ff69b4) ![p](https://img.shields.io/badge/Points-275-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 We were given a pcap file with loads of packets involved. I opened the file with Wireshark and instantly filtered on TCP packets only. 
 Firstly I tried to analyze the traffic manually, but I soon realized that this was unfeasible (yes it took me a while to realize, but It was 4 am for me come on).
 
@@ -57,24 +57,24 @@ All of them were good so the solution is simply the sum:
 **MetaCTF{3770}**
 
 ## Reconnaissance
-### Complete Transparency - 325 pts
-#### author: grigg0swagg0
+### Finding Mr. Casyn
+![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-275-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
-### Finding Mr. Casyn - 275 pts
-#### author: grigg0swagg0
+### Ring Ring
+![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-325-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
-### Ring Ring - 325 pts
-#### author: grigg0swagg0
+### Complete Transparency
+![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-325-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
-### Hangout Spots - 525 pts
-#### author: grigg0swagg0
+### Hangout Spots
+![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-525-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
 ## Other
-### Watermarked - 250 pts
-#### author: grigg0swagg0
+### Watermarked
+![c](https://img.shields.io/badge/Other-18bc9c) ![p](https://img.shields.io/badge/Points-250-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
-### Checkmate in 1 - 350 pts
-#### author: grigg0swagg0
+### Checkmate in 1
+![c](https://img.shields.io/badge/Other-18bc9c) ![p](https://img.shields.io/badge/Points-350-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 I started by counting the length of the given string (27) trying to see of It was somehow a well known length, but no. After downloading the pictures given in the challenge, I saw that they were chess games situations. Despite I did not actually read the name of the challenge, I figured out that they were a sort of chess quiz with White winning in one move.
 There were 9 pictures, so finding a way to extract 3 characters from every pic would have been a good start.
 Then I proceeded by easily solving them (I often play chess and solve this type of quiz), writing down every winning move in the standard chess notation like Qh7 = Queen moves in h7.
@@ -89,11 +89,11 @@ An easy calculation and the flag is here:
 **MetaCTF{99_p3rc3nt_t4ct1cs}**
 
 ## Reverse Engineering
-### [REDACTED] - 225 pts
-#### author: grigg0swagg0
+### [REDACTED]
+![c](https://img.shields.io/badge/Reverse Engineering-2c3e50) ![p](https://img.shields.io/badge/Points-225-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
-### Password Here Please - 325 pts
-#### author: baga
+### Password Here Please
+![c](https://img.shields.io/badge/Reverse Engineering-2c3e50) ![p](https://img.shields.io/badge/Points-325-success) ![a](https://img.shields.io/badge/author-b4g4-lightgrey)
 The challenge consinsted in reverse engineering a python code to find the string that gets throught each check. The first step was just understanding that the problem could be divided in 4 parts.
 
 The first part (lines 5-7) was just a check on the lenght of the string that must be 24 characters. 

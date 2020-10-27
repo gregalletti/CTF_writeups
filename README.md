@@ -95,11 +95,15 @@ An easy calculation and the flag is here:
 ### Password Here Please - 325 pts
 #### author: baga
 The challenge consinsted in reverse engineering a python code to find the string that gets throught each check. The first step was just understanding that the problem could be divided in 4 parts.
+
 The first part (lines 5-7) was just a check on the lenght of the string that must be 24 characters. 
+
 The second part (lines 9-14) was a constrain con the first 8 characters of the string: theyr hexadecimal ASCII value being subtracted to 0x98 and concatenated togheter had to be equal to the string '&e"3&Ew*'.
 	Resulting string = "r3verS!n"
+
 The third part (lines 16-23) was checking the second set of 8 characters of the string. The last one's ASCII value added to the last character of the array "ring" and to 0x1f gave the last character of the string; each other one was it's following character's ASCII value plus the corresponding number in the "ring" array plus 0x1f if grather than 0x60-0x1e, minus 0x1f if between 0x40-0x1e and 0x60-0x1d, unchanged otherwise.
 	Resulting string = "g_pyTh0n"
+
 The fourth part (lines 25-31) was for the last 8 characters and it was the most challenging one. I tryed to convert "code" from hexadecimal to decimal value and then put it in base 257, the result was a nice "number":
 
 [8, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -107,6 +111,7 @@ The fourth part (lines 25-31) was for the last 8 characters and it was the most 
 after noticing that each number is a power of 2 I managed to realize that the distance from each non-zero number to the start of the number added to 0x28 was the ASCII value of the characters of the substring, while the exponent of 2 was the index of the character in the substring (0-7).
 Once understood that, there was only left to find each value and reorder them.
 	Resulting string= "_fOr_FUn"
+
 
 The result was the 3 substrings togheter.
 

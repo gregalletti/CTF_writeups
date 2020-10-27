@@ -86,7 +86,7 @@ So: we grouped both strings in 9 groups of 3 chars, took every group of the firs
 
 An easy calculation and the flag is here: 
 
-**MetaCTF{}**
+**MetaCTF{99_p3rc3nt_t4ct1cs}**
 
 ## Reverse Engineering
 ### [REDACTED] - 225 pts
@@ -115,4 +115,4 @@ Once understood that, there was only left to find each value and reorder them.
 
 The result was the 3 substrings togheter.
 
-**MetaCTF{r3verS!ng_pyTh0n_fOr_FUn}**
+**r3verS!ng_pyTh0n_fOr_FUn**

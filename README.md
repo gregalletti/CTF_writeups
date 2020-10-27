@@ -15,5 +15,5 @@ Our members:
 Here there are all the CTFs we took part in:
 | Name | Position | Date |Link|Write-ups|
 |------|---------|--------|---|----------|
-|MetaCTF CyberGames|32th students, 49th global|24 Oct 2020|x|[go](https://github.com/gregalletti/CTF_writeups/tree/main/MetaCTF2020)|
+|MetaCTF CyberGames|32th students, 49th global|24 Oct 2020|[CTFtime](https://ctftime.org/event/1106)|[go](https://github.com/gregalletti/CTF_writeups/tree/main/MetaCTF2020)|
 |Reply CyberSecurity Challenge|227th|10 Oct 2020|x|x|

@@ -17,6 +17,16 @@ Formed by:
 ### Blake's secret message
 ![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-350-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
+> Blake and his 3 friends, all named Shawty have sent a secret message . They all worked together to hash out the message, but then forgot what they did! Help us retrieve the message!
+We're not exactly sure what these messages mean ... but these hash types might have something to do with it.
+
+> 786a02f742015903c6c6fd852552d272912f4740e15847618a86e217f71f5419d25e1031afee585313896444934eb04b903a685b1448b755d56f701afe9be2ce
+da39a3ee5e6b4b0d3255bfef95601890afd80709
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a
+
+> You'll need to iteratively break each hash from here, but once you break the one hash, you can break the next one just by adding one more character.
+
 The challenge started with a file containing bunch of alphanumerical strings, and 4 strings that were the first 4 strings in the file; the challenge name also states "Blake" which could refer to an hashing algorithm, interesting.
 
 After a quick analysis I noticed that their length was repeated in a cyclic way, so maybe this was a clue: I calculated their length, and the result was:
@@ -75,8 +85,27 @@ All of them were good so the solution is simply the sum:
 ### Watermarked
 ![c](https://img.shields.io/badge/Other-18bc9c) ![p](https://img.shields.io/badge/Points-250-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
+> Sonic watermarks are a security measure used by many different actors in the audio recording industry. Audio engineers sometimes mix them into unfinished tracks in case they are leaked outside of the studio, and developers of VST plugins often manipulate the generated sound to limit those using free trial or cracked versions of their software.
+You are an audio engineer working with famous post-lingual rapper Playball Carl, and you've been alerted to a leak that just surfaced on SoundCloud. Recover the watermark to find the identity of the leaker.
+
+We were given 2 audio tracks, one "Studio" version and one "Leaked" version: this already was an hint, due to the fact that having 2 tracks and knowning there is a watermark we can conclude that we should do some operations between them. I opened the two tracks with ```Audacity``` to see if just the spectrum of the leaked track contained, for example, an image with the flag (common thing with audio steganography challenges). 
+
+This was wrong, so I went back to the original idea of combining the tracks. A watermarked audio theoretically contains more than the non-watermarked one, so I inverted the second one (```Effects > Invert > Built-in-Effect: Invert```) and mixed them (```Tracks > Mix > Mix and Render```): the result was, as expected, the actual watermark. By listening it, that was the spelling of the flag.
+
+Here is the flag: 
+
+**MetaCTF{I DON'T REMEMBER IT}**
+
+
 ### Checkmate in 1
 ![c](https://img.shields.io/badge/Other-18bc9c) ![p](https://img.shields.io/badge/Points-350-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
+
+> An employee on the network has been emailing these chess puzzles everyday to someone outside of the domain, and nobody really thought it was suspicious until they saw this weird string sent to that same person on the following day:
+
+> F^mY;L?t24Zk.m^-hnWl,[l)[ku
+
+> The SOC team has provided an archive of the email attachments, and has tasked you to investigate the actual contents of the ciphertext. Can you figure out what they've been saying?
+Hint: The flag is wrapped in MetaCTF{}. This should be enough to help you figure out the encoding.
 
 I started by counting the length of the given string (27) trying to see of It was somehow a well known length, but no. After downloading the pictures given in the challenge, I saw that they were chess games situations. Despite I did not actually read the name of the challenge, I figured out that they were a sort of chess quiz with White winning in one move.
 There were 9 pictures, so finding a way to extract 3 characters from every pic would have been a good start.

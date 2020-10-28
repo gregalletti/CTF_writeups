@@ -94,7 +94,7 @@ This was wrong, so I went back to the original idea of combining the tracks. A w
 
 Here is the flag: 
 
-**MetaCTF{I DON'T REMEMBER IT}**
+**MetaCTF{p4r7ing_7h3_w4v3z}**
 
 
 ### Checkmate in 1

@@ -167,3 +167,29 @@ The result was the 3 substrings togheter.
 
 **r3verS!ng_pyTh0n_fOr_FUn**
 
+## Binary
+### Baffling Buffer 0
+![c](https://img.shields.io/badge/Binary_Engineering-2c3e50) ![p](https://img.shields.io/badge/Points-150-success) ![a](https://img.shields.io/badge/author-marcuz1996-lightgrey)
+
+> While hunting for vulnerabilities in client infrastructure, you discover a strange service located at host1.metaproblems.com 5150. You've uncovered the binary and source code code of the remote service, which looks somewhat unfinished. The code is written in a very exploitable manner. Can you find out how to make the program give you the flag?
+
+* bb0.c
+
+![Alt text](./bb0source.PNG?raw=true "Title")
+
+This challenge is very trivial. Our goal is to bypass the if statement and execute the system function. to bypass the boolean controll we must modify the "isAuthenicated" variable from 0 to any other value, in simple terms we must overflow the buffet (48 bytes) with a payload of 48+8 bytes long; in this  way we overwrite the content of "isAuthenticated" variable and wether the last eight bytes of the payload are different from zero we have bypassed the if statement and we get the flag.
+
+### Baffling Buffer 1
+![c](https://img.shields.io/badge/Binary_Engineering-2c3e50) ![p](https://img.shields.io/badge/Points-225-success) ![a](https://img.shields.io/badge/author-marcuz1996-lightgrey)
+
+> After pointing out the initial issue, the developers issued a new update on the login service and restarted it at host1.metaproblems.com 5151. Looking at the binary and source code, you discovered that this code is still vulnerable.
+
+* bb1.c
+
+![Alt text](./bb1source.PNG?raw=true "Title")
+
+This challenge is quite similar to the previus one. we always have to do a buffer owerflow in this way: to bypass the string comparison our buffer must start with "Sup3rs3cr3tC0de" string and it must overwrite RIP with the address of the win function. the below script is auto-esplicative.
+
+* Script
+
+![Alt text](./bb1script.PNG?raw=true "Title")

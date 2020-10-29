@@ -179,6 +179,8 @@ The result was the 3 substrings togheter.
 
 This challenge is very trivial. Our goal is to bypass the if statement and execute the system function. to bypass the boolean controll we must modify the "isAuthenicated" variable from 0 to any other value, in simple terms we must overflow the buffet (48 bytes) with a payload of 48+8 bytes long; in this  way we overwrite the content of "isAuthenticated" variable and wether the last eight bytes of the payload are different from zero we have bypassed the if statement and we get the flag.
 
+**MetaCTF{just_a_little_auth_bypass}**
+
 ### Baffling Buffer 1
 ![c](https://img.shields.io/badge/Binary_Engineering-6A52CA) ![p](https://img.shields.io/badge/Points-225-success) ![a](https://img.shields.io/badge/author-marcuz1996-lightgrey)
 
@@ -193,3 +195,5 @@ This challenge is quite similar to the previus one. we always have to do a buffe
 * Script
 
 ![Alt text](./bb1script.PNG?raw=true "Title")
+
+**MetaCTF{c_strings_are_the_best_strings}**

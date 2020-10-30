@@ -194,6 +194,6 @@ This challenge is quite similar to the previus one. we always have to do a buffe
 
 * Script
 
-![Alt text](./bb1script.PNG?raw=true "Title")
+![Alt text](./bb1script.png?raw=true "Title")
 
 **MetaCTF{c_strings_are_the_best_strings}**

@@ -72,6 +72,15 @@ All of them were good so the solution is simply the sum:
 ### Finding Mr. Casyn
 ![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-275-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
+>This is the first of three challenges related to the Casyn persona
+
+>We're looking for a Mr. Casyn, who has been reported missing. We believe he lives in the Chicagoland area, but don't think he's in Illinois proper.
+>We need your help finding him and identifying the right Mr. Casyn will help us begin our search.
+
+>The flag for this challenge is the first name of Mr. Casyn. There are three attempts available for this challenge.
+
+>Note: Mr. Casyn is a fake persona that we have created to help you practice your OSINT skills
+
 ### Ring Ring
 ![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-325-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 

@@ -118,6 +118,15 @@ So the flag is:
 >
 >Flag format is street name, city, state abbreviation zip code. Example: 301 Park Ave, New York, NY 10022
 
+By going through the GitHub commits of Mr. Casyn for the previous challenge related to him we found another interesting one were he deleted an image from its website that had the description "Love spending time here!". The image is: 
+
+(https://i.imgur.com/uTHNQT2.png)
+
+It could seem a very generic image from which it could not be possible find any information beyond it cames from google maps (there is a partially visible logo on the left of the image) but with a very, very, VERY closer look it could be seen in one of the windows a reflection of multiple books. When we realized it, we started looking at each library or bookstore in Hammond, Indiana (its city) from Google Maps and Google Earth and, eventually we found the place in the photo.
+
+The address of the library (as well as the flag) is:
+
+**553 State St, Hammond, IN 46320**
 
 ## Other
 ### Watermarked

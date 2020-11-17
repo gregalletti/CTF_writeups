@@ -11,6 +11,7 @@ Our members:
 * [Stefano Bagarin](https://github.com/stepolimi)
 * [Francesco Filippini](https://github.com/filippinifra)
 * [Ibrahim El Shemy](https://github.com/ibriaco)
+* [Cristian Spagnuolo](https://github.com/ibriaco)
 
 Here there are all the CTFs we took part in:
 | Name | Position | Date |Link|Write-ups|

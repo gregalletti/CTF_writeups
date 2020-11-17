@@ -81,6 +81,14 @@ All of them were good so the solution is simply the sum:
 >
 >Note: Mr. Casyn is a fake persona that we have created to help you practice your OSINT skills
 
+The first step to solve this challenge was to find the countries that are considered part of Chicagoland area that are not in the state of Illinois. By making a cross search of it's name and those countries on the most popular social networks we eventually managed to find it on LinkedIn.
+
+LinkedIn page of Mr. Casyn: (https://www.linkedin.com/in/vedder-casyn/)
+
+So the flag is:
+
+**Vedder**
+
 ### Ring Ring
 ![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-325-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4,_marcuz1996-lightgrey)
 

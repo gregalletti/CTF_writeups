@@ -58,6 +58,10 @@ Partial (or maybe final) flag:
 ### Open Thermal Exhaust Port
 ![c](https://img.shields.io/badge/Forensics-ff69b4) ![p](https://img.shields.io/badge/Points-275-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
+>Our TCP connect Nmap scan found some open ports it seems. We may only have a pcap of the traffic, but I'm sure that won't be a problem! Can you tell us which ones they are?
+>
+>The flag will be the sum of the open ports. For example, if ports 25 and 110 were open, the answer would be MetaCTF{135}.
+
 We were given a pcap file with loads of packets involved. I opened the file with ```Wireshark``` and instantly filtered on TCP packets only. 
 Firstly I tried to analyze the traffic manually, but I soon realized that this was unfeasible (yes it took me a while to realize, but It was 4 am for me come on).
 
@@ -109,6 +113,10 @@ So the flag is:
 ### Complete Transparency
 ![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-325-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
+>At ICMP Industries, we recently created a new subdomain off of our company website. Since our new super secret project is still in development, we chose a long subdomain so no >one will know to visit it yet. We also went ahead and upgraded the site to use HTTPS to be more secure.
+>
+>The flag is the name of our secret subdomain. Note there are dashes between words instead of underscores since it's a domain name.
+
 ### Hangout Spots
 ![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-525-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4,_marcuz1996-lightgrey)
 
@@ -145,12 +153,12 @@ Here is the flag:
 
 
 ### Checkmate in 1
-![c](https://img.shields.io/badge/Other-18bc9c) ![p](https://img.shields.io/badge/Points-350-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
+![c](https://img.shields.io/badge/Other-18bc9c) ![p](https://img.shields.io/badge/Points-350-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4-lightgrey)
 
 > An employee on the network has been emailing these chess puzzles everyday to someone outside of the domain, and nobody really thought it was suspicious until they saw this weird string sent to that same person on the following day:
-
+>
 > F^mY;L?t24Zk.m^-hnWl,[l)[ku
-
+>
 > The SOC team has provided an archive of the email attachments, and has tasked you to investigate the actual contents of the ciphertext. Can you figure out what they've been saying?
 Hint: The flag is wrapped in MetaCTF{}. This should be enough to help you figure out the encoding.
 
@@ -170,6 +178,10 @@ An easy calculation and the flag is here:
 ## Reverse Engineering
 ### [REDACTED]
 ![c](https://img.shields.io/badge/Reverse_Engineering-2c3e50) ![p](https://img.shields.io/badge/Points-225-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
+
+>The CEO of Cyber Corp has strangely disappeared over the weekend. After looking more into his disappearance Local Police Department thinks he might have gotten caught up into >some illicit activities.
+>
+>The IT Department just conducted a search through his company-provided laptop and found an old memo containing a One Time Password to log into his e-mail. However it seems as >if someone has redacted the code, can you recover it for us?
 
 We are given a PDF file and told that it has been modified to cover a One Time Password: if we simply open it, a black rectangle is shown over the password.
 I first tried to open it on a hex editor and analyze the magic bytes and search if for some reason the password was hidden in the metadata, but nothing. I then tried to use ```binwalk``` on the file in order to find possible hidden files, but also nothing.

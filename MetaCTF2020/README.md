@@ -70,25 +70,38 @@ All of them were good so the solution is simply the sum:
 
 ## Reconnaissance
 ### Finding Mr. Casyn
-![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-275-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
+![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-275-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4,_marcuz1996-lightgrey)
 
 >This is the first of three challenges related to the Casyn persona
-
+>
 >We're looking for a Mr. Casyn, who has been reported missing. We believe he lives in the Chicagoland area, but don't think he's in Illinois proper.
 >We need your help finding him and identifying the right Mr. Casyn will help us begin our search.
-
+>
 >The flag for this challenge is the first name of Mr. Casyn. There are three attempts available for this challenge.
-
+>
 >Note: Mr. Casyn is a fake persona that we have created to help you practice your OSINT skills
 
 ### Ring Ring
-![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-325-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
+![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-325-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4,_marcuz1996-lightgrey)
+
+>This is the second of three challenges related to the Casyn persona
+>
+>We want to try and reach out to Mr. Casyn via telephone. Can you figure out his phone number?
+>Flag format: XXX-XXX-XXXX. Example: 123-456-7890
+
 
 ### Complete Transparency
 ![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-325-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
 ### Hangout Spots
-![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-525-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
+![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-525-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4,_marcuz1996-lightgrey)
+
+>This is the third of three challenges related to the Casyn persona
+>
+>There was no reply from Mr. Casyn's phone. Can you find out where he likes to frequently hang out so we can look for clues of where he's been recently? Once you find the image, >think of how we can use what we know to geolocate the image based on what's in the picture.
+>
+>Flag format is street name, city, state abbreviation zip code. Example: 301 Park Ave, New York, NY 10022
+
 
 ## Other
 ### Watermarked
@@ -152,6 +165,13 @@ And here is the flag:
 
 ### Password Here Please
 ![c](https://img.shields.io/badge/Reverse_Engineering-2c3e50) ![p](https://img.shields.io/badge/Points-325-success) ![a](https://img.shields.io/badge/author-b4g4-lightgrey)
+
+>I forgot my bank account password! Luckily for me, I wrote a program that checks if my password is correct just in case I forgot which password I used, so this way I don't lock >myself out of my account. Unfortunately, I seem to have lost my password list as well...
+>
+>Could you take a look and see if you can find my password for me?
+>
+>Part 3 requires some math skills. To solve it, think about what is being done by the exponentiation step. Try rewriting the large number in base 257.
+
 
 The challenge consinsted in reverse engineering a ```Python``` code to find the string that gets throught each check. The first step was just understanding that the problem could be divided in 4 parts.
 

@@ -19,7 +19,39 @@ Formed by:
 
 > Oh no! I've accidentally blacklisted my admin credentials, can you help me to find a way to break in?
 
-**ptm{}**
+We are given a python script with some authentication check with username and password. Let's look at a part of the source code:
+
+```python
+try:
+	print('Username:')
+	username = input()
+	assert len(username) <= 512
+	username = unhexlify(username)
+	print('Password:')
+	password = input()
+	assert len(password) <= 512
+	password = unhexlify(password)
+except:
+	print("Input too long! I can't keep in memory such long data")
+	exit()
+
+if username == b'admin' or password == b'password':
+	print("Intrusion detected! Admins can login only from inside our LAN!")
+	exit()
+
+user_hash = (pow(x, bytes_to_long(username), p) * pow(y, bytes_to_long(password), p)) % p
+
+if user_hash == server_hash:
+	print("Glad to see you, admin!\n\n")
+	print(flag)
+else:
+	print("Wrong credentials.")
+```
+
+We can see that the flag is printed when user_hash == server_hash
+Note: after the challenge we discovered that our solution was an unintended one but hey, we still got the flag
+
+**ptm{a_b1g_s0phi3_germ41n_pr1m3}**
 
 ### ESCR
 ![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-367-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4-lightgrey)

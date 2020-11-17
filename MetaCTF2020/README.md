@@ -97,7 +97,7 @@ So the flag is:
 >We want to try and reach out to Mr. Casyn via telephone. Can you figure out his phone number?
 >Flag format: XXX-XXX-XXXX. Example: 123-456-7890
 
-Starting from the LinkedIn page of Mr. Casyn found in the first challenge related to him, we found the link to its website and from there its GitHub profile. By looking at the only repository on its profile and going through each of its commits we found that he previously had its profile number on the website but then he deleted it. Luckly for has there is the commit history! :smirk:
+Starting from the LinkedIn page of Mr. Casyn found in the first challenge related to him, we found the link to its website and from there its GitHub profile. By looking at the only repository on its profile and going through each of its commits we found that he previously had its phone number on the website but then he deleted it. Luckly for us there is the commit history! :smirk:
 
 Here is the commit:
 https://github.com/veddercasyn/veddercasyn.github.io/commit/b75ff2a65cf80190fb2de79a9de2d3c6926cfa1d

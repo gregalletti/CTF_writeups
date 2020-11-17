@@ -24,18 +24,18 @@ Formed by:
 ### ESCR
 ![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-367-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4-lightgrey)
 
-
 > Eat, Split, Compress, Repeat.
 
 ## Miscellaneous
 ### Warmup
 ![c](https://img.shields.io/badge/Miscellaneous-ff69b4) ![p](https://img.shields.io/badge/Points-100-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
+> Some of you complained about the "warmup" tag at our m0leCon CTF Teaser. So we made it a challenge.
 **ptm{}**
 
 ## Reverse Engineering
 ### The Rickshank Rickdemption
-![c](https://img.shields.io/badge/Reverse_Engineering-2c3e50) ![p](https://img.shields.io/badge/Points-275-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4-lightgrey)
+![c](https://img.shields.io/badge/Reverse_Engineering-2c3e50) ![p](https://img.shields.io/badge/Points-179-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4-lightgrey)
 
 > Welcome to the Rick and Morty universe! The council of Ricks have sent an army of Mortys ready to arrest Rick and cancel the interdimensional cable tv. Defeat them all, reach the last level and try to win. To be fair, you have to have a very high IQ to win.
 

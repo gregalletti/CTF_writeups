@@ -1,7 +1,7 @@
 # m0lecon CTF 2020 Write-ups
-Event: **m0lecon CTF 2020, 14-15 October 2020** | [official URL](https://metactf.com/cybergames)
+Event: **m0lecon CTF 2020, 14-15 October 2020** | [official URL](https://ctf.m0lecon.it/)
 
-Final position: **11th** | [Full Scoreboard here](https://ctftime.org/event/1106)
+Final position: **11th** | [Full Scoreboard here](https://ctf.m0lecon.it/scoreboard)
 
 Our Team: **CangureTheFlat** | [CTFtime page](https://ctftime.org/team/137370)
 

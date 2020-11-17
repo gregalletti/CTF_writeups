@@ -71,10 +71,9 @@ Note: after the challenge we discovered that our solution was an unintended one 
 
 > Welcome to the Rick and Morty universe! The council of Ricks have sent an army of Mortys ready to arrest Rick and cancel the interdimensional cable tv. Defeat them all, reach the last level and try to win. To be fair, you have to have a very high IQ to win.
 
-The game gives the possibility to save the game and load it. By looking at the save file and the decompiled binary togheter it can be noticed that the file has several fields, the interesting ones are: the level number, the position of the player in the current level, the encoding of the player's character and at the and a checksum made by the hash of the other 3 interesting fields toghether.
-With those information, we were able to modify the current level and the checksum accordingly to it. By setting it to 17 (were the last level in the game was 16) and load the save file, the following screen containing the flag popped up.
+The game gives the possibility to save the game and load it. By looking at the save file and the decompiled binary togheter it can be noticed that the file has several fields, the interesting ones are: the level number, the position of the player in the current level, the encoding of the player's character and a checksum made by the hash of the other 3 interesting fields toghether.
+With those information, we were able to modify the current level and the checksum accordingly to it. By setting it to 17 (were the last level in the game was 16) and loading the save file, the following screen containing the flag showed up.
 
-* rick.c
 
 ![Alt text](./rick_morty_CTF.png?raw=true "Title")
 

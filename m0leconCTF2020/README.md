@@ -62,12 +62,38 @@ Then we got the idea: try to add some null bytes before those credentials in ord
 
 **ptm{a_b1g_s0phi3_germ41n_pr1m3}**
 
-Note: after the challenge we discovered that our solution was an unintended one but hey, we still got the flag!
+Note: after the challenge we discovered that our solution was an unintended one but hey, we still got the flag! :no_mouth:
 
 ### ESCR
 ![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-367-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4-lightgrey)
 
 > Eat, Split, Compress, Repeat.
+
+Let's be honest: this challenge was weird.
+
+We had a first request, with the server asking us for *a string starting in {} such that its sha256sum ends in {}*, both randomly generated. Thus I immediately started writing a python script to guess the required string to send, until we noticed that the server accepts pretty much every string despite the check in the code:
+```python
+if hashlib.sha256(l.encode('ascii')).hexdigest()[-6:] != p or l[:10] != starting_string:
+    print("Wrong PoW")
+    sys.exit(1)
+```
+
+Then the server responds with a string and his generated hash (through a given function ToyHash). Let's be honest again, we tried the same solution of Babyhash and it actually worked. By simply taking the given string, putting it in hex and adding a null byte before it we succeeded to bypass this check 
+```python
+if s1 == s2 or h1 != h2:
+        print("Nope")
+        sys.exit(1)
+```
+and by solving 10 of these we finally got the flag.
+
+![Alt text](./ESCR.png?raw=true "Title")
+
+Here is the flag: 
+
+**ptm{never_trust_dummy_hashes}**
+
+Note: after the challenge we discovered that our solution was again an unintended one :no_mouth::no_mouth::no_mouth:
+
 
 ## Miscellaneous
 ### Warmup

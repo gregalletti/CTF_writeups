@@ -15,3 +15,9 @@ Formed by:
 > At the moment of the team registration, we were given an introductive challenge that you can find here: https://pastebin.com/raw/1BZZyE8K
 
 > Of course this was not part of the CTF itself, but we solved it anyway.
+
+I immediately tried to save the string and open it, resulting in an ELF file. Ok, so now we can try to debug it and to disassemble it.
+
+I used Ghidra to disassemble the code and try to understand it, and gdb with pwntools to play a bit with the execution. So that was a classic input problem, where we have to send a specific input to the program in order to get the "You Won" output, and our input would be the flag.
+
+Knowing that I tried to get a basic knowledge of the code: input required length and other contraints..

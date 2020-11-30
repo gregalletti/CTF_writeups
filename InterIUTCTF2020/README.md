@@ -33,7 +33,7 @@ Knowing that I tried to get a basic knowledge of the code: input required length
 This is the first of the three Exfiltration challenges.
 For this challenge, we had do download a torrent containing a WireShark capture file. By going thorught the downloaded files in the packets exchange in WireShark, we found a python script called the_game.py downloaded by monkey.bzh:8080. We downloaded the file ourselves and, with a fast look at it, it became clear that it was the malware.
 
-![Alt text](./exfiltration1.PNG?raw=true "Title")
+![Alt text](./exfiltration1.PNG?raw=true "exfiltration1")
 
 The flag was simply the name of the malware between "H2G2{}", so it was: 
 
@@ -49,7 +49,7 @@ For this part, our goal was to find the name of the files exfiltrated by the mal
 As next step we retrieved the ip address of monkey.bhz and added the filter "ip.dst == 172.25.0.2 and !icmp and !tcp" in the packet capture of Wire Shark to see only the packets sent to the ip address of our interest with the UDP protocol.
 Giving to the filtered packets a closer look, we recognized that all of them had the same content format, so by ordering them by info, we identified 6 packets that had different named: those had to be the packets of start and end of 3 file transmissions.
 
-![Alt text](./exfiltration2.PNG?raw=true "Title")
+![Alt text](./exfiltration2.PNG?raw=true "exfiltration2")
 
 The names of the starting packets are:
 
@@ -145,15 +145,15 @@ f3.close()
 ```
 
 
-*Confidential.pdf
-![Alt text](./Confidential.pdf)
+*Confidential.pdf  
+> This Flag is confidential : H2G2{DN5_3xf1l7r4710n_15_funny!!!}
 
 
-*Confidenial.jpg
-![Alt text](./Confidential.jpg?raw=true "Title")
+*Confidenial.jpg  
+![Alt text](./Confidential.jpg?raw=true "Confidental")
 
 
-*flag.txt
+*flag.txt  
 > H2G2{This_is_not_the_flag_¯\_(ツ)_/¯}
 
 

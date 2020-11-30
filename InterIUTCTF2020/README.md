@@ -1,7 +1,7 @@
 # CTF InterIUT 2020 Write-ups
 Event: **CTF InterIUT 2020, 27-29 November 2020** | [official URL](https://metactf.com/cybergames)
 
-Final position: **** | [Full Scoreboard here](https://ctftime.org/event/1176)
+Final position: **26th** | [Full Scoreboard here](https://ctftime.org/event/1176)
 
 Our Team: **CangureTheFlat** | [CTFtime page](https://ctftime.org/team/137370)
 
@@ -31,9 +31,9 @@ Knowing that I tried to get a basic knowledge of the code: input required length
 > Description
 
 This is the first of the three Exfiltration challenges.
-For this challenge, we had do download a torrent containing a WireShark capture file. By going thorught the downloaded files in the packets exchange in WireShark, we found a python script called the_game.py downloaded by monkey.bzh:8080. We downloaded the file ourselves and, with a fast look at it, it became clear that it was the malware.
+For this challenge, we had do download a torrent containing a WireShark capture file. By going thorugh the downloaded files in the packets exchange in WireShark, we found a python script called the_game.py downloaded by monkey.bzh:8080. We downloaded the file ourselves and, with a fast look at it, it became clear that it was the malware.
 
-![Alt text](./exfiltration1.PNG?raw=true "exfiltration1")
+![Alt text](./exfiltration1.PNG?raw=true "Title")
 
 The flag was simply the name of the malware between "H2G2{}", so it was: 
 
@@ -49,7 +49,7 @@ For this part, our goal was to find the name of the files exfiltrated by the mal
 As next step we retrieved the ip address of monkey.bhz and added the filter "ip.dst == 172.25.0.2 and !icmp and !tcp" in the packet capture of Wire Shark to see only the packets sent to the ip address of our interest with the UDP protocol.
 Giving to the filtered packets a closer look, we recognized that all of them had the same content format, so by ordering them by info, we identified 6 packets that had different named: those had to be the packets of start and end of 3 file transmissions.
 
-![Alt text](./exfiltration2.PNG?raw=true "exfiltration2")
+![Alt text](./exfiltration2.PNG?raw=true "Title")
 
 The names of the starting packets are:
 
@@ -74,8 +74,6 @@ All we had to do now was extracting the file names from the string and put them 
 
 This is the third of the three Exfiltration challenges.
 
-
-*Script*
 
 ```python
 #!/usr/bin/env python3
@@ -144,23 +142,50 @@ f2.close()
 f3.close()
 ```
 
+[embed]Confidential.pdf[/embed]
 
-*Confidential.pdf*  
+![Alt text](./Confidential.jpg?raw=true "Title")
 
-> This Flag is confidential : H2G2{DN5_3xf1l7r4710n_15_funny!!!}
-
-
-*Confidenial.jpg*  
-
-![Alt text](./Confidential.jpg?raw=true "Confidental")
-
-
-*flag.txt*  
 
 > H2G2{This_is_not_the_flag_¯\_(ツ)_/¯}
-
-
 
 The flag was:
 
 **H2G2{DN5_3xf1l7r4710n_15_funny!!!}**
+
+## Cryptography
+
+### SAGE 1
+![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-50-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
+> Description
+https://doc.sagemath.org/html/en/reference/cryptography/sage/crypto/public_key/blum_goldwasser.html
+
+small N => te lo pigli nel culo
+
+Flag: H2G2{0k_B0om3R}
+
+### SAGE 2
+![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-50-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
+> Description
+https://doc.sagemath.org/html/en/reference/cryptography/sage/crypto/classical.html
+
+Flag: 
+
+### Homo
+![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-50-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
+> Description
+
+3638-4738-6454
+
+POST /transactions/make HTTP/1.1
+Host: homo-accerus.interiut.ctf
+User-Agent: Bank/5.0 (x64; rv:85.0) Masterfox/83.0
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+Content-Length: 687
+Content-Type: application/x-www-form-urlencoded
+
+sender=2021-6329-0004&receiver=3638-4738-6454&rsa-encrypted-amount=62508003691955481690418901955121795568007256515741783155795444245740636426057547904329949383645124412455925887910924422648916791078340467132412323560710978587121861334956401507516587624120449879418813403070550485792604237611403907218111719508751300849137282838643224414695053627144165528294962256617439047092392029968770700080403581271667805269164654784974860506346245830305667955665133964758035692743329015828920734126548722790007590931405240654421621913828190132402835380728007018161783200211722413959807646492280466745701690396058608241960771610594344496541655043663887677078699101112740215664968380850617448985390600
+
+Flag: H2G2{HOMO_BRO_<3}

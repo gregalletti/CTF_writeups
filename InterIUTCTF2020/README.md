@@ -52,19 +52,15 @@ Giving to the diltered packets a closer look, we recognized that all of them had
 
 The names of the starting packets are:
 
-U3RhcnRpbmcgZXhmaWx0cmF0aW9uIG9m.IHRoZSBmaWxlIC9ob21lL0JyaWFuLy5z.ZWNyZXQvQ29uZmlkZW50aWFsLnBkZg==.monkey.bzh
-
-U3RhcnRpbmcgZXhmaWx0cmF0aW9uIG9m.IHRoZSBmaWxlIC9ob21lL0JyaWFuLy5z.ZWNyZXQvQ29uZmlkZW50aWFsLmpwZw==.monkey.bzh
-
-U3RhcnRpbmcgZXhmaWx0cmF0aW9uIG9m.IHRoZSBmaWxlIC9ob21lL0JyaWFuLy5z.ZWNyZXQvZmxhZy50eHQ=
+U3RhcnRpbmcgZXhmaWx0cmF0aW9uIG9m.IHRoZSBmaWxlIC9ob21lL0JyaWFuLy5z.ZWNyZXQvQ29uZmlkZW50aWFsLnBkZg==.monkey.bzh  
+U3RhcnRpbmcgZXhmaWx0cmF0aW9uIG9m.IHRoZSBmaWxlIC9ob21lL0JyaWFuLy5z.ZWNyZXQvQ29uZmlkZW50aWFsLmpwZw==.monkey.bzh  
+U3RhcnRpbmcgZXhmaWx0cmF0aW9uIG9m.IHRoZSBmaWxlIC9ob21lL0JyaWFuLy5z.ZWNyZXQvZmxhZy50eHQ=  
 
 By taking off ".monkey.bzh" and decoding them from base64 with a simple online tool, we found:
 
-Starting exfiltration of the file /home/Brian/.secret/Confidential.pdf
-
-Starting exfiltration of the file /home/Brian/.secret/Confidential.jpg
-
-Starting exfiltration of the file /home/Brian/.secret/flag.txt
+Starting exfiltration of the file /home/Brian/.secret/Confidential.pdf  
+Starting exfiltration of the file /home/Brian/.secret/Confidential.jpg  
+Starting exfiltration of the file /home/Brian/.secret/flag.txt  
 
 All we had to do now was extracting the file names from the string and put them into our flag format obtaining:
 

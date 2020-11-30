@@ -32,7 +32,7 @@ Knowing that I tried to get a basic knowledge of the code: input required length
 
 For this challenge, we had do download a torrent containing a WireShark capture file. By going thorught the downloaded files in the packets exchange in WireShark, we found a python script called the_game.py downloaded by monkey.bzh:8080. We downloaded the file ourselves and, with a fast look at it, it became clear that it was the malware.
 
-![Alt text](./exfiltration1.jpg?raw=true "Title")
+![Alt text](./exfiltration1.PNG?raw=true "Title")
 
 The flag was simply the name of the malware between "H2G2{}", so it was: 
 
@@ -48,7 +48,7 @@ For this part, our goal was to find the name of the files exfiltrated by the mal
 As next step we retrieved the ip address of monkey.bhz and added the filter "ip.dst == 172.25.0.2 and !icmp and !tcp" in the packet capture of Wire Shark to see only the packets sent to the ip address of our interest with the UDP protocol.
 Giving to the diltered packets a closer look, we recognized that all of them had the same name format, so by ordering them by name, we identified 6 packets that was different named: those had to be the packets of start and end of 3 file transmissions.
 
-![Alt text](./exfiltration2.jpg?raw=true "Title")
+![Alt text](./exfiltration2.PNG?raw=true "Title")
 
 The names of the starting packets are:
 

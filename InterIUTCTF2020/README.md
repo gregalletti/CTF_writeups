@@ -67,7 +67,7 @@ All we had to do now was extracting the file names from the string and put them 
 
 **H2G2{Confidential.pdf,Confidential.jpg,flag.txt}**
 
-### Exfiltration 2
+### Exfiltration 3
 ![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-100-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
 
 > Description
@@ -75,14 +75,10 @@ All we had to do now was extracting the file names from the string and put them 
 This is the third of the three Exfiltration challenges.
 
 
-![Alt text](./exfiltrationScript.py?raw=true "Title")
+![Alt text](./exfiltrationScript.py)
 
-<object data="./Confidential.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="http://yoursite.com/the.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="http://yoursite.com/the.pdf">Download PDF</a>.</p>
-    </embed>
-</object>
+![Alt text](./Confidential.pdf)
 
 ![Alt text](./Confidential.jpg?raw=true "Title")
 
-![Alt text](./flag.txt?raw=true "Title")
+![Alt text](./flag.txt)

@@ -26,4 +26,12 @@ Knowing that I tried to get a basic knowledge of the code: input required length
 ## Forensics
 
 ### Exfiltration 1
-![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-367-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4-lightgrey)
+![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-50-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
+
+> Description
+
+For this challenge, we had do download a torrent containing a WireShark capture file. By going thorught the downloaded files in the packets exchange in WireShark, we found a python script called the_game.py downloaded by monkey.bzh:8080. We downloaded the file ourselves and, with a fast look at it, it became clear that it was the malware.
+
+The flag was simply the name of the malware between "H2G2{}", so it was: 
+
+**H2G2{the_game.py}**

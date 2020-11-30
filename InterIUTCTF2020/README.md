@@ -77,7 +77,11 @@ This is the third of the three Exfiltration challenges.
 
 ![Alt text](./exfiltrationScript.py?raw=true "Title")
 
-![Alt text](./Confidential.pdf?raw=true "Title")
+<object data="./Confidential.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="http://yoursite.com/the.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="http://yoursite.com/the.pdf">Download PDF</a>.</p>
+    </embed>
+</object>
 
 ![Alt text](./Confidential.jpg?raw=true "Title")
 

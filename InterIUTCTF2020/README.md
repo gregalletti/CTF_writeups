@@ -30,6 +30,7 @@ Knowing that I tried to get a basic knowledge of the code: input required length
 
 > Description
 
+This is the first of the three Exfiltration challenges.
 For this challenge, we had do download a torrent containing a WireShark capture file. By going thorught the downloaded files in the packets exchange in WireShark, we found a python script called the_game.py downloaded by monkey.bzh:8080. We downloaded the file ourselves and, with a fast look at it, it became clear that it was the malware.
 
 ![Alt text](./exfiltration1.PNG?raw=true "Title")
@@ -65,3 +66,19 @@ Starting exfiltration of the file /home/Brian/.secret/flag.txt
 All we had to do now was extracting the file names from the string and put them into our flag format and we obtained:
 
 **H2G2{Confidential.pdf,Confidential.jpg,flag.txt}**
+
+### Exfiltration 2
+![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-100-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
+
+> Description
+
+This is the third of the three Exfiltration challenges.
+
+
+![Alt text](./exfiltrationScript.py?raw=true "Title")
+
+![Alt text](./Confidential.pdf?raw=true "Title")
+
+![Alt text](./Confidential.jpg?raw=true "Title")
+
+![Alt text](./flag.txt?raw=true "Title")

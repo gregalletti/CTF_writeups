@@ -75,6 +75,8 @@ All we had to do now was extracting the file names from the string and put them 
 This is the third of the three Exfiltration challenges.
 
 
+*Script
+
 ```python
 #!/usr/bin/env python3
 
@@ -142,12 +144,19 @@ f2.close()
 f3.close()
 ```
 
-[embed]Confidential.pdf[/embed]
 
+*Confidential.pdf
+![Alt text](./Confidential.pdf)
+
+
+*Confidenial.jpg
 ![Alt text](./Confidential.jpg?raw=true "Title")
 
 
+*flag.txt
 > H2G2{This_is_not_the_flag_¯\_(ツ)_/¯}
+
+
 
 The flag was:
 

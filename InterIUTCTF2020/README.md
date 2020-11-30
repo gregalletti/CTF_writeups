@@ -77,14 +77,9 @@ This is the third of the three Exfiltration challenges.
 
 ```python
 #!/usr/bin/env python3
-# coding: utf8
 
-from Crypto.PublicKey import RSA
 from binascii import *
 import base64
-from random import randint
-from os import listdir
-from os.path import isfile, join
 import json
 
 count = 0
@@ -147,8 +142,13 @@ f2.close()
 f3.close()
 ```
 
-![Alt text](./Confidential.pdf)
+[embed]Confidential.pdf[/embed]
 
 ![Alt text](./Confidential.jpg?raw=true "Title")
 
-![Alt text](./flag.txt)
+
+> H2G2{This_is_not_the_flag_¯\_(ツ)_/¯}
+
+The flag was:
+
+**H2G2{DN5_3xf1l7r4710n_15_funny!!!}**

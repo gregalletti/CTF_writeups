@@ -127,9 +127,9 @@ The flag was simply the name of the malware between "H2G2{}", so it was:
 
 > Description
 
-This is the second of the three Exfiltration challenges.
+This is the second of the three Exfiltration challenges.  
 For this part, our goal was to find the name of the files exfiltrated by the malware. As first thing, we looked at the malicious script and we found out that that script first sends a string containing the name of the file, then the encrypted bytes of the file one at a time, and last a string to terminate it throught the DNS protocol.
-As next step we retrieved the ip address of monkey.bhz and added the filter "ip.dst == 172.25.0.2 and !icmp and !tcp" in the packet capture of Wire Shark to see only the packets sent to the ip address of our interest with the UDP protocol.
+As next step we retrieved the ip address of monkey.bhz and added the filter "ip.dst == 172.25.0.2 and !icmp and !tcp" in the packet capture of Wire Shark to see only the packets sent to the ip address of our interest with the UDP protocol.  
 Giving to the filtered packets a closer look, we recognized that all of them had the same content format, so by ordering them by info, we identified 6 packets that had different named: those had to be the packets of start and end of 3 file transmissions.
 
 ![Alt text](./exfiltration2.PNG?raw=true "Exfiltration2")

@@ -80,6 +80,7 @@ The goal of this last part was to retrieve the exfiltrated files and find a flag
 For example, 945 becomes: "🙈🙉🙉🙉🙉🙊🙊🙉🙉🙉🙉🙊🙊🙈🙊🙊"
 
 And, as a last thing, the monkey string was encoded to base64 before sending it.
+
 <br />
 Once understood the script, we moved on to identify the file of our interest. We saw immediatelly that one of the stolen files was called flag.txt: it consisted in only 40 transmitted packets, so we went ahead, wrote a simple python script to revert the encodind made by the malware to each byte of the file before sending it and launched it on the flag packets.  
 With our surprise, we received this as output:  
@@ -156,6 +157,7 @@ f1.close()
 f2.close()
 f3.close()
 ```
+
 <br />
 Onece launched, after a minute it gave us the following outputs:
 <br /> 
@@ -176,7 +178,7 @@ Onece launched, after a minute it gave us the following outputs:
 <br />
 <br />  
 So the flag was contained in the Confidential.pdf file and it was: 
-<br />
+
 **H2G2{DN5_3xf1l7r4710n_15_funny!!!}**
 
 ## Cryptography

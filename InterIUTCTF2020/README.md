@@ -36,6 +36,7 @@ For this challenge, we had do download a torrent containing a WireShark capture 
 ![Alt text](./exfiltration1.PNG?raw=true "Exfiltration1")
 
 *the_game.py*  
+
 ```python
 #!/usr/bin/env python3
 # coding: utf8

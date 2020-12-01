@@ -169,17 +169,15 @@ Onece launched, after a minute it gave us the following outputs:
 <br />
 
 *Content of flag.txt*  
-<br />
 
 > H2G2{This_is_not_the_flag_¯\_(ツ)_/¯}
 <br />
 <br />
 
 *Content of Confidential.pdf*  
-<br />
 
 > This Flag is confidential : H2G2{DN5_3xf1l7r4710n_15_funny!!!}  
-<br />
+
 <br />
 So the flag was contained in the Confidential.pdf file and it was: 
 

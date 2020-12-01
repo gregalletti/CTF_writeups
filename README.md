@@ -17,7 +17,7 @@ Our members:
 Here there are all the CTFs we took part in:
 | Name | Position | Date |Link|Write-ups|
 |:----:|:--------:|:----:|:--:|:-------:|
-|CTF InterIUT 2020||27 Nov 2020|[CTFtime](https://ctftime.org/event/1176)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/InterIUTCTF2020)|
+|CTF InterIUT 2020|26th|27 Nov 2020|[CTFtime](https://ctftime.org/event/1176)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/InterIUTCTF2020)|
 |m0lecon CTF|11th|14 Nov 2020|[CTFtime](https://ctftime.org/event/1135)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/m0leconCTF2020)|
 |MetaCTF CyberGames|32th students, 49th global|24 Oct 2020|[CTFtime](https://ctftime.org/event/1106)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/MetaCTF2020)|
 |Reply CyberSecurity Challenge (*as FancyBits*)|227th|09 Oct 2020|[CTFtime](https://ctftime.org/event/1131)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/Reply2020)|

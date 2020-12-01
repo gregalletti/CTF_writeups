@@ -68,7 +68,7 @@ All we had to do now was extracting the file names from the string and put them 
 **H2G2{Confidential.pdf,Confidential.jpg,flag.txt}**
 
 ### Exfiltration 3
-![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-100-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
+![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-200-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
 
 > Description
 
@@ -150,23 +150,23 @@ f3.close()
 ```
 
 Onece launched, after a minute it gave us the following outputs:
-
-
+  
+  
 *Confidenial.jpg*  
 
 ![Alt text](./Confidential.jpg?raw=true "Confidential")
-
-
+  
+  
 *Content of flag.txt*  
 
 > H2G2{This_is_not_the_flag_¯\_(ツ)_/¯}
-
-
+  
+  
 *Content of Confidential.pdf*  
 
 > This Flag is confidential : H2G2{DN5_3xf1l7r4710n_15_funny!!!}  
-
-
+  
+  
 So the flag was contained in the .pdf and it was: 
 
 **H2G2{DN5_3xf1l7r4710n_15_funny!!!}**

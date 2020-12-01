@@ -81,6 +81,7 @@ With our surprise, we received this as output:
 > H2G2{This_is_not_the_flag_¯\_(ツ)_/¯}
 
 Sadly it was just a bait.  
+
 At this point we decided to export from WireShark all the packets of the three files in a json format (which can be found in the maliciousPackets.rar archieve) and to modify our script to take the content of each packet from it to ultimately reconstruct the documents.  
 The final script is:  
 
@@ -92,9 +93,9 @@ import base64
 import json
 
 count = 0
-f1 = open("pdfDaje.pdf","wb")
-f2 = open("imgDaje.jpg","wb")
-f3 = open("noFlagDaje.txt","wb")
+f1 = open("Confidential.pdf","wb")
+f2 = open("Confidential.jpg","wb")
+f3 = open("flag.txt","wb")
 
 with open('./allPackets.json') as json_file:
   data = json.load(json_file)
@@ -148,7 +149,7 @@ f2.close()
 f3.close()
 ```
 
-The output files was the following:  
+Onece launched, after a minute it gave us the following outputs:
 
 
 *Confidenial.jpg*  

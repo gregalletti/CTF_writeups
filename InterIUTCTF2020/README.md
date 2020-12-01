@@ -11,6 +11,8 @@ Formed by:
 * [Stefano Bagarin](https://github.com/stepolimi)
 * [Cristian Spagnuolo](https://github.com/filippinifra)
 
+**Disclaimer:** this CTF was in french-only, but we are not French and nobody in the team speaks it, so we had an hard time on reading carefully all the challenges descriptions and hints.
+
 ## Introduction Challenge
 > At the moment of the team registration, we were given an introductive challenge that you can find here: https://pastebin.com/raw/1BZZyE8K
 
@@ -24,6 +26,13 @@ Knowing that I tried to get a basic knowledge of the code: input required length
 
 # Write Ups - Categories and Points
 ## Forensics
+
+### Ping Pong
+
+xxd ping_pong.pcapng > dio.txt
+
+**H2G2{y0u_r34lly_7h1nk_y0u'r3_60nn4_b3_4bl3_70_c0py_7h3_fl46_m4nu4lly?_y0u'd_b3773r_m4k3_4_5cr1p7_70_3x7r4c7_7h15_v3ry_v3ry_v3ry_v3ry_l0000000nnnnnnnnnnnnnnn666666666_fl46_7h47_y0u'll_n3v3r_h4v3_71m3_70_c0py!_l0r3m_1p5um_d0l0r_517_4m37,_c0n53c737ur_4d1p15c1n6_3l17,_53d_d0_31u5m0d_73mp0r_1nc1d1dun7_u7_l4b0r3_37_d0l0r3_m46n4_4l1qu4._u7_3n1m_4d_m1n1m_v3n14m,_qu15_n057rud_3x3rc174710n_ull4mc0_l4b0r15_n151_u7_4l1qu1p_3x_34_c0mm0d0_c0n53qu47._du15_4u73_1rur3_d0l0r_1n_r3pr3h3nd3r17_1n_v0lup7473_v3l17_3553_c1llum_v3r174715_37_qu451_4rch173c70_b34743_v1743_d1c74_5un7_3xpl1c4b0._n3m0_3n1m_1p54m_v0lup7473m_qu14_v0lup745_517_45p3rn47ur_4u7_0d17_4u7_fu617,_53d_qu14}**
+
 
 ### Exfiltration 1
 ![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-50-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
@@ -291,4 +300,39 @@ Content-Type: application/x-www-form-urlencoded
 
 sender=2021-6329-0004&receiver=3638-4738-6454&rsa-encrypted-amount=62508003691955481690418901955121795568007256515741783155795444245740636426057547904329949383645124412455925887910924422648916791078340467132412323560710978587121861334956401507516587624120449879418813403070550485792604237611403907218111719508751300849137282838643224414695053627144165528294962256617439047092392029968770700080403581271667805269164654784974860506346245830305667955665133964758035692743329015828920734126548722790007590931405240654421621913828190132402835380728007018161783200211722413959807646492280466745701690396058608241960771610594344496541655043663887677078699101112740215664968380850617448985390600
 
-Flag: H2G2{HOMO_BRO_<3}
+Flag: **H2G2{HOMO_BRO_<3}**
+
+## Web
+### MonSQL
+![c](https://img.shields.io/badge/Web-red) ![p](https://img.shields.io/badge/Points-50-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
+> Description
+===========================
+MonSQL
+============================
+sélectionne tout àpartirde utilizateur;
+
+SÉLECTIONNE table_schema, table_name, 1 ÀPARTIRDE  information_schema.tables;
+
+SÉLECTIONNE TOUT ÀPARTIRDE reponses;
+
+**H2G2{j_3sper3_qu3_v0us_4v3z_tr0uv3_ca_f4cil3_?}**
+
+## Unsolved Challenges
+Unfortunately, we did not manage to solve some challenges that were pretty feasible for us. Here I will put the writeups anyway because they may be helpful sooner or later.
+
+### Stego 1
+The flag becomes **H2G2{LSB_1S_0V3RRAT3D}**
+### Stego 2
+
+#433031
+#307235
+#5f4330
+#643335
+#5f4d34
+#4e5f21
+
+4330313072355f43306433355f4d344e5f21
+to ASCII
+C010r5_C0d35_M4N_!
+
+=> H2G2{C010r5_C0d35_M4N_!}

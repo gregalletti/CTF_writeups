@@ -11,7 +11,9 @@ Formed by:
 * [Stefano Bagarin](https://github.com/stepolimi)
 * [Cristian Spagnuolo](https://github.com/filippinifra)
 
-**Disclaimer:** this CTF was in french-only, but we are not French and nobody in the team speaks it, so we had an hard time on reading carefully all the challenges descriptions and hints.
+**Disclaimer:** we are not French (:unamused:), nobody in the team speaks it (:unamused::unamused:): this CTF was in french-only (:unamused::unamused::unamused:)
+
+We had an hard time on reading carefully all the challenges descriptions and hints, but we are still proud of our result.
 
 ## Introduction Challenge
 > At the moment of the team registration, we were given an introductive challenge that you can find here: https://pastebin.com/raw/1BZZyE8K

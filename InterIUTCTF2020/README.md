@@ -73,7 +73,15 @@ All we had to do now was extracting the file names from the string and put them 
 > Description
 
 This is the third of the three Exfiltration challenges.
-The goal of this last part was to retrieve the exfiltrated files and find a flag in those documents. We saw immediatelly that one of the stolen files was called flag.txt and it consisted in only 40 transmitted packets, so we went ahead, wrote a simple python script to revert the encodind made by the malware to each byte of the file before sending it and launched it on the flag packets.  
+The goal of this last part was to retrieve the exfiltrated files and find a flag in those documents. The first step was to understand the encoding of the files made by the script before sending them: it red one byte at a time, convert it into its hexadecimal value and then convert the hex in a decimal number, now, the script decided to further convert each digit of the number into a... "monkey form":
+
+>my_super_monkey += int(monkey/5)*"🙈" + int(monkey%5)*"🙉" + "🙊🙊"
+
+For example, 945 becomes: "🙈🙉🙉🙉🙉🙊🙊🙉🙉🙉🙉🙊🙊🙈🙊🙊"
+
+And, as a last thing, the monkey string was encoded to base64.
+
+Once understood the script, we moved on to identify the file of our interest. We saw immediatelly that one of the stolen files was called flag.txt and it consisted in only 40 transmitted packets, so we went ahead, wrote a simple python script to revert the encodind made by the malware to each byte of the file before sending it and launched it on the flag packets.  
 With our surprise, we received this as output:  
 
 *flag.txt*  

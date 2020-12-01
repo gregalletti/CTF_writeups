@@ -101,15 +101,7 @@ def i_m_a_monkey(i_wanna_be_a_monkey):
 
 
 if __name__=='__main__':
-    with open('data.txt') as json_file:
-        data = json.load(json_file)
-        for p in data['people']:
-           print('Name: ' + p['name'])
-           print('Website: ' + p['website'])
-           print('From: ' + p['from'])
-           print('')
-
-	PATH = "/home/Brian/.secret/"
+    PATH = "/home/Brian/.secret/"
     FILES = [f for f in listdir(PATH) if isfile(join(PATH, f))]
 
     for f in FILES:

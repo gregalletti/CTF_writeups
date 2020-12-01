@@ -73,7 +73,16 @@ All we had to do now was extracting the file names from the string and put them 
 > Description
 
 This is the third of the three Exfiltration challenges.
+The goal of this last part was to retrieve the exfiltrated files and find a flag in those documents. We saw immediatelly that one of the stolen files was called flag.txt and it consisted in only 40 transmitted packets, so we went ahead, wrote a simple python script to revert the encodind made by the malware to each byte of the file before sending it and launched it on the flag packets.  
+With our surprise, we received this as output:  
 
+*flag.txt*  
+
+> H2G2{This_is_not_the_flag_¯\_(ツ)_/¯}
+
+Sadly it was just a bait.  
+At this point we decided to export from WireShark all the packets of the three files in a json format (which can be found in the maliciousPackets.rar archieve) and to modify our script to take the content of each packet from it to ultimately reconstruct the documents.  
+The final script is:  
 
 ```python
 #!/usr/bin/env python3
@@ -83,9 +92,6 @@ import base64
 import json
 
 count = 0
-pdf = ""
-img = ""
-noFlag = ""
 f1 = open("pdfDaje.pdf","wb")
 f2 = open("imgDaje.jpg","wb")
 f3 = open("noFlagDaje.txt","wb")
@@ -142,9 +148,7 @@ f2.close()
 f3.close()
 ```
 
-*Confidential.pdf*  
-
-> This Flag is confidential : H2G2{DN5_3xf1l7r4710n_15_funny!!!}  
+The output files was the following:  
 
 
 *Confidenial.jpg*  
@@ -152,11 +156,17 @@ f3.close()
 ![Alt text](./Confidential.jpg?raw=true "Confidential")
 
 
-*flag.txt*  
+*Content of flag.txt*  
 
 > H2G2{This_is_not_the_flag_¯\_(ツ)_/¯}
 
-The flag was:
+
+*Content of Confidential.pdf*  
+
+> This Flag is confidential : H2G2{DN5_3xf1l7r4710n_15_funny!!!}  
+
+
+So the flag was contained in the .pdf and it was: 
 
 **H2G2{DN5_3xf1l7r4710n_15_funny!!!}**
 

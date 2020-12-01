@@ -156,26 +156,27 @@ f1.close()
 f2.close()
 f3.close()
 ```
-
+<br />
+<br />
 Onece launched, after a minute it gave us the following outputs:
-  
-  
+<br /> 
+<br />
 *Confidenial.jpg*  
 
 ![Alt text](./Confidential.jpg?raw=true "Confidential")
-  
-  
+<br /> 
+<br />  
 *Content of flag.txt*  
 
 > H2G2{This_is_not_the_flag_¯\_(ツ)_/¯}
-  
-  
+<br />
+<br />  
 *Content of Confidential.pdf*  
 
 > This Flag is confidential : H2G2{DN5_3xf1l7r4710n_15_funny!!!}  
   
   
-So the flag was contained in the .pdf and it was: 
+So the flag was contained in the Confidential.pdf file and it was: 
 
 **H2G2{DN5_3xf1l7r4710n_15_funny!!!}**
 

@@ -345,18 +345,34 @@ SÉLECTIONNE TOUT ÀPARTIRDE reponses;
 Unfortunately, we did not manage to solve some challenges that were pretty feasible for us. Here I will put the writeups anyway because they may be helpful sooner or later.
 
 ### Stego 1
-The flag becomes **H2G2{LSB_1S_0V3RRAT3D}**
-### Stego 2
+**Reason of failure**: no idea on where to start
 
+A nice hint was in the description, saying that their favourite color is red. Btw we had no idea on how to use this, we tried to apply red masks, subtract red masks, ..
+
+We later found the flag by uploading the image to [StegOnline](https://stegonline.georgeom.net/upload) and extracting the red pixels:
+
+![Alt text](./stego1_1.PNG?raw=true "stego1_1")
+
+the flag was just there.
+
+![Alt text](./stego1_2.PNG?raw=true "stego1_2")
+
+The flag becomes **H2G2{LSB_1S_0V3RRAT3D}**
+
+### Stego 2
+**Reason of failure**: in the challenge description there was a good hint, but we totally missed it because of the translation
+
+By just looking at the hex values of colors and convert the to ASCII chars we were able to extract the flag, and the correct order was given in the description: 
+
+```
 #433031
 #307235
 #5f4330
 #643335
 #5f4d34
 #4e5f21
+```
 
-4330313072355f43306433355f4d344e5f21
-to ASCII
-C010r5_C0d35_M4N_!
+Putting them all together results in ```4330313072355f43306433355f4d344e5f21```, and converted in ASCII: ```C010r5_C0d35_M4N_!```
 
-=> H2G2{C010r5_C0d35_M4N_!}
+Flag: **H2G2{C010r5_C0d35_M4N_!}**

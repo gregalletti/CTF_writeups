@@ -362,15 +362,17 @@ The flag becomes **H2G2{LSB_1S_0V3RRAT3D}**
 ### Stego 2
 **Reason of failure**: in the challenge description there was a good hint, but we totally missed it because of the translation
 
-By just looking at the hex values of colors and convert the to ASCII chars we were able to extract the flag, and the correct order was given in the description: 
+![Alt text](./chall.png?raw=true "chall")
+
+By just looking at the hex values of colors and convert the to ASCII chars we were able to extract the flag, and the correct order was given in the description. Here are the colors:
 
 ```
-#433031
-#307235
-#5f4330
-#643335
-#5f4d34
-#4e5f21
+#433031 === background-left
+#307235 === background-middle
+#5f4330 === background-right
+#643335 === foreground-left
+#5f4d34 === foreground-middle
+#4e5f21 === foreground-right
 ```
 
 Putting them all together results in ```4330313072355f43306433355f4d344e5f21```, and converted in ASCII: ```C010r5_C0d35_M4N_!```

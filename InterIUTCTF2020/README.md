@@ -308,14 +308,19 @@ https://doc.sagemath.org/html/en/reference/cryptography/sage/crypto/public_key/b
 
 small N => te lo pigli nel culo
 
-Flag: H2G2{0k_B0om3R}
+Flag: **H2G2{0k_B0om3R}**
 
 ### La voie du SAGE
 ![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-50-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
-> Description
-https://doc.sagemath.org/html/en/reference/cryptography/sage/crypto/classical.html
+> https://sagecell.sagemath.org/?z=eJxVzj2LwkAUheE-kP8QtEnAYj7vzSAWImIKsVnYdrnO3InBGCUJYv69ilvsdqd4eTjzbFOt9_vtYbdNkzSpslVW8YMC--ZC7dfYN1095EWa-OZ24p7DT2ypflf5DGPJyApBGhGZAgZ7lJrQYgBNjpS0zpXOGXRCm9lf5MzTx9BovcZoI8TgyYAshQ9CW8EAHoCCUqWyhqQx4PFtpMm9qbl7MS_h-3du-uk2XodpGPmSV4us5S7_97golk-WTESx&lang=sage&interacts=eJyLjgUAARUAuQ==
 
-Flag: 
+Actually a weird challenge, we tried to understand bit more about Sage and Vigenerè but then we realized that we could just decrypt the given ciphertext with the give key, LOL
+
+We searched for the syntax here: https://doc.sagemath.org/html/en/reference/cryptography/sage/crypto/classical.html
+
+The only code line we had to add was ```print(vigenere.deciphering(ciphered_key, ciphered_flag));```, resulting in a hexadecimal string: ```483247327b533467655f4372597074305f31735f335a7d```. By just converting it into ASCII chars we got the flag.
+
+Flag: **H2G2{S4ge_CrYpt0_1s_3Z}** 
 
 ### Homo Accerus
 ![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-50-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)

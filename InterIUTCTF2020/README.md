@@ -1,5 +1,5 @@
 # CTF InterIUT 2020 Write-ups
-Event: **CTF InterIUT 2020, 27-29 November 2020** | [official URL](https://metactf.com/cybergames)
+Event: **CTF InterIUT 2020, 27-29 November 2020** | [official URL](https://ctf.hack2g2.fr/)
 
 Final position: **26th** | [Full Scoreboard here](https://ctftime.org/event/1176)
 
@@ -289,9 +289,19 @@ So the flag was contained in the Confidential.pdf file and it was:
 
 **H2G2{DN5_3xf1l7r4710n_15_funny!!!}**
 
+## Hash Cracking
+
+### We will rock you
+![c](https://img.shields.io/badge/Hash_Cracking-orange) ![p](https://img.shields.io/badge/Points-50-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
+> 0a5a0a121c309891420d117b7efc169d78ec233351e2b86b9778df7af3bd8a5e82ab3d3715b7fa405cca193dc7c6e484acec3bdf343ea94667c6be451a508e9a
+
+Pretty easy hash cracking challenge, we can easily notice from the title that maybe a simple ```John``` + ```rockyou.txt``` wordlist would be enough. And in fact, the password was just a simple character sequence.
+
+Flag: H2G2{ilovejhonny}
+
 ## Cryptography
 
-### SAGE 1
+### Le SAGE doré
 ![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-50-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
 > Description
 https://doc.sagemath.org/html/en/reference/cryptography/sage/crypto/public_key/blum_goldwasser.html
@@ -300,14 +310,14 @@ small N => te lo pigli nel culo
 
 Flag: H2G2{0k_B0om3R}
 
-### SAGE 2
+### La voie du SAGE
 ![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-50-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
 > Description
 https://doc.sagemath.org/html/en/reference/cryptography/sage/crypto/classical.html
 
 Flag: 
 
-### Homo
+### Homo Accerus
 ![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-50-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
 > Description
 
@@ -327,8 +337,12 @@ sender=2021-6329-0004&receiver=3638-4738-6454&rsa-encrypted-amount=6250800369195
 Flag: **H2G2{HOMO_BRO_<3}**
 
 ## Web
-### MonSQL
-![c](https://img.shields.io/badge/Web-red) ![p](https://img.shields.io/badge/Points-50-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
+### Skull partie 1
+![c](https://img.shields.io/badge/Web-red) ![p](https://img.shields.io/badge/Points-10-success) ![a](https://img.shields.io/badge/author-marcuz-lightgrey)
+
+
+### MonSQL Injection 1
+![c](https://img.shields.io/badge/Web-red) ![p](https://img.shields.io/badge/Points-20-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
 > Description
 ===========================
 MonSQL
@@ -340,6 +354,38 @@ SÉLECTIONNE table_schema, table_name, 1 ÀPARTIRDE  information_schema.tables;
 SÉLECTIONNE TOUT ÀPARTIRDE reponses;
 
 **H2G2{j_3sper3_qu3_v0us_4v3z_tr0uv3_ca_f4cil3_?}**
+
+### La théourie des graphes
+![c](https://img.shields.io/badge/Web-red) ![p](https://img.shields.io/badge/Points-20-success) ![a](https://img.shields.io/badge/author-marcuz-lightgrey)
+
+The query we want to execute is:
+```
+{
+	GetCourse(id:i){
+		id
+		title,
+		content,
+	published
+	}
+}
+```
+
+Using a simple ```Python``` script to send 200 requests, this one:
+
+```python
+import requests
+import json
+
+for i in range(1, 200):
+    r = requests.get("http://theourie-des-graphes.interiut.ctf/graphql?query=%7B%20%0A%20%20GetCourse(id%3A{0})%20%7B%0A%20%20%20%20id%0A%20%20%20%20title%2C%0A%20%20%20%20content%2C%0A%20%20%20%20published%0A%20%20%7D%0A%0A%7D".format(i))
+
+    j = json.loads(r.text)['data']['GetCourse']
+    if j['published'] == False:
+        print("[*] course {0} not published".format(i))
+```
+
+We easily figured out that the interesting course was the 69th, and by looking at it we could see its content: ""
+
 
 ## Unsolved Challenges
 Unfortunately, we did not manage to solve some challenges that were pretty feasible for us. Here I will put the writeups anyway because they may be helpful sooner or later.
@@ -378,3 +424,7 @@ By just looking at the hex values of colors and convert the to ASCII chars we we
 Putting them all together results in ```4330313072355f43306433355f4d344e5f21```, and converted in ASCII: ```C010r5_C0d35_M4N_!```
 
 Flag: **H2G2{C010r5_C0d35_M4N_!}**
+
+### 1110011 1100001 1101100 1110101 1110100
+**Reason of failure**: no possibility to send anything to the server during the CF 
+

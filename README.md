@@ -1,5 +1,6 @@
-# CangureTheFlat
+# CangureTheFlat 
 ![Cangure](./cangure.jpg "cangure")
+
 
 ## The Team
 > Here there are some information about us:

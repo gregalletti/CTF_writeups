@@ -1,4 +1,6 @@
 # CangureTheFlat
+![Cangure](/logo.jpg "cangure")
+
 ## The Team
 > Here there are some information about us:
 

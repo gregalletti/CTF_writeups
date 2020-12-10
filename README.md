@@ -21,3 +21,10 @@ Here there are all the CTFs we took part in:
 |m0lecon CTF|11th|14 Nov 2020|[CTFtime](https://ctftime.org/event/1135)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/m0leconCTF2020)|
 |MetaCTF CyberGames|32th students, 49th global|24 Oct 2020|[CTFtime](https://ctftime.org/event/1106)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/MetaCTF2020)|
 |Reply CyberSecurity Challenge (*as FancyBits*)|227th|09 Oct 2020|[CTFtime](https://ctftime.org/event/1131)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/Reply2020)|
+
+
+
+Here there are some others writeups of public CTF websites (wargames):
+| Name |Link|Write-ups|
+|:----:|:--:|:-------:|
+|overthewire|https://overthewire.org/wargames/|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/overthewireWG)|

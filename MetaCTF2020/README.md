@@ -58,9 +58,9 @@ Partial (or maybe final) flag:
 ### Open Thermal Exhaust Port
 ![c](https://img.shields.io/badge/Forensics-ff69b4) ![p](https://img.shields.io/badge/Points-275-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
->Our TCP connect Nmap scan found some open ports it seems. We may only have a pcap of the traffic, but I'm sure that won't be a problem! Can you tell us which ones they are?
+> Our TCP connect Nmap scan found some open ports it seems. We may only have a pcap of the traffic, but I'm sure that won't be a problem! Can you tell us which ones they are?
 >
->The flag will be the sum of the open ports. For example, if ports 25 and 110 were open, the answer would be MetaCTF{135}.
+> The flag will be the sum of the open ports. For example, if ports 25 and 110 were open, the answer would be MetaCTF{135}.
 
 We were given a pcap file with loads of packets involved. I opened the file with ```Wireshark``` and instantly filtered on TCP packets only. 
 Firstly I tried to analyze the traffic manually, but I soon realized that this was unfeasible (yes it took me a while to realize, but It was 4 am for me come on).
@@ -76,14 +76,14 @@ All of them were good so the solution is simply the sum:
 ### Finding Mr. Casyn
 ![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-275-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4,_marcuz1996-lightgrey)
 
->This is the first of three challenges related to the Casyn persona
+> This is the first of three challenges related to the Casyn persona
 >
->We're looking for a Mr. Casyn, who has been reported missing. We believe he lives in the Chicagoland area, but don't think he's in Illinois proper.
->We need your help finding him and identifying the right Mr. Casyn will help us begin our search.
+> We're looking for a Mr. Casyn, who has been reported missing. We believe he lives in the Chicagoland area, but don't think he's in Illinois proper.
+> We need your help finding him and identifying the right Mr. Casyn will help us begin our search.
 >
->The flag for this challenge is the first name of Mr. Casyn. There are three attempts available for this challenge.
+> The flag for this challenge is the first name of Mr. Casyn. There are three attempts available for this challenge.
 >
->Note: Mr. Casyn is a fake persona that we have created to help you practice your OSINT skills
+> Note: Mr. Casyn is a fake persona that we have created to help you practice your OSINT skills
 
 The first step to solve this challenge was to find the countries that are considered part of Chicagoland area that are not in the state of Illinois. By making a cross search of it's name and those countries on the most popular social networks we eventually managed to find it on LinkedIn.
 
@@ -96,10 +96,10 @@ So the flag is:
 ### Ring Ring
 ![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-325-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4,_marcuz1996-lightgrey)
 
->This is the second of three challenges related to the Casyn persona
+> This is the second of three challenges related to the Casyn persona
 >
->We want to try and reach out to Mr. Casyn via telephone. Can you figure out his phone number?
->Flag format: XXX-XXX-XXXX. Example: 123-456-7890
+> We want to try and reach out to Mr. Casyn via telephone. Can you figure out his phone number?
+> Flag format: XXX-XXX-XXXX. Example: 123-456-7890
 
 Starting from the LinkedIn page of Mr. Casyn found in the first challenge related to him, we found the link to its website and from there its GitHub profile. By looking at the only repository on its profile and going through each of its commits we found that he previously had its phone number on the website but then he deleted it. Luckly for us there is the commit history! :smirk:
 
@@ -113,18 +113,18 @@ So the flag is:
 ### Complete Transparency
 ![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-325-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
->At ICMP Industries, we recently created a new subdomain off of our company website. Since our new super secret project is still in development, we chose a long subdomain so no >one will know to visit it yet. We also went ahead and upgraded the site to use HTTPS to be more secure.
+> At ICMP Industries, we recently created a new subdomain off of our company website. Since our new super secret project is still in development, we chose a long subdomain so no one will know to visit it yet. We also went ahead and upgraded the site to use HTTPS to be more secure.
 >
->The flag is the name of our secret subdomain. Note there are dashes between words instead of underscores since it's a domain name.
+> The flag is the name of our secret subdomain. Note there are dashes between words instead of underscores since it's a domain name.
 
 ### Hangout Spots
 ![c](https://img.shields.io/badge/Reconnaissance-blue) ![p](https://img.shields.io/badge/Points-525-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4,_marcuz1996-lightgrey)
 
->This is the third of three challenges related to the Casyn persona
+> This is the third of three challenges related to the Casyn persona
 >
->There was no reply from Mr. Casyn's phone. Can you find out where he likes to frequently hang out so we can look for clues of where he's been recently? Once you find the image, >think of how we can use what we know to geolocate the image based on what's in the picture.
+> There was no reply from Mr. Casyn's phone. Can you find out where he likes to frequently hang out so we can look for clues of where he's been recently? Once you find the image, think of how we can use what we know to geolocate the image based on what's in the picture.
 >
->Flag format is street name, city, state abbreviation zip code. Example: 301 Park Ave, New York, NY 10022
+> Flag format is street name, city, state abbreviation zip code. Example: 301 Park Ave, New York, NY 10022
 
 By going through the GitHub commits of Mr. Casyn for the previous challenge related to him we found another interesting one were he deleted an image from its website that had the description "Love spending time here!". The image is: 
 
@@ -179,9 +179,9 @@ An easy calculation and the flag is here:
 ### [REDACTED]
 ![c](https://img.shields.io/badge/Reverse_Engineering-2c3e50) ![p](https://img.shields.io/badge/Points-225-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 
->The CEO of Cyber Corp has strangely disappeared over the weekend. After looking more into his disappearance Local Police Department thinks he might have gotten caught up into >some illicit activities.
+> The CEO of Cyber Corp has strangely disappeared over the weekend. After looking more into his disappearance Local Police Department thinks he might have gotten caught up into some illicit activities.
 >
->The IT Department just conducted a search through his company-provided laptop and found an old memo containing a One Time Password to log into his e-mail. However it seems as >if someone has redacted the code, can you recover it for us?
+> The IT Department just conducted a search through his company-provided laptop and found an old memo containing a One Time Password to log into his e-mail. However it seems as >if someone has redacted the code, can you recover it for us?
 
 We are given a PDF file and told that it has been modified to cover a One Time Password: if we simply open it, a black rectangle is shown over the password.
 I first tried to open it on a hex editor and analyze the magic bytes and search if for some reason the password was hidden in the metadata, but nothing. I then tried to use ```binwalk``` on the file in order to find possible hidden files, but also nothing.

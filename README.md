@@ -1,4 +1,7 @@
 # CangureTheFlat
+## The Team
+> Here there are some information about us:
+
 [Find us on CTFtime!](https://ctftime.org/team/137370)
 
 We are a group of Computer Science Engineering students from Politecnico of Milan.
@@ -14,7 +17,9 @@ Our members:
 * [Cristian Spagnuolo](https://github.com/)
 * [Stefano Armanes](https://github.com/stearm)
 
-Here there are all the CTFs we took part in:
+## CTFs
+> Here there are all the CTFs we took part in:
+
 | Name | Position | Date |Link|Write-ups|
 |:----:|:--------:|:----:|:--:|:-------:|
 |CTF InterIUT 2020|26th|27 Nov 2020|[CTFtime](https://ctftime.org/event/1176)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/InterIUTCTF2020)|
@@ -22,9 +27,9 @@ Here there are all the CTFs we took part in:
 |MetaCTF CyberGames|32th students, 49th global|24 Oct 2020|[CTFtime](https://ctftime.org/event/1106)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/MetaCTF2020)|
 |Reply CyberSecurity Challenge (*as FancyBits*)|227th|09 Oct 2020|[CTFtime](https://ctftime.org/event/1131)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/Reply2020)|
 
+## Trainings
+> Here there are some others writeups of public CTF websites (wargames):
 
-
-Here there are some others writeups of public CTF websites (wargames):
 | Name |Link|Write-ups|
 |:----:|:--:|:-------:|
-|overthewire|https://overthewire.org/wargames/|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/overthewireWG)|
+|overthewire|[Official URL](https://overthewire.org/wargames/)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/overthewireWG)|

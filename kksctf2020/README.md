@@ -15,7 +15,7 @@ Formed by:
 ## Web
 
 ### Lynx
-![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-204-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
+![c](https://img.shields.io/badge/Web-green) ![p](https://img.shields.io/badge/Points-204-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
 
 > Hello! We're BluePeace organisation, and we introduce the new project - Lynx Forum!
 >
@@ -30,7 +30,7 @@ Nice, let's go to the ```robots.txt``` page and see what we get: ```Disallow /a4
 By just accessing this path we obtain the flag: **kks{s0m3_CLI_br0ws3rs_4r3_us3ful}**
 
 ### Cypherpunk2077
-![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-392-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
+![c](https://img.shields.io/badge/Web-green) ![p](https://img.shields.io/badge/Points-392-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
 
 > If you have found any bugs in latest AAA projects, please report them using this pretty good service.
 >
@@ -75,34 +75,38 @@ And here is the flag: **kks{in_2077_what_makes_someon3_a_ctf_player7_getting_fla
 
 ## Other
 ### Motor Sounds
-![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-268-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
+![c](https://img.shields.io/badge/Other-blue) ![p](https://img.shields.io/badge/Points-268-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
 
 > Zhzhzhzhzhzhzhzhzhzh, viiiiv, viiiiv, zzhzhzhzhzhzhzh ...
 
 ### Blind Shell
-![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-345-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0,_cri-lightgrey)
+![c](https://img.shields.io/badge/Other-blue) ![p](https://img.shields.io/badge/Points-345-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0,_cri-lightgrey)
 
 > It's simple enough, either you've succeeded or you've failed.
 >
 > Connect here: nc tasks.kksctf.ru 30010
 
 ### Encrypted Storage 1
-![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-359-success) ![a](https://img.shields.io/badge/author-marcuz-lightgrey)
+![c](https://img.shields.io/badge/Other-blue) ![p](https://img.shields.io/badge/Points-359-success) ![a](https://img.shields.io/badge/author-marcuz-lightgrey)
 
 > Our client was attacked by some ransomware. Maybe it was separatist dwarves?
 >
 > He send us encrypted filesystem. Decrypt it, he need some data from secure storage.
 
 ### Encrypted Storage 2
-![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-367-success) ![a](https://img.shields.io/badge/author-marcuz-lightgrey)
+![c](https://img.shields.io/badge/Other-blue) ![p](https://img.shields.io/badge/Points-367-success) ![a](https://img.shields.io/badge/author-marcuz-lightgrey)
 
 > Sometimes stupid hackers leave behind signatures that can be used to find them - the one that wrote ransomware is no exception.
 
+Flag: **kks{1_w4s_h3r3!}**
+
 
 ### Red Green Blue Cadets
-![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-411-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
+![c](https://img.shields.io/badge/Other-blue) ![p](https://img.shields.io/badge/Points-411-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
 
 > Our spy take this picture from KGB special school. They have strange uniform, doesn't it?
+
+Flag: **kks{s4lut3_t0_c4d3ts!}**
 
 
 ## Unsolved Challenges

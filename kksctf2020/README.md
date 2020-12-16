@@ -18,6 +18,7 @@ Formed by:
 ![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-204-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
 
 > Hello! We're BluePeace organisation, and we introduce the new project - Lynx Forum!
+>
 > http://tasks.kksctf.ru:30070/
 
 We access the page, and it says we are not Lynx. 
@@ -32,6 +33,7 @@ By just accessing this path we obtain the flag: **kks{s0m3_CLI_br0ws3rs_4r3_us3f
 ![c](https://img.shields.io/badge/Forensics-green) ![p](https://img.shields.io/badge/Points-392-success) ![a](https://img.shields.io/badge/author-b4g4,_grigg0swagg0-lightgrey)
 
 > If you have found any bugs in latest AAA projects, please report them using this pretty good service.
+>
 > http://tasks.kksctf.ru:30030/
 
 Let's first get a general idea of this website. It seems to have just two sections: Report and Keys. 

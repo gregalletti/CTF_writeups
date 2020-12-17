@@ -36,4 +36,4 @@ Our members:
 
 | Name |Link|Write-ups|
 |:----:|:--:|:-------:|
-|overthewire|[Official URL](https://overthewire.org/wargames/)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/overthewireWG)|
+|overthewire|[Official URL](https://overthewire.org/wargames/)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/trainings/overthewire)|

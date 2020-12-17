@@ -8,20 +8,22 @@ username: bandit0
 password: bandit0
 
 ## Level 0 → 1
-
-- ls: "readme" file
-- cat readme: boJ9jbbUNNfktd78OOpsqOltutMc3MY1
-
+```shell
+ls: "readme" file
+cat readme: boJ9jbbUNNfktd78OOpsqOltutMc3MY1
+```
 ## Level 1 → 2
-
-- ls: "-" file
-- cat ./- : CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
+```shell
+ls: "-" file
+cat ./- : CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
+```
 ## Level 2 → 3
-
-- ls : "spaces in this filename" file
-- cat ./spaces\ in\ this\ filename : UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
+```shell
+ls : "spaces in this filename" file
+cat ./spaces\ in\ this\ filename : UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
+```
 ## Level 3 → 4
-
+```shell
 bandit3@bandit:~$ ls
 inhere
 bandit3@bandit:~$ cd inhere/
@@ -32,8 +34,9 @@ drwxr-xr-x 3 root    root    4096 May  7  2020 ..
 -rw-r----- 1 bandit4 bandit3   33 May  7  2020 .hidden
 bandit3@bandit:~/inhere$ cat .hidden
 pIwrPrtPN36QITSp3EQaw936yaFoFgAB
+```
 ## Level 4 → 5
-
+```shell
 bandit4@bandit:~$ ls
 inhere
 bandit4@bandit:~$ cd inhere/
@@ -50,8 +53,9 @@ bandit4@bandit:~/inhere$ file -- *
 -file09: data
 bandit4@bandit:~/inhere$ cat ./-file07
 koReBOKuIDDepwhWk7jZC0RTdopnAYKh
-
+```
 ## Level 5 → 6
+```shell
 bandit5@bandit:~$ ls
 inhere
 bandit5@bandit:~$ cd inhere/
@@ -69,8 +73,9 @@ inhere/maybehere07/.file2
 bandit5@bandit:~$ cd inhere/maybehere07/
 bandit5@bandit:~/inhere/maybehere07$ cat ./.file2
 DXjZPULLxYr17uwoI01bNLQbtFemEgo7
-
+```
 ## Level 6 → 7
+```shell
 bandit6@bandit:~$ cd /
 bandit6@bandit:/$ find . -size 33c -group bandit6 -user bandit7 | grep bandit7
 find: ‘./root’: Permission denied
@@ -138,35 +143,41 @@ find: ‘./var/cache/apt/archives/partial’: Permission denied
 find: ‘./var/cache/ldconfig’: Permission denied
 bandit6@bandit:/$ cat ./var/lib/dpkg/info/bandit7.password
 HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
-
+```
 ## Level 7 → 8
+```shell
 bandit7@bandit:~$ ls
 data.txt
 bandit7@bandit:~$ strings data.txt | grep millionth
 millionth       cvX2JJa4CFALtqS87jk27qwqGhBM9plV
-
+```
 ## Level 8 → 9
+```shell
 bandit8@bandit:~$ sort data.txt | uniq -u
 UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
-
+```
 ## Level 9 → 10
-
+```shell
 bandit9@bandit:~$ strings data.txt | grep ===
 ========== the*2i"4
 ========== password
 Z)========== is
 &========== truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
-
+```
 ## Level 10 → 11
+```shell
 bandit10@bandit:~$ ls
 data.txt
 bandit10@bandit:~$ base64 -d data.txt
 The password is IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
+```
 ## Level 11 → 12
+```shell
 bandit11@bandit:~$ cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'
 The password is 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
+```
 ## Level 12 → 13
-
+```shell
 bandit12@bandit:~$ mkdir /tmp/griggo
 bandit12@bandit:~$ cp data.txt /tmp/griggo
 bandit12@bandit:~$ cd /
@@ -215,9 +226,9 @@ bandit12@bandit:/tmp/griggo$ file rev
 rev: ASCII text
 bandit12@bandit:/tmp/griggo$ cat rev
 The password is 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
-
+```
 ## Level 13 → 14
-
+```shell
 bandit13@bandit:~$ ls
 sshkey.private
 bandit13@bandit:~$ ssh bandit14@localhost -i sshkey.private
@@ -232,7 +243,9 @@ bandit14@bandit:~$ whoami
 bandit14
 bandit14@bandit:~$ cat /etc/bandit_pass/bandit14
 4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
+```
 ## Level 14 → 15
+```shell
 bandit14@bandit:~$ nmap localhost
 
 Starting Nmap 7.40 ( https://nmap.org ) at 2020-12-10 02:19 CET
@@ -249,9 +262,9 @@ bandit14@bandit:~$ nc localhost 30000
 4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
 Correct!
 BfMYroe26WYalil77FoDi9qh59eK5xNr
-
+```
 ## Level 15 → 16
-
+```shell
 bandit15@bandit:~$ echo "BfMYroe26WYalil77FoDi9qh59eK5xNr" | openssl s_client -ign_eof -connect localhost:30001
 CONNECTED(00000003)
 depth=0 CN = localhost
@@ -325,8 +338,9 @@ Correct!
 cluFn7wTiGryunymYOu4RcffSxQluehd
 
 closed
+```
 ## Level 16 → 17
-
+```shell
 bandit16@bandit:~$ nmap localhost -p 31000-32000 -A
 
 Starting Nmap 7.40 ( https://nmap.org ) at 2020-12-10 02:32 CET
@@ -465,7 +479,9 @@ bandit16@bandit:/tmp/griggo1$ vim sshkey.private
 bandit16@bandit:/tmp/griggo1$ chmod 400 sshkey.private
 bandit16@bandit:/tmp/griggo1$ ssh bandit17@localhost -i sshkey.private
 **** logged in!
+```
 ## Level 17 → 18
+```shell
 bandit17@bandit:~$ ls
 passwords.new  passwords.old
 bandit17@bandit:~$ diff passwords.old passwords.new
@@ -477,7 +493,9 @@ bandit17@bandit:~$ diff passwords.old passwords.new
 ****just to be sure, never used diff command
 bandit17@bandit:~$ cat passwords.new | grep kfBf
 kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+```
 ## Level 18 → 19
+```shell
 griggo@DESKTOP-UABAD5I:/mnt/c/WINDOWS/system32$ ssh bandit18@bandit.labs.overthewire.org -p 2220 -t /bin/sh
 This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
 
@@ -486,8 +504,9 @@ $ ls
 readme
 $ cat readme
 IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
-
+```
 ## Level 19 → 20
+```shell
 bandit19@bandit:~$ ./bandit20-do
 Run a command as another user.
   Example: ./bandit20-do id
@@ -501,9 +520,9 @@ drwxr-xr-x 41 root     root     4096 May  7  2020 ..
 -rw-r--r--  1 root     root      675 May 15  2017 .profile
 bandit19@bandit:~$ ./bandit20-do cat /etc/bandit_pass/bandit20
 GbKksEFF4yrVs6il55v6gwY5aVje5f0j
-
+```
 ## Level 20 → 21
-
+```shell
 *******TERMINAL 1
 bandit20@bandit:~$ ls
 suconnect
@@ -543,7 +562,9 @@ Password matches, sending next password
 *******TERMINAL 1
 bandit20@bandit:~$ nc -lp 6666
 gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
+```
 ## Level 21 → 22
+```shell
 bandit21@bandit:~$ cd /etc/cron.d
 bandit21@bandit:/etc/cron.d$ ls
 cronjob_bandit15_root  cronjob_bandit22  cronjob_bandit24
@@ -558,9 +579,9 @@ chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
 cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
 bandit21@bandit:~$ cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
 Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
-
+```
 ## Level 22 → 23
-
+```shell
 bandit22@bandit:~$ cd /etc/cron.d
 bandit22@bandit:/etc/cron.d$ ls
 cronjob_bandit15_root  cronjob_bandit22  cronjob_bandit24
@@ -582,4 +603,5 @@ bandit22@bandit:/tmp$ echo I am user bandit23 | md5sum | cut -d ' ' -f 1
 8ca319486bfbbc3663ea0fbe81326349
 bandit22@bandit:/tmp$ cat /tmp/8ca319486bfbbc3663ea0fbe81326349
 jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
+```
 ## Level 23 → 24

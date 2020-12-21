@@ -12,6 +12,7 @@ And we start from:
 - password: bandit0
 
 ## Level 0 → 1
+> The password for the next level is stored in a file called readme located in the home directory. Use this password to log into bandit1 using SSH. Whenever you find a password for a level, use SSH (on port 2220) to log into that level and continue the game.
 ```shell
 bandit0@bandit:~$ ls 
 readme
@@ -19,6 +20,8 @@ bandit0@bandit:~$ cat readme
 boJ9jbbUNNfktd78OOpsqOltutMc3MY1
 ```
 ## Level 1 → 2
+> The password for the next level is stored in a file called - located in the home directory.
+
 ```shell
 bandit1@bandit:~$ ls 
 -
@@ -26,6 +29,8 @@ bandit1@bandit:~$ cat ./-
 CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
 ```
 ## Level 2 → 3
+> The password for the next level is stored in a file called spaces in this filename located in the home directory
+
 ```shell
 bandit2@bandit:~$ ls 
 spaces in this filename
@@ -33,6 +38,8 @@ bandit2@bandit:~$ cat ./spaces\ in\ this\ filename
 UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
 ```
 ## Level 3 → 4
+> The password for the next level is stored in a hidden file in the inhere directory.
+
 ```shell
 bandit3@bandit:~$ ls
 inhere
@@ -46,6 +53,8 @@ bandit3@bandit:~/inhere$ cat .hidden
 pIwrPrtPN36QITSp3EQaw936yaFoFgAB
 ```
 ## Level 4 → 5
+> The password for the next level is stored in the only human-readable file in the inhere directory. Tip: if your terminal is messed up, try the “reset” command.
+
 ```shell
 bandit4@bandit:~$ ls
 inhere
@@ -65,6 +74,11 @@ bandit4@bandit:~/inhere$ cat ./-file07
 koReBOKuIDDepwhWk7jZC0RTdopnAYKh
 ```
 ## Level 5 → 6
+> The password for the next level is stored in a file somewhere under the inhere directory and has all of the following properties:
+>
+>   human-readable
+>   1033 bytes in size
+>   not executable
 ```shell
 bandit5@bandit:~$ ls
 inhere
@@ -85,6 +99,11 @@ bandit5@bandit:~/inhere/maybehere07$ cat ./.file2
 DXjZPULLxYr17uwoI01bNLQbtFemEgo7
 ```
 ## Level 6 → 7
+> The password for the next level is stored somewhere on the server and has all of the following properties:
+>
+>    owned by user bandit7
+>    owned by group bandit6
+>    33 bytes in size
 ```shell
 bandit6@bandit:~$ cd /
 bandit6@bandit:/$ find . -size 33c -group bandit6 -user bandit7 | grep bandit7
@@ -155,6 +174,8 @@ bandit6@bandit:/$ cat ./var/lib/dpkg/info/bandit7.password
 HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
 ```
 ## Level 7 → 8
+> The password for the next level is stored in the file data.txt next to the word millionth
+
 ```shell
 bandit7@bandit:~$ ls
 data.txt
@@ -162,11 +183,15 @@ bandit7@bandit:~$ strings data.txt | grep millionth
 millionth       cvX2JJa4CFALtqS87jk27qwqGhBM9plV
 ```
 ## Level 8 → 9
+> The password for the next level is stored in the file data.txt and is the only line of text that occurs only once
+
 ```shell
 bandit8@bandit:~$ sort data.txt | uniq -u
 UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
 ```
 ## Level 9 → 10
+> The password for the next level is stored in the file data.txt in one of the few human-readable strings, preceded by several ‘=’ characters.
+
 ```shell
 bandit9@bandit:~$ strings data.txt | grep ===
 ========== the*2i"4
@@ -175,6 +200,8 @@ Z)========== is
 &========== truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
 ```
 ## Level 10 → 11
+> The password for the next level is stored in the file data.txt, which contains base64 encoded data
+
 ```shell
 bandit10@bandit:~$ ls
 data.txt
@@ -182,11 +209,15 @@ bandit10@bandit:~$ base64 -d data.txt
 The password is IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
 ```
 ## Level 11 → 12
+> The password for the next level is stored in the file data.txt, where all lowercase (a-z) and uppercase (A-Z) letters have been rotated by 13 positions
+
 ```shell
 bandit11@bandit:~$ cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'
 The password is 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
 ```
 ## Level 12 → 13
+> The password for the next level is stored in the file data.txt, which is a hexdump of a file that has been repeatedly compressed. For this level it may be useful to create a directory under /tmp in which you can work using mkdir. For example: mkdir /tmp/myname123. Then copy the datafile using cp, and rename it using mv (read the manpages!)
+
 ```shell
 bandit12@bandit:~$ mkdir /tmp/griggo
 bandit12@bandit:~$ cp data.txt /tmp/griggo
@@ -238,6 +269,8 @@ bandit12@bandit:/tmp/griggo$ cat rev
 The password is 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
 ```
 ## Level 13 → 14
+> The password for the next level is stored in /etc/bandit_pass/bandit14 and can only be read by user bandit14. For this level, you don’t get the next password, but you get a private SSH key that can be used to log into the next level. Note: localhost is a hostname that refers to the machine you are working on
+
 ```shell
 bandit13@bandit:~$ ls
 sshkey.private
@@ -255,6 +288,8 @@ bandit14@bandit:~$ cat /etc/bandit_pass/bandit14
 4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
 ```
 ## Level 14 → 15
+> The password for the next level can be retrieved by submitting the password of the current level to port 30000 on localhost.
+
 ```shell
 bandit14@bandit:~$ nmap localhost
 
@@ -274,6 +309,8 @@ Correct!
 BfMYroe26WYalil77FoDi9qh59eK5xNr
 ```
 ## Level 15 → 16
+> The password for the next level can be retrieved by submitting the password of the current level to port 30001 on localhost using SSL encryption.
+
 ```shell
 bandit15@bandit:~$ echo "BfMYroe26WYalil77FoDi9qh59eK5xNr" | openssl s_client -ign_eof -connect localhost:30001
 CONNECTED(00000003)
@@ -350,6 +387,8 @@ cluFn7wTiGryunymYOu4RcffSxQluehd
 closed
 ```
 ## Level 16 → 17
+> The credentials for the next level can be retrieved by submitting the password of the current level to a port on localhost in the range 31000 to 32000. First find out which of these ports have a server listening on them. Then find out which of those speak SSL and which don’t. There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it.
+
 ```shell
 bandit16@bandit:~$ nmap localhost -p 31000-32000 -A
 
@@ -491,6 +530,8 @@ bandit16@bandit:/tmp/griggo1$ ssh bandit17@localhost -i sshkey.private
 **** logged in!
 ```
 ## Level 17 → 18
+> There are 2 files in the homedirectory: passwords.old and passwords.new. The password for the next level is in passwords.new and is the only line that has been changed between passwords.old and passwords.new
+
 ```shell
 bandit17@bandit:~$ ls
 passwords.new  passwords.old
@@ -505,6 +546,8 @@ bandit17@bandit:~$ cat passwords.new | grep kfBf
 kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
 ```
 ## Level 18 → 19
+> The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH.
+
 ```shell
 griggo@DESKTOP-UABAD5I:/mnt/c/WINDOWS/system32$ ssh bandit18@bandit.labs.overthewire.org -p 2220 -t /bin/sh
 This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
@@ -516,6 +559,8 @@ $ cat readme
 IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
 ```
 ## Level 19 → 20
+> To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.
+
 ```shell
 bandit19@bandit:~$ ./bandit20-do
 Run a command as another user.
@@ -532,6 +577,8 @@ bandit19@bandit:~$ ./bandit20-do cat /etc/bandit_pass/bandit20
 GbKksEFF4yrVs6il55v6gwY5aVje5f0j
 ```
 ## Level 20 → 21
+> There is a setuid binary in the homedirectory that does the following: it makes a connection to localhost on the port you specify as a commandline argument. It then reads a line of text from the connection and compares it to the password in the previous level (bandit20). If the password is correct, it will transmit the password for the next level (bandit21).
+
 ```shell
 *******TERMINAL 1
 bandit20@bandit:~$ ls
@@ -574,6 +621,8 @@ bandit20@bandit:~$ nc -lp 6666
 gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
 ```
 ## Level 21 → 22
+> A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
 ```shell
 bandit21@bandit:~$ cd /etc/cron.d
 bandit21@bandit:/etc/cron.d$ ls
@@ -591,6 +640,8 @@ bandit21@bandit:~$ cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
 Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
 ```
 ## Level 22 → 23
+> A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
 ```shell
 bandit22@bandit:~$ cd /etc/cron.d
 bandit22@bandit:/etc/cron.d$ ls

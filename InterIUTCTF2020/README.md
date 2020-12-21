@@ -9,7 +9,7 @@ Formed by:
 * [Gregorio Galletti](https://github.com/gregalletti)
 * [Marco Gasperini](https://github.com/marcuz1996)
 * [Stefano Bagarin](https://github.com/stepolimi)
-* [Cristian Spagnuolo](https://github.com/filippinifra)
+* [Cristian Spagnuolo](https://github.com/cris96spa)
 
 **Disclaimer:** we are not French (:unamused:), nobody in the team speaks it (:unamused::unamused:): this CTF was in french-only (:unamused::unamused::unamused:)
 

@@ -17,7 +17,7 @@ Our members:
 * [Stefano Bagarin](https://github.com/stepolimi)
 * [Francesco Filippini](https://github.com/filippinifra)
 * [Ibrahim El Shemy](https://github.com/ibriaco)
-* [Cristian Spagnuolo](https://github.com/)
+* [Cristian Spagnuolo](https://github.com/cris96spa)
 * [Stefano Armanes](https://github.com/stearm)
 
 ## CTFs

@@ -1,26 +1,36 @@
-SSH Linux command: ssh <username>@<address> –p <port>
-ssh bandit20@bandit.labs.overthewire.org -p 2220
+# Overthewire - Bandit challenge
+You can find the official page [here](https://overthewire.org/wargames/bandit/).
 
-The username is always the level name
-The password is the previous level flag
+We have to log in the game using the SSH command: ```ssh <username>@<address> –p <port>```
 
-username: bandit0
-password: bandit0
+Remember that:
+- The username is always the level name
+- The password is the previous level flag
+
+And we start from:
+- username: bandit0
+- password: bandit0
 
 ## Level 0 → 1
 ```shell
-ls: "readme" file
-cat readme: boJ9jbbUNNfktd78OOpsqOltutMc3MY1
+bandit0@bandit:~$ ls 
+readme
+bandit0@bandit:~$ cat readme
+boJ9jbbUNNfktd78OOpsqOltutMc3MY1
 ```
 ## Level 1 → 2
 ```shell
-ls: "-" file
-cat ./- : CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
+bandit1@bandit:~$ ls 
+-
+bandit1@bandit:~$ cat ./- 
+CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
 ```
 ## Level 2 → 3
 ```shell
-ls : "spaces in this filename" file
-cat ./spaces\ in\ this\ filename : UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
+bandit2@bandit:~$ ls 
+spaces in this filename
+bandit2@bandit:~$ cat ./spaces\ in\ this\ filename 
+UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
 ```
 ## Level 3 → 4
 ```shell

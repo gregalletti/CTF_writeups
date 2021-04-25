@@ -69,9 +69,14 @@ Flag:
 **flag_{1t3r4t1v3_h4sh_cr4ck1ng_1s_qu1t3_c00l_w1th_pyth0n}**
 
 ### Not a noob
-```python
+The important thing of this challenge was to have an idea of RC4 algorithm. RC4 is basically a XORing algorithm, and the only way to get the flag here was to suppose that the keys used were identical (as they were): this could be extracted by the fact that we told you "there is no need to bruteforce the key".
 
+Given this, the remaining part is to XOR the two images without XORing their headers. A bitwise XOR on images is performed with this command (Unix systems):
 ```
+convert noob_1.png noob_2.png -fx "(((255*u)&(255*(1-v)))|((255*(1-u))&(255*v)))/255" noob_out.png
+```
+Resulting in noob_out.png containing: **D0n7_reU2e_J00R_Key2**
+
 ### Bank fraud
 ```python
 
@@ -97,6 +102,14 @@ Flag:
 
 ```
 ### Throwback
+The main issue with this challenge is that the given string highly reminds base4 numbers, but that was the point. We also released an hint about that, so you could get the real language used (Morse code). Morse code is actually a quaternary code, with 4 main characters: 
+* Line
+* Point
+* Space
+* Newline
+
+So now the challenge is how to replace numbers (0, 1, 2, 3) with these new chars? Well, trial and error is always a good way (helped by the fact that Line and Point should be the ones more frequent, so 1 and 0).
+
 ```python
 encoded = "0000202010020100211123212000020020002320020002320123211200200021010202010020100201210202111200120002320210012012112011020100202010101232120000202320010201002012110232002000232011212111002110200012001021102000002110120002001021012101020121201021100112321011211120012320000201200012023212111232002102000202010212321200002023210102001201020100210112321000201020121010202000232012102100232120000202320012102100202010200021010211120102023210102000020120102012101021202010232101121112001201020002020100200102010101"
 decoded = encoded.replace("0", ".")
@@ -108,7 +121,7 @@ print(decoded)
 ```
 Resulting in:
 ```
-.... . .-.. .-.. --- 
+ .... . .-.. .-.. --- 
  - .... .. ... 
  .. ... 
  .- 
@@ -131,9 +144,9 @@ Resulting in:
  -.-. .... .- .-. .- -.-. - . .-. 
  -.-- --- ..- .-. ... . .-.. ..-. .-.-.-
 ```
-This is clearly Morse code, so let's just convert it into text (a lot of online tools available), resulting in:
+This is clearly Morse code, so let's just convert it into text (a lot of online tools are available), resulting in:
 
-hello?this?is?a?miscellaneous?example??the?flag?is?wt8gvfg5qsfkcatr??you?have?to?insert?the?curly?braces?and?the?underscore?character?yourself?
+```hello?this?is?a?miscellaneous?example??the?flag?is?wt8gvfg5qsfkcatr??you?have?to?insert?the?curly?braces?and?the?underscore?character?yourself?```
 
 Ok, so the flag is **flag_{wt8gvfg5qsfkcatr}**
 
@@ -243,5 +256,6 @@ r.interactive()
 
 ### Godlike
 ```python
-
+codice
 ```
+**MetaCTF{i_W0N_w!thOUt_CHEat!nG!!}**

@@ -14,7 +14,14 @@ Done by:
 
 ## Cryptography
 ### Once upon a time 1
+Very trivial challenge. wcrx_{kl_hlfhlv_Silkvwfitzex_dv} is clearly "encoded" with Caesar algorithm, so just decrypt it in some way.
+**flag_{tu_quoque_Bruteforcing_me}**
+
 ### Once upon a time 2
+Again another trivial challenge, the main issue was to get the used algorithm. An easy answer is Vigenerè, which is easily bruteforceable, but some online tools would mess this up. A huge hint was given in the challenge description, saying "remember that in cryptography patience is key".
+
+With no surprise, decrypting with key = PATIENCE gives the flag: **flag_{this_was_too_easy_to_decrypt!}**
+
 ### Hashception
 The challenge starts with a file containing bunch of alphanumerical strings, and 4 strings that were the first 4 strings in the file; the challenge name also states "Blake" which could refer to an hashing algorithm, interesting.
 
@@ -71,14 +78,118 @@ Flag:
 ### Not a noob
 The important thing of this challenge was to have an idea of RC4 algorithm. RC4 is basically a XORing algorithm, and the only way to get the flag here was to suppose that the keys used were identical (as they were): this could be extracted by the fact that we told you "there is no need to bruteforce the key".
 
-Given this, the remaining part is to XOR the two images without XORing their headers. A bitwise XOR on images is performed with this command (Unix systems):
+Given this, the remaining part is to XOR the two images without XORing their headers. A bitwise XOR on images is performed with this fancy command (Unix systems):
 ```
 convert noob_1.png noob_2.png -fx "(((255*u)&(255*(1-v)))|((255*(1-u))&(255*v)))/255" noob_out.png
 ```
 Resulting in noob_out.png containing: **D0n7_reU2e_J00R_Key2**
 
 ### Bank fraud
+This wasn't a trivial challenge, however the things you had to focus on were:
+* the plaintext length
+* the block size
+
+What we have is the original ptx (SEND BOB 100$, length = 13) and its ctx (4c60fc0a8fdf3baa185c885195be64b5 2462320459dbd69ea4383c139c19999e, size1 = 16, size2 = 16). Every AES block in CBC is thus of 16 byte size. 
+
+The modified ptx should become (SEND LEO 999999$, length = 16), so we are good, staying in a single block.
+
+Briefly, AES-CBC works on fixed-size blocks (we said 16 bytes), and the ciphertext of the previous block is used to generate the next one, starting from an Initialization Vector IV. Knowing that, we can conclude that the given ctx is formed by IV and CTX_1 (remember, we use only 1 block).
+
+The CTX_N-1 is used to generate the plaintext of the next block; this is where the **bit/byte flipping attack** smashes. If we change one byte of the CTX_-N-1 then, by XORing with the next decrypted block, we will get a different plaintext! (we can say IV = CTX_0).
+
+In this case we have to modify the IV!
+
+Let's get a general idea: 
+
+```
+PTX1 = SEND BOB 100$ 		= 	53 45 4e 44 20 42 4f 42 20 31 30 30 24 00 00 00
+PTX2 = SEND LEO 999999$ 	=	53 45 4e 44 20 4c 45 4f 20 39 39 39 39 39 39 24
+IV_original			=	4c 60 fc 0a 8f df 3b aa 18 5c 88 51 95 be 64 b5 
+CTX 				= 	24 62 32 04 59 db d6 9e a4 38 3c 13 9c 19 99 9e
+
+In formulas we get:
+dec(CTX) ^ IV_original = PTX
+
+Take the 6th byte as an example (corresponding to the PTX character 'B'):
+dec(db) ^ df = 42
+
+So:
+42 ^ 07 = dec(db) = 9d
+
+We now ask ourselves, what is the number that, XORed with 9d, gives us 4c (the new char that we want, so 'L')?
+x ^ 9d = 4c	=>	4c ^ 9d = d1
+```
+
+**d1** is in fact the 6th byte of the new IV to provide as a flag. 
+Let's put it as a general formula: 
+```
+IV2[i] = ptx2[i] ^ (IV1[i] ^ ptx1[i])
+so:
+IV2[5] = 4c	 ^ (IV1[5] ^ 42)
+IV2[6] = 45	 ^ (IV1[6] ^ 4f)	
+```
+
+This can be written in Python, here you can find two different scripts:
+
 ```python
+-------------
+| SCRIPT 1  | (inputs are different)
+-------------
+
+iv = [0x49,0x86,0xc2,0x88,0x7a,0x1d,0xfd,0xed,0xea,0xfd,0xab,0x18,0x93,0x8c,0x00,0x19]
+ctx = '4c691cb28b4d399bea66f6fa9caae243'
+
+ptx1 = [0x53,0x45,0x4e,0x44,0x20,0x42,0x4f,0x42,0x20,0x31,0x30,0x30,0x24,0x00,0x00,0x00]
+ptx2 = [0x53,0x45,0x4e,0x44,0x20,0x4c,0x45,0x4f,0x20,0x39,0x39,0x39,0x39,0x39,0x39,0x24]
+
+res=''
+for i in range(0,5):
+    res += hex(iv[i])[-2:]
+
+for i in range(5,len(iv)):
+    res += (hex(ptx2[i] ^ (iv[i] ^ ptx1[i]))[-2:])
+    
+print(res + ' ' + ctx)
+
+-------------
+| SCRIPT 2  |
+-------------
+
+def stringToHexNum(n):
+    return int(n, 16)
+    
+iv2 = '4c60fc0a8fdf3baa185c885195be64b5'
+ctx = '2462320459dbd69ea4383c139c19999e'
+iv = []
+ptx1 = []
+ptx2 = []
+
+a = 'SEND BOB 100$'
+b = 'SEND LEO 999999$'
+
+for i in range(0,len(iv2),2):
+    iv.append(iv2[i] + iv2[i+1])
+
+for i in range(0,len(a)):
+    ptx1.append(format(ord(a[i]), "x"))
+
+for i in range(len(a),16):
+    ptx1.append('00')
+
+for i in range(0,len(b)):
+    ptx2.append(format(ord(b[i]), "x"))
+
+res=''
+for i in range(0,5):
+    res += iv[i]
+
+for i in range(5,len(iv)):
+    x = stringToHexNum(ptx2[i])
+    y = stringToHexNum(iv[i])
+    z = stringToHexNum(ptx1[i])
+    res += hex(x ^ (y ^ z))[-2:]
+    
+print(res + ' ' + ctx)
 
 ```
 ## Forensics

@@ -210,10 +210,50 @@ print(res + ' ' + ctx)
 
 ## Miscellaneous
 ### Trust me
-### Papernote
-```python
+Very easy challenge, what we have to do is to recognize the "encryption" used, that in this case is clearly Base64 (easy to guess from the = at the end). A little hint was already there, because I know a lot of people who think that B64 is an encryption method, just because it's something different from text.
 
+We can easily decode all the strings and get: 
 ```
+MzY0XzRuXw== -> 364_4n_  
+M25jcnlwdDEw -> 3ncrypt10
+bj9fbjQ0NDQ= -> n?_n4444
+NDQ0NGh9 -> 4444h}
+ZmxhZ197 -> flag_{
+MXNfYjRz -> 1s_b4s
+```
+
+A quick reordering and we get the flag: **flag_{1s_b4s364_4n_3ncrypt10n?_n44444444h}**
+
+### Papernote
+This challenge was quite tricky honestly. The description says: *I have an EXCLUSIVE news 4 you: this is NOT the flag!*
+
+What we have to do is to basically try to understand this: we get EXCLUSIVE, 4 and NOT as key words to remember. With some immagination we can suppose to take the input and apply two operations: a XOR and a NOT. A XOR, for who doesn't know, is an EXCLUSIVE OR operation, so this makes sense. At the same time, we must find a number to make the XOR with: 4 seems perfect!
+
+Now we can start trying (operations order won't be a problem, we can XOR and then NOT or viceversa), the only thing we have to be careful is that they will be bitwise operations. We can perform them with online tools or with a very simple Python script, as shon below:
+
+```python
+def stringToHexNum(n):
+    return int(n, 16)
+    
+input = '9d979a9ca480caa497ca90c8a497cb9cca98a4cb8bc8cf8fcacb958886'
+
+iv = []
+res = ''
+
+# split the input byte by byte
+for i in range(0,len(input),2):
+    iv.append(input[i] + input[i+1])
+
+# for each byte perform a XOR with 4 and a NOT
+for i in range(0,len(iv)):
+    x = stringToHexNum(iv[i])
+    res += chr(stringToHexNum(hex(~(x ^ 4) & 0xff)[2:]))
+    
+print(res)
+```
+
+The flag is: **flag_{1_l1k3_l0g1c_0p34t10ns}**
+
 ### Throwback
 The main issue with this challenge is that the given string highly reminds base4 numbers, but that was the point. We also released an hint about that, so you could get the real language used (Morse code). Morse code is actually a quaternary code, with 4 main characters: 
 * Line
@@ -368,7 +408,104 @@ r.interactive()
 **MetaCTF{c_strings_are_the_best_strings}**
 
 ### Godlike
+One of the hardest challenges, I'm not gonna lie. Given the fact that here there is one intended solution and an unintended one, we will focus mainly on the first one.
+Let's play with the binary: what we can immediately get is that earning "legit" money won't be feasible, so we must search for a better approach. I will divide the exploitation in two main phases.
+
+> Getting the shoutout
+
+**Unintended:** by betting A LOT, always all of your money, you will eventually succeed to get enough money to legally buy the shoutout. However this was not the best way to solve that part, also because you may fight against probability.
+
+**Intended:** by looking at the source code, we can notice something interesting in the purchase() function:
+```c
+void purchase()      
+{        
+    std::map<std::string, unsigned long long> prices{
+        {"tool", 100},                                                                                  
+        {"encouragement", 20},
+        {"shout-out-from-literally-god", 1000000000000000ULL}};
+                                                    
+    std::string option{};                                                                               
+    do {
+        std::cout << "What would you like to buy? Options are ";
+        for (auto& entry : prices) {
+            std::cout << entry.first << " (cost: " << entry.second << "), ";
+        }
+        std::cout << "or cancel" << std::endl;
+        std::cin >> option;
+        if (option == "cancel") {
+            return;
+        }
+    } while (prices.find(option) == prices.end());
+
+    unsigned long long count{0};
+    do {
+        std::cout << "How many would you like to buy? Must be greater than 0 (count, player_funds)" << std::endl;
+        std::cin >> count;
+    } while (!std::cin.good() || !count);
+
+    auto item_cost{prices.at(option)};
+    auto total{item_cost * count};
+
+    if (total > player_funds) {
+        std::cout << "You don't have the money for that!" << std::endl;
+        return;
+    }
+...
+```
+
+When purchasing, an `auto total{item_cost * count};` variable will be calculated (auto means that the variable type will be assigned automatically). What's the problem here? An **integer overflow** is possible (remember that overflows are not only on buffers) meaning that we should try to get a precise number that leads to a `total` variable equal to 0, 0 because it's always a good price.
+
+Let's split a bit the problem to understand it better: 
+* We are in control of the `count` variable, and only of that (it's an `unsigned long long`)
+* The maximum number that can be stored in an `unsigned ll` is 2^64, so 18,446,744,073,709,551,616, call it `max_ull`
+* An integer overflow happens when we try to store a bigger number, so we want to do this
+* When overflowing, the number will be divided by `max_ull` (integer division, modulo) and stored
+
+Now that this is clear, write some math to get the desired value `x`, given the `shoutout_cost`:
+`
+x * shoutout_cost = 0 (mod max_ull)
+so:
+x * 1000000000000000 = 0 (mod 18446744073709551616)
+x = 562949953421312 * c, where c is a constant
+`
+
+Easy, now we will just send 562949953421312 as quantity for the shoutout and God will talk to us, but it's not over yet!
+
+> Retrieving the flag
+
+Unfortunately God seems not to be really happy, so let's have a deeper look to the code:
+```c
+...
+ else if (option == "shout-out-from-literally-god") {
+        bool god_is_happy = rand() & 0xFFFFFF == 0;
+        bool* god_is_really_happy = &god_is_happy;
+        printf("Hmmmm\n");
+        printf(name.c_str());
+        printf("\nYou have done well!\n");
+        printf("Good job!\n");
+
+        if (*god_is_really_happy) {
+            printf("I'm feeling generous right now!\nHave a flag!\n");
+            std::ifstream t("flag.txt");
+            std::string str((std::istreambuf_iterator<char>(t)),
+                            std::istreambuf_iterator<char>());
+            std::cout << str << std::endl;
+        }
+...
+```
+ALWAYS look carefully at every possible vulnerability, here we have one of the most common: **Format String**.
+
+When the program starts we are asked for a name. Nice, but what happens is that this name is then printed just before the shoutout with a printf... 
+
+Input is never sanitized or modified, so this looks quite promising: just try with a %x as name, you will see some leaks when getting the shoutout. The issue is now how to make God really happy, and the solution is the "classing" writing with a Format String. Using %n will write the number of characters written so far. Basically, it means that %n will write the size of our input at the address pointed by %n.
+
+After some local debugging with gdb looking at the stack and variables locations, we discover that `god_is_really_happy` variable is the 12th pointer to be printed. We did it!
+
+We just need to print 12 pointers with %p%p%p%p%p%p%p%p%p%p%p%p as name and see if everything is working as intended. The last missing part is to craft the actual name, so we want to put "something" different from 0 to the 12th pointer.
+
+Let's try with AAAA%12$n, meaning: *write the length of 'AAAA' (4) as 12th parameter*, this works and we will leak the flag.
+
+Final script: 
 ```python
-codice
 ```
 **MetaCTF{i_W0N_w!thOUt_CHEat!nG!!}**

@@ -95,7 +95,7 @@ The modified ptx should become (SEND LEO 999999$, length = 16), so we are good, 
 
 Briefly, AES-CBC works on fixed-size blocks (we said 16 bytes), and the ciphertext of the previous block is used to generate the next one, starting from an Initialization Vector IV. Knowing that, we can conclude that the given ctx is formed by IV and CTX_1 (remember, we use only 1 block).
 
-The CTX_N-1 is used to generate the plaintext of the next block; this is where the **bit/byte flipping attack** smashes. If we change one byte of the CTX_-N-1 then, by XORing with the next decrypted block, we will get a different plaintext! (we can say IV = CTX_0).
+The CTX_N-1 is used to generate the plaintext of the next block; this is where the **bit/byte flipping attack** smashes. If we change one byte of the CTX_N-1 then, by XORing with the next decrypted block, we will get a different plaintext! (we can say IV = CTX_0).
 
 In this case we have to modify the IV!
 
@@ -105,7 +105,7 @@ Let's get a general idea:
 PTX1 = SEND BOB 100$ 		= 	53 45 4e 44 20 42 4f 42 20 31 30 30 24 00 00 00
 PTX2 = SEND LEO 999999$ 	=	53 45 4e 44 20 4c 45 4f 20 39 39 39 39 39 39 24
 IV_original			=	4c 60 fc 0a 8f df 3b aa 18 5c 88 51 95 be 64 b5 
-CTX 				= 	24 62 32 04 59 db d6 9e a4 38 3c 13 9c 19 99 9e
+CTX_1 				= 	24 62 32 04 59 db d6 9e a4 38 3c 13 9c 19 99 9e
 
 In formulas we get:
 dec(CTX) ^ IV_original = PTX
@@ -114,7 +114,7 @@ Take the 6th byte as an example (corresponding to the PTX character 'B'):
 dec(db) ^ df = 42
 
 So:
-42 ^ 07 = dec(db) = 9d
+42 ^ df = dec(db) = 9d
 
 We now ask ourselves, what is the number that, XORed with 9d, gives us 4c (the new char that we want, so 'L')?
 x ^ 9d = 4c	=>	4c ^ 9d = d1
@@ -123,10 +123,7 @@ x ^ 9d = 4c	=>	4c ^ 9d = d1
 **d1** is in fact the 6th byte of the new IV to provide as a flag. 
 Let's put it as a general formula: 
 ```
-IV2[i] = ptx2[i] ^ (IV1[i] ^ ptx1[i])
-so:
-IV2[5] = 4c	 ^ (IV1[5] ^ 42)
-IV2[6] = 45	 ^ (IV1[6] ^ 4f)	
+IV_modified[i] = PTX2[i] ^ (IV_original[i] ^ PTX1[i])
 ```
 
 This can be written in Python, here you can find two different scripts:

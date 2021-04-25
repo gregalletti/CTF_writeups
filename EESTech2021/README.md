@@ -99,6 +99,11 @@ The CTX_N-1 is used to generate the plaintext of the next block; this is where t
 
 In this case we have to modify the IV!
 
+In the following picture you can see the decryption process of AES-CBC, so considering only the first block, the CTX will be first decrypted (with an unknown key) and then XORed with the IV. We provide both the IV and the CTX, so we are in total control of this.
+
+![Alt text](./Cattura.PNG?raw=true "Title")
+
+
 Let's get a general idea: 
 
 ```

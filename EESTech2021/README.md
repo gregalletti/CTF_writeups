@@ -505,7 +505,7 @@ We just need to print 12 pointers with %p%p%p%p%p%p%p%p%p%p%p%p as name and see 
 
 Let's try with AAAA%12$n, meaning: *write the length of 'AAAA' (4) as 12th parameter*, this works and we will leak the flag.
 
-Final script: 
+Curiously enough, this challenge was solvable directly from the terminal by copy-pasting those 2 needed inputs, but here we write a more elegant way with a Python script: 
 ```python
 ```
 **MetaCTF{i_W0N_w!thOUt_CHEat!nG!!}**

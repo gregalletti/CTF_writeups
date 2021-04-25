@@ -107,6 +107,7 @@ decoded = decoded.replace("3", "\n")
 print(decoded)
 ```
 Resulting in:
+```
 .... . .-.. .-.. --- 
  - .... .. ... 
  .. ... 
@@ -129,7 +130,7 @@ Resulting in:
  ..- -. -.. . .-. ... -.-. --- .-. . 
  -.-. .... .- .-. .- -.-. - . .-. 
  -.-- --- ..- .-. ... . .-.. ..-. .-.-.-
-
+```
 This is clearly Morse code, so let's just convert it into text (a lot of online tools available), resulting in:
 
 hello?this?is?a?miscellaneous?example??the?flag?is?wt8gvfg5qsfkcatr??you?have?to?insert?the?curly?braces?and?the?underscore?character?yourself?

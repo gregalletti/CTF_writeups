@@ -6,10 +6,16 @@ Formed by:
 * [Stefano Bagarin](https://github.com/stepolimi)
 
 # Write Ups - Categories and Points
+## Web
+### Secret code
+### Old website
+### Note viewer
+### Bad redirects
+
 ## Cryptography
-
+### Once upon a time 1
+### Once upon a time 2
 ### Hashception
-
 The challenge starts with a file containing bunch of alphanumerical strings, and 4 strings that were the first 4 strings in the file; the challenge name also states "Blake" which could refer to an hashing algorithm, interesting.
 
 The strings length is repeated in a cyclic way, so:
@@ -62,9 +68,21 @@ Flag:
 
 **flag_{1t3r4t1v3_h4sh_cr4ck1ng_1s_qu1t3_c00l_w1th_pyth0n}**
 
+### Not a noob
+### Bank fraud
+
 ## Forensics
+### Succulent
+### Little riddle
+### Little haystack
+### Big haystack
+### Blackhole
+### German espionage
 
 ## Miscellaneous
+### Trust me
+### Papernote
+### Throwback
 ### EESTudios
 We are given 2 audio tracks, one "Studio" version and one "Official" version: this already was an hint, due to the fact that having 2 tracks and knowning there is a watermark (or a sort of copyright) we can conclude that we should do some operations between them. To solve it we can open the two tracks with ```Audacity``` to see if just the spectrum of the leaked track contains, for example, an image with the flag (common thing with audio steganography challenges). 
 
@@ -75,8 +93,8 @@ Here is the flag:
 **flag_{you_did_it}**
 
 ## Reversing
+### Homemade Encryption
 ### Password Here Please
-
 The challenge consinsted in reverse engineering a ```Python``` code to find the string that gets throught each check. The first step was just understanding that the problem could be divided in 4 parts.
 
 The first part (lines 5-7) was just a check on the lenght of the string that must be 24 characters. 
@@ -98,6 +116,8 @@ Once understood that, there was only left to find each value and reorder them.
 The result was the 3 substrings togheter.
 
 **r3verS!ng_pyTh0n_fOr_FUn**
+
+### Emotet is between us
 
 ## Pwn
 ### Binary1.0
@@ -139,3 +159,4 @@ r.interactive()
 
 **MetaCTF{c_strings_are_the_best_strings}**
 
+### Godlike

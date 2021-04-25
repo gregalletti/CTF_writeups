@@ -462,12 +462,12 @@ Let's split a bit the problem to understand it better:
 * When overflowing, the number will be divided by `max_ull` (integer division, modulo) and stored
 
 Now that this is clear, write some math to get the desired value `x`, given the `shoutout_cost`:
-`
+```
 x * shoutout_cost = 0 (mod max_ull)
 so:
 x * 1000000000000000 = 0 (mod 18446744073709551616)
 x = 562949953421312 * c, where c is a constant
-`
+```
 
 Easy, now we will just send 562949953421312 as quantity for the shoutout and God will talk to us, but it's not over yet!
 

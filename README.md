@@ -32,6 +32,7 @@ Our members:
 |Reply CyberSecurity Challenge (*as FancyBits*)|227th|09 Oct 2020|[CTFtime](https://ctftime.org/event/1131)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/Reply2020)|
 
 > And here the CTFs we hosted:
+
 | Name | Date |Link|Write-ups|
 |:----:|:----:|:--:|:-------:|
 |EESTech Challenge 2021|24 Apr 2021|[ctfd](https://mesa.ctfd.io/)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/EESTech2021)|

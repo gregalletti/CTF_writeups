@@ -1,7 +1,7 @@
 # EESTech Challenge 2021 Official Write-ups
 We helped EESTech and Mesa to organize and manage the CTF, and here you can find all the writeups of the challenges.
 
-Formed by: 
+Done by: 
 * [Gregorio Galletti](https://github.com/gregalletti)
 * [Stefano Bagarin](https://github.com/stepolimi)
 
@@ -69,20 +69,73 @@ Flag:
 **flag_{1t3r4t1v3_h4sh_cr4ck1ng_1s_qu1t3_c00l_w1th_pyth0n}**
 
 ### Not a noob
-### Bank fraud
+```python
 
+```
+### Bank fraud
+```python
+
+```
 ## Forensics
 ### Succulent
 ### Little riddle
 ### Little haystack
+```python
+
+```
 ### Big haystack
+```python
+
+```
 ### Blackhole
 ### German espionage
 
 ## Miscellaneous
 ### Trust me
 ### Papernote
+```python
+
+```
 ### Throwback
+```python
+encoded = "0000202010020100211123212000020020002320020002320123211200200021010202010020100201210202111200120002320210012012112011020100202010101232120000202320010201002012110232002000232011212111002110200012001021102000002110120002001021012101020121201021100112321011211120012320000201200012023212111232002102000202010212321200002023210102001201020100210112321000201020121010202000232012102100232120000202320012102100202010200021010211120102023210102000020120102012101021202010232101121112001201020002020100200102010101"
+decoded = encoded.replace("0", ".")
+decoded = decoded.replace("1", "-")
+decoded = decoded.replace("2", " ")
+decoded = decoded.replace("3", "\n")
+
+print(decoded)
+```
+Resulting in:
+.... . .-.. .-.. --- 
+ - .... .. ... 
+ .. ... 
+ .- 
+ -- .. ... -.-. . .-.. .-.. .- -. . --- ..- ... 
+ . -..- .- -- .--. .-.. . .-.-.- 
+ - .... . 
+ ..-. .-.. .- --. 
+ .. ... 
+ .-- - ---.. --. ...- ..-. --. ..... --.- ... ..-. -.- -.-. .- - .-. --..-- 
+ -.-- --- ..- 
+ .... .- ...- . 
+ - --- 
+ .. -. ... . .-. - 
+ - .... . 
+ -.-. ..- .-. .-.. -.-- 
+ -... .-. .- -.-. . ... 
+ .- -. -.. 
+ - .... . 
+ ..- -. -.. . .-. ... -.-. --- .-. . 
+ -.-. .... .- .-. .- -.-. - . .-. 
+ -.-- --- ..- .-. ... . .-.. ..-. .-.-.-
+
+This is clearly Morse code, so let's just convert it into text (a lot of online tools available), resulting in:
+
+hello?this?is?a?miscellaneous?example??the?flag?is?wt8gvfg5qsfkcatr??you?have?to?insert?the?curly?braces?and?the?underscore?character?yourself?
+
+Ok, so the flag is **flag_{wt8gvfg5qsfkcatr}**
+
 ### EESTudios
 We are given 2 audio tracks, one "Studio" version and one "Official" version: this already was an hint, due to the fact that having 2 tracks and knowning there is a watermark (or a sort of copyright) we can conclude that we should do some operations between them. To solve it we can open the two tracks with ```Audacity``` to see if just the spectrum of the leaked track contains, for example, an image with the flag (common thing with audio steganography challenges). 
 
@@ -94,6 +147,34 @@ Here is the flag:
 
 ## Reversing
 ### Homemade Encryption
+The given code is:
+```python
+import binascii
+key = "graAhogG"
+def mystery(s):
+    r = ""
+    for i, c in enumerate(s):
+        r += chr(ord(c) ^ ((i * ord(key[i % len(key)])) % 256))
+    return binascii.hexlify(bytes(r, "utf-8"))
+```
+Seems cool right? Well yes, but actually no. 
+What happens with every pure XORing encrypting algorithm? That if the key is known, we can just apply again the encription to decrypt the cyphertext! 
+In this case we know the key (graAhogG), so given the ctx as input we can trivially invert everything like this:
+
+```python
+import binascii
+key = "graAhogG"
+flag= "661ec2a3c2a4c3bf5009c2995970c295c2a9c299c3bcc3814111c3a0c28dc2ab4f69c2a7"
+def mystery(s):
+    r = ""
+    t = binascii.unhexlify(s).decode("utf-8")
+    for i, c in enumerate(t):
+        r += chr(ord(c) ^ ((i * ord(key[i % len(key)])) % 256))
+    return bytes(r, "utf-8")
+
+print(mystery(flag))
+```
+
 ### Password Here Please
 The challenge consinsted in reverse engineering a ```Python``` code to find the string that gets throught each check. The first step was just understanding that the problem could be divided in 4 parts.
 
@@ -160,3 +241,6 @@ r.interactive()
 **MetaCTF{c_strings_are_the_best_strings}**
 
 ### Godlike
+```python
+
+```

@@ -93,11 +93,11 @@ What we have is the original ptx (SEND BOB 100$, length = 13) and its ctx (4c60f
 
 The modified ptx should become (SEND LEO 999999$, length = 16), so we are good, staying in a single block.
 
-Briefly, AES-CBC works on fixed-size blocks (we said 16 bytes), and the ciphertext of the previous block is used to generate the next one, starting from an Initialization Vector IV. Knowing that, we can conclude that the given ctx is formed by IV and CTX_1 (remember, we use only 1 block).
+Briefly, AES-CBC works on fixed-size blocks (we said 16 bytes), and during *encryption* the ciphertext of the previous block is used to generate the next one, starting from an Initialization Vector IV (we can say IV = CTX_0). Knowing that, we can conclude that the given ctx is formed by IV and CTX_1 (remember, we use only 1 block).
 
-The CTX_N-1 is used to generate the plaintext of the next block; this is where the **bit/byte flipping attack** smashes. If we change one byte of the CTX_N-1 then, by XORing with the next decrypted block, we will get a different plaintext! (we can say IV = CTX_0).
+During *decryption*, the CTX_N-1 is used to generate the plaintext of the next block; this is where the **bit/byte flipping attack** smashes. If we change one byte of the CTX_N-1 then, by XORing with the next decrypted block, we will get a different plaintext!
 
-In this case we have to modify the IV!
+In this case we control the CTX_1, thus we have to modify the previous block: IV!
 
 In the following picture you can see the decryption process of AES-CBC, so considering only the first block, the CTX will be first decrypted (with an unknown key) and then XORed with the IV. We provide both the IV and the CTX, so we are in total control of this.
 

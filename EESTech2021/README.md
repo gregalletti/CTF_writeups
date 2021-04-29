@@ -8,6 +8,7 @@ Done by:
 # Write Ups - Categories and Points
 ## Web
 ### Secret code
+![c](https://img.shields.io/badge/Points-250-blue)
 ### Old website
 ### Note viewer
 ### Bad redirects

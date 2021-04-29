@@ -1,5 +1,6 @@
 # EESTech Challenge 2021 Official Write-ups
 We helped EESTech and Mesa to organize and manage the CTF, and here you can find all the writeups of the challenges.
+**Disclaimer:** those are *our* personal solutions, so feel free to contact us if you think your solution is better!
 
 Done by: 
 * [Gregorio Galletti](https://github.com/gregalletti)
@@ -306,7 +307,9 @@ Ok, so the flag is **flag_{wt8gvfg5qsfkcatr}**
 ### EESTudios ![c](https://img.shields.io/badge/75_points-green)
 We are given 2 audio tracks, one "Studio" version and one "Official" version: this already was an hint, due to the fact that having 2 tracks and knowning there is a watermark (or a sort of copyright) we can conclude that we should do some operations between them. To solve it we can open the two tracks with ```Audacity``` to see if just the spectrum of the leaked track contains, for example, an image with the flag (common thing with audio steganography challenges). 
 
-This was right, but we just wanted to fool you ("Nice try! This is not the flag" is displayed). A watermarked audio theoretically contains more than the non-watermarked one, so invert the second one (```Effects > Invert > Built-in-Effect: Invert```) and mix them (```Tracks > Mix > Mix and Render```): the result is, as expected, the actual watermark. By listening it, this is the spelling of the flag.
+![Alt text](./spectrum.PNG?raw=true "Title")
+
+This was right, but we just wanted to fool you. A watermarked audio theoretically contains more than the non-watermarked one, so invert the second one (```Effects > Invert > Built-in-Effect: Invert```) and mix them (```Tracks > Mix > Mix and Render```): the result is, as expected, the actual watermark. By listening it, this is the spelling of the flag.
 
 Here is the flag: 
 

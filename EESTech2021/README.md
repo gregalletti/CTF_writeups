@@ -7,22 +7,22 @@ Done by:
 
 # Write Ups - Categories and Points
 ## Web
-### Secret code ![c](https://img.shields.io/badge/10_points-green)
-### Old website ![c](https://img.shields.io/badge/20_points-green)
+### Secret code ![c](https://img.shields.io/badge/20_points-green)
+### Old website ![c](https://img.shields.io/badge/30_points-green)
 ### Note viewer ![c](https://img.shields.io/badge/75_points-green)
 ### Bad redirects ![c](https://img.shields.io/badge/100_points-green)
 
 ## Cryptography
-### Once upon a time 1
+### Once upon a time 1 ![c](https://img.shields.io/badge/10_points-green)
 Very trivial challenge. wcrx_{kl_hlfhlv_Silkvwfitzex_dv} is clearly "encoded" with Caesar algorithm, so just decrypt it in some way.
 **flag_{tu_quoque_Bruteforcing_me}**
 
-### Once upon a time 2
+### Once upon a time 2 ![c](https://img.shields.io/badge/20_points-green)
 Again another trivial challenge, the main issue was to get the used algorithm. An easy answer is Vigenerè, which is easily bruteforceable, but some online tools would mess this up. A huge hint was given in the challenge description, saying "remember that in cryptography patience is key".
 
 With no surprise, decrypting with key = PATIENCE gives the flag: **flag_{this_was_too_easy_to_decrypt!}**
 
-### Hashception
+### Hashception ![c](https://img.shields.io/badge/50_points-green)
 The challenge starts with a file containing bunch of alphanumerical strings, and 4 strings that were the first 4 strings in the file; the challenge name also states "Blake" which could refer to an hashing algorithm, interesting.
 
 The strings length is repeated in a cyclic way, so:
@@ -75,7 +75,7 @@ Flag:
 
 **flag_{1t3r4t1v3_h4sh_cr4ck1ng_1s_qu1t3_c00l_w1th_pyth0n}**
 
-### Not a noob
+### Not a noob ![c](https://img.shields.io/badge/75_points-green)
 The important thing of this challenge was to have an idea of RC4 algorithm. RC4 is basically a XORing algorithm, and the only way to get the flag here was to suppose that the keys used were identical (as they were): this could be extracted by the fact that we told you "there is no need to bruteforce the key".
 
 Given this, the remaining part is to XOR the two images without XORing their headers. A bitwise XOR on images is performed with this fancy command (Unix systems):
@@ -84,7 +84,7 @@ convert noob_1.png noob_2.png -fx "(((255*u)&(255*(1-v)))|((255*(1-u))&(255*v)))
 ```
 Resulting in noob_out.png containing: **D0n7_reU2e_J00R_Key2**
 
-### Bank fraud
+### Bank fraud ![c](https://img.shields.io/badge/100_points-green)
 This wasn't a trivial challenge, however the things you had to focus on were:
 * the plaintext length
 * the block size
@@ -195,21 +195,21 @@ print(res + ' ' + ctx)
 
 ```
 ## Forensics
-### Succulent
-### Little riddle
-### Little haystack
+### Succulent ![c](https://img.shields.io/badge/10_points-green)
+### Little riddle ![c](https://img.shields.io/badge/20_points-green)
+### Little haystack ![c](https://img.shields.io/badge/30_points-green)
 ```python
 
 ```
-### Big haystack
+### Big haystack ![c](https://img.shields.io/badge/50_points-green)
 ```python
 
 ```
-### Blackhole
-### German espionage
+### Blackhole ![c](https://img.shields.io/badge/50_points-green)
+### German espionage ![c](https://img.shields.io/badge/75_points-green)
 
 ## Miscellaneous
-### Trust me
+### Trust me ![c](https://img.shields.io/badge/10_points-green)
 Very easy challenge, what we have to do is to recognize the "encryption" used, that in this case is clearly Base64 (easy to guess from the = at the end). A little hint was already there, because I know a lot of people who think that B64 is an encryption method, just because it's something different from text.
 
 We can easily decode all the strings and get: 
@@ -224,7 +224,7 @@ MXNfYjRz -> 1s_b4s
 
 A quick reordering and we get the flag: **flag_{1s_b4s364_4n_3ncrypt10n?_n44444444h}**
 
-### Papernote
+### Papernote ![c](https://img.shields.io/badge/20_points-green)
 This challenge was quite tricky honestly. The description says: *I have an EXCLUSIVE news 4 you: this is NOT the flag!*
 
 What we have to do is to basically try to understand this: we get EXCLUSIVE, 4 and NOT as key words to remember. With some immagination we can suppose to take the input and apply two operations: a XOR and a NOT. A XOR, for who doesn't know, is an EXCLUSIVE OR operation, so this makes sense. At the same time, we must find a number to make the XOR with: 4 seems perfect!
@@ -254,7 +254,7 @@ print(res)
 
 The flag is: **flag_{1_l1k3_l0g1c_0p34t10ns}**
 
-### Throwback
+### Throwback ![c](https://img.shields.io/badge/50_points-green)
 The main issue with this challenge is that the given string highly reminds base4 numbers, but that was the point. We also released an hint about that, so you could get the real language used (Morse code). Morse code is actually a quaternary code, with 4 main characters: 
 * Line
 * Point
@@ -303,7 +303,7 @@ This is clearly Morse code, so let's just convert it into text (a lot of online 
 
 Ok, so the flag is **flag_{wt8gvfg5qsfkcatr}**
 
-### EESTudios
+### EESTudios ![c](https://img.shields.io/badge/75_points-green)
 We are given 2 audio tracks, one "Studio" version and one "Official" version: this already was an hint, due to the fact that having 2 tracks and knowning there is a watermark (or a sort of copyright) we can conclude that we should do some operations between them. To solve it we can open the two tracks with ```Audacity``` to see if just the spectrum of the leaked track contains, for example, an image with the flag (common thing with audio steganography challenges). 
 
 This was right, but we just wanted to fool you ("Nice try! This is not the flag" is displayed). A watermarked audio theoretically contains more than the non-watermarked one, so invert the second one (```Effects > Invert > Built-in-Effect: Invert```) and mix them (```Tracks > Mix > Mix and Render```): the result is, as expected, the actual watermark. By listening it, this is the spelling of the flag.
@@ -313,7 +313,7 @@ Here is the flag:
 **flag_{you_did_it}**
 
 ## Reversing
-### Homemade Encryption
+### Homemade Encryption ![c](https://img.shields.io/badge/20_points-green)
 The given code is:
 ```python
 import binascii
@@ -342,7 +342,7 @@ def mystery(s):
 print(mystery(flag))
 ```
 
-### Password Here Please
+### Password Here Please ![c](https://img.shields.io/badge/85_points-green)
 The challenge consinsted in reverse engineering a ```Python``` code to find the string that gets throught each check. The first step was just understanding that the problem could be divided in 4 parts.
 
 The first part (lines 5-7) was just a check on the lenght of the string that must be 24 characters. 
@@ -365,7 +365,7 @@ The result was the 3 substrings togheter.
 
 **r3verS!ng_pyTh0n_fOr_FUn**
 
-### Emotet is between us
+### Emotet is between us ![c](https://img.shields.io/badge/125_points-green)
 One of the most difficult challenges of the CTF, also because is not something so common. We gave you a .doc file saying that it was a malware (obviously not actually dangerous), and the first thing to notice is that an usual practice in malwares is to use macros to execute commands in backgroud, not visible by the users. 
 
 And also this is the case. In fact, by opening the file with Word for example, disabling security blocks for macros (sometimes also disabling Windows Defender is necessary) we can access the VBA code. Let's take a look at it:
@@ -545,7 +545,7 @@ Still awful, but we get human-readable strings and if you look closely you can r
 **MetaCTF{aint_no_visual_basic_activex_malware_gonna_hide_from_you}**
 
 ## Pwn
-### Binary1.0
+### Binary1.0 ![c](https://img.shields.io/badge/20_points-green)
 This challenge is very trivial. Our goal is to bypass the if statement and execute the system function. to bypass the boolean controll we must modify the "isAuthenicated" variable from 0 to any other value, in simple terms we must overflow the buffer (48 bytes) with a payload of 48+8 bytes long; in this way we overwrite the content of "isAuthenticated" variable and wether the last eight bytes of the payload are different from zero we have bypassed the if statement and we get the flag.
 
 Written in Python this is:
@@ -564,7 +564,7 @@ r.interactive()
 
 **MetaCTF{just_a_little_auth_bypass}**
 
-### Binary2.0
+### Binary2.0 ![c](https://img.shields.io/badge/30_points-green)
 This challenge is quite similar to the previus one. We always have to do a buffer owerflow in this way: to bypass the string comparison our buffer must start with "Sup3rs3cr3tC0de" string and it must overwrite RIP with the address of the win function. The below script is auto-esplicative.
 ```python
 from pwn import *
@@ -584,7 +584,7 @@ r.interactive()
 
 **MetaCTF{c_strings_are_the_best_strings}**
 
-### Godlike
+### Godlike ![c](https://img.shields.io/badge/125_points-green)
 One of the hardest challenges, I'm not gonna lie. Given the fact that here there is one intended solution and an unintended one, we will focus mainly on the first one.
 Let's play with the binary: what we can immediately get is that earning "legit" money won't be feasible, so we must search for a better approach. I will divide the exploitation in two main phases.
 

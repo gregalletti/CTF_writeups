@@ -10,7 +10,7 @@ Done by:
 # Write Ups - Categories and Points
 ## Web
 ### Secret code ![c](https://img.shields.io/badge/20_points-green)
-Visit https://metaproblems.com/e7fce2f2fcac584b49fe615b11784ff3/ and try to get a general idea: we only have one input field to enter the "secret code". Try to play with that, and you will see that a "You are not authenticated. Please enter the secret code to log in." will be displayed. 
+Visit https://metaproblems.com/e7fce2f2fcac584b49fe615b11784ff3/ and try to get a general idea: we only have one input field to enter the "secret code". Try to play with that, and you will see that a *You are not authenticated. Please enter the secret code to log in.* message will be displayed. 
 
 What you should do now is to think about possible attacks or vulnerabilities, like XSS or others. However this was an easy challenge, so the *authenticated* word should remind you.. **cookies**! A bad use of cookies is for authentication purposes, so let's take a look at them. 
 
@@ -41,9 +41,9 @@ User flagQFTcGP tells us that the flag is **flag_{vEyreyh7NfknZtLa}**
 ### Bad redirects ![c](https://img.shields.io/badge/100_points-green)
 The hardest Web challenge, manly because there are a lot of pages and request to check, and also a lot of **redirects**. Again the best start is to explore the website, try to play with it, and gather as much information as possible. 
 
-We can immediately notice in the Fileshare section that an admin@decacorp.com reference is here, let's keep that in mind. We can also notice by clicking on Logout that we are already logged in, but as demo@decacorp.com, so maybe we can try to log in as admin somehow. The Logout page is made tricky on purpose, expecially the Internal Wiki section: by accessing it, a "User does not have permissions to access the DecaCorp wiki. Redirecting..." message will be displayed. 
+We can immediately notice in the Fileshare section that an admin@decacorp.com reference is here, let's keep that in mind. We can also notice by clicking on Logout that we are already logged in, but as demo@decacorp.com, so maybe we can try to log in as admin somehow. The Logout page is made tricky on purpose, expecially the Internal Wiki section: by accessing it, a *User does not have permissions to access the DecaCorp wiki. Redirecting...* message will be displayed. 
 
-This could be confusing, but this section is not the focus. Looking at the HR Portal section instead, and carefully checking all the network requests made when clicking the button, we will see a baaaad request made to login.php page.
+This could be confusing, but this section is not the focus. Looking at the HR Portal section instead, and carefully checking all the network requests made when clicking the button, we will see a baaaad request made to `login.php` page.
 
 ![Alt text](./redirect.PNG?raw=true "Title")
 

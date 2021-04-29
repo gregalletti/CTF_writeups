@@ -28,11 +28,11 @@ There you go! Flag: **flag_{d0_n0t_trust_the_Us3r-4g3nt}**
 ### Note viewer ![c](https://img.shields.io/badge/75_points-green)
 Not so trivial challenge, this because the solution uses not the most common technique when taking about SQL Injection. We can see the debug query on the page, so we can get an idea of the sanitizations and checks used.
 
-By just trying some basic SQL Injection payloads we will fail, but we get to know an important thing: some really useful symbols are disabled (#, \, ...), quotes and double quotes are sanitized, and also a LIMIT 1 is added at the end to prevent us leaking all the data.
+By just trying some basic SQL Injection payloads we will fail, but we get to know an important thing: some really useful symbols are disabled (#, \\, ...), quotes and double quotes are sanitized, and also a LIMIT 1 is added at the end to prevent us leaking all the data.
 
 What we can do is to think about what is NOT disabled: if you didn't know, ``backticks ` `` in a query allow to use reserved keywords as tables or columns names, and also allow them to contain spacing. This seems what we need, so we can try to block the LIMIT by using it as an alias.
 
-We can now perform a UNION between tables (`union select 1,2`, this will just select 1 and 2) and use an alias (``AS ` ``) so that we actually block this limitation. Of course now we have to select all tuples from the table, so we can just add a standar `' or 1=1 ` at the beginning, thus retrieving all notes from all users.
+We can now perform a UNION between tables (`union select 1,2`, this will just select 1 as user and 2 as note) and use an alias (``AS ` ``) so that we actually block this limitation. Of course now we have to select all tuples from the table, so we can just add a standar `' or 1=1 ` at the beginning, thus retrieving all notes from all users.
 
 The final generated query will be: ``SELECT user, note FROM data WHERE user = '' or 1=1 union select 1,2 as `' LIMIT 1 ``(all tuples will pass the check `user='' or 1=1`).
 

@@ -7,11 +7,10 @@ Done by:
 
 # Write Ups - Categories and Points
 ## Web
-### Secret code
-![c](https://img.shields.io/badge/Points-250-blue)
-### Old website
-### Note viewer
-### Bad redirects
+### Secret code ![c](https://img.shields.io/badge/10_points-green)
+### Old website ![c](https://img.shields.io/badge/20_points-green)
+### Note viewer ![c](https://img.shields.io/badge/75_points-green)
+### Bad redirects ![c](https://img.shields.io/badge/100_points-green)
 
 ## Cryptography
 ### Once upon a time 1

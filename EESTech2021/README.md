@@ -1,5 +1,6 @@
 # EESTech Challenge 2021 Official Write-ups
 We helped EESTech and Mesa to organize and manage the CTF, and here you can find all the writeups of the challenges.
+
 **Disclaimer:** those are *our* personal solutions, so feel free to contact us if you think your solution is better!
 
 Done by: 
@@ -9,8 +10,28 @@ Done by:
 # Write Ups - Categories and Points
 ## Web
 ### Secret code ![c](https://img.shields.io/badge/20_points-green)
+Visit https://metaproblems.com/e7fce2f2fcac584b49fe615b11784ff3/ and try to get a general idea: we only have one input field to enter the "secret code". Try to play with that, and you will see that a "You are not authenticated. Please enter the secret code to log in." will be displayed. 
+
+What you should do now is to think about possible attacks or vulnerabilities, like XSS or others. However this was an easy challenge, so the *authenticated* word should remind you.. **cookies**! A bad use of cookies is for authentication purposes, so let's take a look at them. 
+
+We can see the `cm-authenticated` token set to 0, so just set it to 1 and refresh the page, the flag is there!
+
 ### Old website ![c](https://img.shields.io/badge/30_points-green)
+Classic User Agent challenge, of course you don't have to reinstall Internet Explorer 3.0! 
+
+Just google and search for a suitable agent string to set for your browser, set it and reload the page. From Chrome, just go on `Developer tools` and click the 3 dots in the right upper side, `More tools > Network conditions > User agent` and paste in here.
+
+We can use this: `Mozilla/3.0 (compatible; MSIE 3.0; Windows NT 5.0)`
+
+There you go! Flag: **flag_{d0_n0t_trust_the_Us3r-4g3nt}**
+
 ### Note viewer ![c](https://img.shields.io/badge/75_points-green)
+Not so trivial challenge, this because the solution uses not the most common technique when taking about SQL Injection. We can see the debug query on the page, so we can get an idea of the sanitizations and checks used.
+
+By just trying some basic SQL Injection payloads we will fail, but we get to know an important thing: some really useful symbols are disabled (#, \, ...), quotes and double quotes are sanitized, and also a LIMIT 1 is added at the end to prevent us leaking all the data.
+
+What we can do is to think about what is NOT disabled: if you didn't know, a `backtick \` `in a query
+`' or 1=1 union select 1,2 as \``
 ### Bad redirects ![c](https://img.shields.io/badge/100_points-green)
 
 ## Cryptography

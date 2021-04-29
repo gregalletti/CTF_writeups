@@ -36,7 +36,23 @@ We can now perform a UNION between tables (`union select 1,2`, this will just se
 
 The final generated query will be: ``SELECT user, note FROM data WHERE user = '' or 1=1 union select 1,2 as `' LIMIT 1 ``(all tuples will pass the check `user='' or 1=1`).
 
+User flagQFTcGP tells us that the flag is **flag_{vEyreyh7NfknZtLa}**
+
 ### Bad redirects ![c](https://img.shields.io/badge/100_points-green)
+The hardest Web challenge, manly because there are a lot of pages and request to check, and also a lot of **redirects**. Again the best start is to explore the website, try to play with it, and gather as much information as possible. 
+
+We can immediately notice in the Fileshare section that an admin@decacorp.com reference is here, let's keep that in mind. We can also notice by clicking on Logout that we are already logged in, but as demo@decacorp.com, so maybe we can try to log in as admin somehow. The Logout page is made tricky on purpose, expecially the Internal Wiki section: by accessing it, a "User does not have permissions to access the DecaCorp wiki. Redirecting..." message will be displayed. 
+
+This could be confusing, but this section is not the focus. Looking at the HR Portal section instead, and carefully checking all the network requests made when clicking the button, we will see a baaaad request made to login.php page.
+
+![Alt text](./redirect.PNG?raw=true "Title")
+
+Why is this bad? Look at the parameters, only the user email is sent, while the key parameter is always empty (no password is mentioned). 
+
+![Alt text](./param.PNG?raw=true "Title")
+
+At this point we may try to modify the request by changing the user from demo to admin: `http://host1.metaproblems.com:4553/login.php?username=admin@decacorp.com&key=` and boom, we are logged in as admin and the flag is in front of us! **MetaCTF{sne@ky_red1rect_troubl3makers}**
+
 
 ## Cryptography
 ### Once upon a time 1 ![c](https://img.shields.io/badge/10_points-green)

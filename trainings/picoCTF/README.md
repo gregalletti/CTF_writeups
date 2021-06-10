@@ -6,18 +6,22 @@ Authors:
 
 
 # General Skills
-### Blake's secret message
-![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-350-success)
+### X
+![c](https://img.shields.io/badge/General-grey) ![p](https://img.shields.io/badge/Points-350-success)
 
 # Cryptography
-### Blake's secret message
-![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-350-success)
+### X
+![c](https://img.shields.io/badge/Crypto-orange) ![p](https://img.shields.io/badge/Points-350-success)
+
+# Binary Exploitation
+### Stonks
+![c](https://img.shields.io/badge/Binary-red) ![p](https://img.shields.io/badge/Points-20-success)
 
 # Web Exploitation
-### Blake's secret message
-![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-350-success)
+### X
+![c](https://img.shields.io/badge/Web-purple) ![p](https://img.shields.io/badge/Points-350-success)
 
 # Reverse Engineering
-### Blake's secret message
-![c](https://img.shields.io/badge/Cryptography-orange) ![p](https://img.shields.io/badge/Points-350-success)
+### X
+![c](https://img.shields.io/badge/Reverse-blue) ![p](https://img.shields.io/badge/Points-350-success)
 

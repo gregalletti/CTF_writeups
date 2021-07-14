@@ -21,7 +21,7 @@ See if you can find the flag in the source code!
 #### Solution
 
 If you take a look at the source code of the thei site, it is easy to find the flag in an html comment.  
-![Alt text](./img/inspect-me.PNG?raw=true "Title")  
+![Alt text](./img/inspect-me.png?raw=true "Title")  
 **\*flag{inspect_me_like_123}**
 
 ### web/orm-bad ![c](https://img.shields.io/badge/102_points-green)

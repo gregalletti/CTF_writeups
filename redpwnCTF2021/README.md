@@ -46,7 +46,7 @@ Ah, the classic pastebin. Can you get the admin's cookies?
 #### solution
 
 if you open the link a box for memo appear.  
-![Alt text](./img/pastebin1.PNG?raw=true "Title")  
+![Alt text](./img/pastebin1.png?raw=true "Title")  
 When you input something and click on "create paste" an unique url for your note is created and is shown in the url in this way: `https://pastebin-1.mc.ax/view?id=aipjdvnswtuqgxky`  
 There is also another link that is an admin form for sending them a report of a problem. We can exploit the fact that the admin view the link we send and through an xss exploitation we can redirect him to our site and steal his cookies.  
 This is the payload used in this challenge:
@@ -60,7 +60,7 @@ window.location.href = url;
 ```
 
 and into our page in https://beeceptor.com/ we find the flag  
-![Alt text](./img/pastebin2.PNG?raw=true "Title")  
+![Alt text](./img/pastebin2.png?raw=true "Title")  
 **\*flag{d1dn7_n33d_70_b3_1n_ru57}**
 
 ### web/secure ![c](https://img.shields.io/badge/104_points-green)
@@ -81,7 +81,7 @@ const query = `SELECT id FROM users WHERE
 
 but if we try to expoit it with the same payload as before we got an error.  
 Thus we decide to use burp for a more detailed analysis. Using the interceptor we noticed that the two parameters (username and password) are converted in base64.  
-![Alt text](./img/secure.PNG?raw=true "Title")  
+![Alt text](./img/secure.png?raw=true "Title")  
 the simplest way to solve this challenge was to change the two parameters directly using burp and inject the same payload as before `' OR 1=1-- ` and finally we are in and we take the flag!  
 **\* flag{50m37h1n6_50m37h1n6_cl13n7_n07_600d}**
 
@@ -97,10 +97,10 @@ Some strings are wider than normal...
 
 I open the binary file with gdb, I disassemble the main an finally I found a string comparison function.  
 Thus I place a break point on `0x0000555555554874` where the function was invoked.  
-![Alt text](./img/wstrings1.PNG?raw=true "Title")  
+![Alt text](./img/wstrings1.png?raw=true "Title")  
 As you can see there is a comparison between two strings s1 and s2: s2 is my input while s1 is the flag.  
 whit this command `x /100s 0x555555554938` I'm able to se the next 100 strings starting at that address in memory. That is the output:  
-![Alt text](./img/wstrings2.PNG?raw=true "Title")  
+![Alt text](./img/wstrings2.png?raw=true "Title")  
 **\*flag{n0t_all_str1ngs_ar3_sk1nny}**
 
 ## Pwn
@@ -115,7 +115,7 @@ rob keeps making me write beginner pwn! i'll show him...
 
 This challenge is very simple. It is a buffer overflow.  
 This was the source code:  
-![Alt text](./img/beginner-generic-pwn-number-0.PNG?raw=true "Title")  
+![Alt text](./img/beginner-generic-pwn-number-0.png?raw=true "Title")  
 If we are able to overwrite the "inspirational_message_index" variable with 0xFFFFFFFF we win.  
 Also the script is self-explanatory:
 
@@ -141,7 +141,7 @@ i'll ace this board meeting with my new original challenge!
 #### Solution
 
 This is the source code:  
-![Alt text](./img/ret2generic-flag-reader.PNG?raw=true "Title")  
+![Alt text](./img/ret2generic-flag-reader.png?raw=true "Title")  
 as you can see there is also now a buffer overflow but now we must change the saved return address with the address of the function that allows us to read the flag, so `void super_generic_flag_reading_function_please_ret_to_me()`.  
 First of all we need to find the address of that function and to do that we can use gdb and disassamble our binary.  
 The address we are looking for is `0x4011f6` while the padding for buffer overflow exploitation is 32+8.  
@@ -169,7 +169,7 @@ Be sure to say please...
 #### Solution
 
 This is the source code:  
-![Alt text](./img/please.PNG?raw=true "Title")  
+![Alt text](./img/please.png?raw=true "Title")  
 as you can see there is a format string vulnerability in line 31.  
 The exploitation is very simple: we send in input "please" and a lot of %lx which print out the stuff on the stack.  
 This is the input:
@@ -211,9 +211,9 @@ I was given this string and told something about scissors.
 #### Solution
 
 this is the source code:  
-![Alt text](./img/scissor.PNG?raw=true "Title")  
+![Alt text](./img/scissor.png?raw=true "Title")  
 If you try to run this script and give in input the given string, after some attempts you get the flag:  
-![Alt text](./img/scissor2.PNG?raw=true "Title")  
+![Alt text](./img/scissor2.png?raw=true "Title")  
 **\*flag{surround_this_flag_with_flag_format}**
 
 ### crypto/baby ![c](https://img.shields.io/badge/102_points-green)
@@ -278,6 +278,6 @@ To solve the challenge we need to apply different transformation algorithm:
 - octal
 - binary
 
-![Alt text](./img/round-the-bases.PNG?raw=true "Title")
+![Alt text](./img/round-the-bases.png?raw=true "Title")
 
 **\*flag{w0w_th4t_w4s_4ll_wr4pp3d_up}**

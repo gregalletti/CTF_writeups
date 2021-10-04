@@ -25,7 +25,7 @@ Our members:
 
 | Name | Position | Date |Link|Write-ups|
 |:----:|:--------:|:----:|:--:|:-------:|
-|redpwnCTF 2021|296th|9 Lug 2021|[CTFtime](https://ctftime.org/event/1327)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/redpwn)|
+|redpwnCTF 2021|296th|9 Lug 2021|[CTFtime](https://ctftime.org/event/1327)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/redpwnCTF2021)|
 |NorzhCTF 2021|60th|21 May 2021|[CTFtime](https://ctftime.org/event/1301)||
 |#kksctf open 2020|29th|12 Dec 2020|[CTFtime](https://ctftime.org/event/1112)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/kksctf2020)|
 |CTF InterIUT 2020|26th|27 Nov 2020|[CTFtime](https://ctftime.org/event/1176)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/InterIUTCTF2020)|

@@ -21,11 +21,13 @@ Formed by:
 This challenge gives 3 files to the player: [a block of symbols](https://github.com/gregalletti/CTF_writeups/blob/main/Reply2021/One%20step%20at%20a%20time/maze.txt), [a map](https://github.com/gregalletti/CTF_writeups/blob/main/Reply2021/One%20step%20at%20a%20time/map.txt) and [an example](https://github.com/gregalletti/CTF_writeups/blob/main/Reply2021/One%20step%20at%20a%20time/example.txt). The goal here was to find in the 100x100 block of symbols the flag, using the content of the map file in order to decode it. The example.txt file gived an example of how to use the map to retrieve the flag. We figured out that to each of the 1000 maps in the map file should have correspect one letter of the maze text and after some tries we identified this pattern:
 
 map:
-> #nD>Q1={48
-> 1
-> 6
-> 4
-> 2@7B81U:*7
+```
+ #nD>Q1={48
+ 1
+ 6
+ 4
+ 2@7B81U:*7
+```
 
 The first and the last rows indicates the start and the finish of the block to be considered to find the corresponding letter. The second/fourth line gives and indication of how many rows to move up/down from the start/finish. The middle row is the distance to the right from the start of the considered block.
 Gived this knowledge, we wrote a symple python script to retrieve the identified letters:

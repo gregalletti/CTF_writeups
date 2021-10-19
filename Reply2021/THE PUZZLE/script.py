@@ -32,7 +32,7 @@ for i in range(199):
 			words_against = row.split(" ")
 			if words[3] == words_against[2]:
 				if words_against[4] != "":
-					print(words_against[4], end="")
+					print(words_against[4])
 				big_puzzle[i][j+1] = row
 
 	words = big_puzzle[i][0].split(" ")
@@ -40,7 +40,7 @@ for i in range(199):
 		words_against = row.split(" ")
 		if words[1] == words_against[0]:
 			if words_against[4] != "":
-				print(words_against[4], end="")
+				print(words_against[4])
 			big_puzzle[i+1][0] = row
 
 

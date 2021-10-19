@@ -97,7 +97,7 @@ def findCorner():
 corner_index = findCorner()
 ```
 
-that returns the index of the row corresponding to our corner.
+This code returns the index of the row corresponding to our corner.
 Now that we found our starting point, we wrote an iterative search script that for each piece searches for the element at its right untill the end of the row of the puzzle, then it finds the first element at the start of the following row and so on. This procedure is implemented in the code below:
 
 ```python

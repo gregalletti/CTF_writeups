@@ -133,6 +133,44 @@ Resulting flag:
 
 > Reunited at the Temple of Nebula, the Five Legends and R-Boy prepare their final attack.
 
+The objective of this challenge was to solve the boolean circuit below where the initial bits in input where all zeros and the successive "Ah" cicles was feeded with the outputs of the previous ones.
+
+![circuit](https://github.com/gregalletti/CTF_writeups/blob/main/Reply2021/S-Box%20For%20Dummiez/circuit.PNG)
+
+Each of the n outputs should have corresponded to a letter taken from the memory stack below represented with the big-endian convention.
+
+![memory stack](https://github.com/gregalletti/CTF_writeups/blob/main/Reply2021/S-Box%20For%20Dummiez/memory_stack.PNG)
+
+To solve this problem we implemented in python a recursive function that represents exactly the logic circuit. The function is recursevly called 10 times as it is the decimal value of A. At each iteration it takes the corresponding value from the memory stack (represented as a simple string correctly orederd) and it builds the body of the flag.
+
+```python
+dic = 'a_cdefaijkltmnopwzstueabez01200067890ABCDEFGHIJKnooodtdvw000eta?T!VW00Y!ETA?*-+/{}[]=&%£"!()abcdefghijklmnopqrsABCDEFGHIJKLNMuuuvwxipsilonnnnnnz%%/9876543210|!"£$ohdear!%&/(((()*;:_AAAABSIDEOWabcdefghijklmnopqrstuvwxyz012345678?8?8?8?9!!!!!EGIN.CERTIFICATEa_cdefaijkltmnopwzstueabez01200067890ABCDEFGHIJKnooodtdvw000eta?T!VW00Y!ETA?*-+/{}[]=&%£"!()abcdefghijklmnopqrsABCDEFGHIJKLNMuuuvwxipsilonnnnnnz%%/9876543210|!"£$ohdear!%&/(((()*;:_AAAABSIDEOWabcdefghijklmnopqrstuvwxyz012345678?8?8?8?9!!!!!EGIN.CERTIFICATE'
+flag = ""
+
+def circuit(input0, input1,input2, input3, input4, input5, input6, input7,input8, i):
+	global max_i
+	global flag
+
+	out5 = input0
+	out6 = input0 ^ input5
+	out8 = out6 ^ input8
+	out7 = input1 & input7
+	out3 = input2 ^ input3 ^ input4
+	out4 = out3 | input0 | ~input5
+	out2 = input6 ^ (input3&input4|input4&input2|input2&input3)
+	out1 = input5
+	out0 = input8 ^ out2
+
+	flag = flag + dic[int(str(abs(out8))+ str(abs(out7))+ str(abs(out6))+ str(abs(out5))+ str(abs(out4))+ str(abs(out3))+ str(abs(out2))+ str(abs(out1))+ str(abs(out0)), 2)]
+
+	if i < 10:
+		circuit(out0, out1,out2, out3, out4, out5, out6, out7,out8, i +1)
+
+circuit(0, 0,0, 0, 0, 0, 0, 0,0, 1)
+print(flag)
+```
+
+The output of this program is: ```weeGo0dY0u``` , so all that we had left to do at this point was to put it in the correct format used by all of this challenges and submit it.
 
 Resulting flag:
 

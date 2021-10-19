@@ -68,6 +68,62 @@ here, we can see the string ```{FLG:y0U_L34rNt-Th3.l4ngUa e-0f_tHe*4nC13nt5-Ord0
 
 > Thanks to the ex-con, R-boy and IronCode discover that Zer0 has hidden an encrypted file in the Forbidden Forest, which contains the coordinates of his secret lair. The file is protected by a giant dragon. Help R-Boy and IronCode defeat the dragon and take the file.
 
+The goal of this challenge was to find in the [puzzle](https://github.com/gregalletti/CTF_writeups/blob/main/Reply2021/THE%20PUZZLE/puzzle.txt) a secret code in order to access the [zip file](https://github.com/gregalletti/CTF_writeups/blob/main/Reply2021/THE%20PUZZLE/secret_room.zip) and so getting the flag. The structure of the puzzle was given by the first few rows of it:
+>First two numbers are the height and the width of the grid in which the puzzle pieces will be placed, then all the pieces are listed in a random order. 
+Every piece is composed by 4 numbers each representing an edge of the piece: upper edge, under edge, left edge and right edge. Two pieces can be connected only if the edges are equal (i.e. in order to place a piece on the left of another piece then the right edge and the left edge respectively have to be equal). 
+Some pieces also have a character engraved on them. Solving the puzzle will reveal the secret code.
+
+Given that, we started by selecting a starting point from which to start reconstructing the puzzle. We choose the upper left corner and we identified that as the piece whose first and third number didn't match respectivly with the second and fourth number of any other piece. In order to find it we wrote the function:
+
+```python
+puz = open("source.txt", "r").read()	#source.txt: sanitized puzzle without the first rows of text and size
+puzzle = puz.split("\n")
+def findCorner():
+	for i,row in enumerate(puzzle):
+		words = row.split(" ")
+		print(i)
+		found = True
+		for row2 in puzzle:
+			words2 = row2.split(" ")
+			if words[0] == words2[1]:
+				found = False
+				break
+			if words[2] == words2[3]:
+				found = False
+				break
+		if found:
+			print(i)
+			return i
+corner_index = findCorner()
+```
+
+that returns the index of the row corresponding to our corner.
+Now that we found our starting point, we wrote an iterative search script that for each piece searches for the element at its right untill the end of the row of the puzzle, then it finds the first element at the start of the following row and so on. This procedure is implemented in the code below:
+
+```python
+big_puzzle = [[0]*200]*200
+big_puzzle[0][0] = puzzle[corner]
+
+for i in range(199):
+	for j in range(199):
+		words = big_puzzle[i][j].split(" ")
+		for row in puzzle:
+			words_against = row.split(" ")
+			if words[3] == words_against[2]:
+				if words_against[4] != "":
+					print(words_against[4])
+				big_puzzle[i][j+1] = row
+
+	words = big_puzzle[i][0].split(" ")
+	for row in puzzle:
+		words_against = row.split(" ")
+		if words[1] == words_against[0]:
+			if words_against[4] != "":
+				print(words_against[4])
+			big_puzzle[i+1][0] = row
+```
+
+The output of it is: ```RPZwJYegNTPHjNQEALlFigcYxqhDBWVP``` which is exactly the password to access the flag in the zip file.
 
 Resulting flag:
 

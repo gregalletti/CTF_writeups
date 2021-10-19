@@ -10,6 +10,8 @@ Formed by:
 * [Stefano Bagarin](https://github.com/stepolimi)
 * [Andrea Donati](https://github.com/AndreaDonati)
 
+<br>
+
 # Write Ups - Categories and Points
 ## Coding
 
@@ -62,6 +64,7 @@ here, we can see the string ```{FLG:y0U_L34rNt-Th3.l4ngUa e-0f_tHe*4nC13nt5-Ord0
 
 **{FLG:y0U_L34rNt-Th3.l4ngUa6e-0f_tHe*4nC13nt5-Ord0s}**
 
+<br>
 
 ### THE PUZZLE
 ![c](https://img.shields.io/badge/Coding-orange) ![p](https://img.shields.io/badge/Points-200-success) ![a](https://img.shields.io/badge/author-grigg0swagg0,_b4g4,_dondonati-lightgrey)
@@ -126,6 +129,9 @@ The output of it is: ```RPZwJYegNTPHjNQEALlFigcYxqhDBWVP``` which is exactly the
 Resulting flag:
 
 **{FLG:++---N0t_4_H4mM3r---||}**
+
+<br>
+<br>
 
 ## Miscellaneous
 ### S-Box For Dummiez

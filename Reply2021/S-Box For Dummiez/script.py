@@ -17,14 +17,11 @@ def circuit(input0, input1,input2, input3, input4, input5, input6, input7,input8
 
 	flag = flag + dic[int(str(abs(out8))+ str(abs(out7))+ str(abs(out6))+ str(abs(out5))+ str(abs(out4))+ str(abs(out3))+ str(abs(out2))+ str(abs(out1))+ str(abs(out0)), 2)]
 
-	if i < 100:
+	if i < 10:
 		circuit(out0, out1,out2, out3, out4, out5, out6, out7,out8, i +1)
 
 circuit(0, 0,0, 0, 0, 0, 0, 0,0, 1)
 
 print(flag)
-
-
-#output: weeGo0dY0u0dY0u0dY0u0dY0u0dY0u0dY0u0dY0u0dY0u0dY0u0dY0u0dY0u0dY0u0dY0u0dY0u0dY0u0dY0u0dY0u0dY0u0dY0u
 
 # flag: FLG:weeGo0dY0u}

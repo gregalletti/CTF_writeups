@@ -12,13 +12,13 @@ We are a group of Computer Science Engineering students from Politecnico of Mila
 We started capturing flags in October 2020, and we won't stop soon!
 
 Our members: 
-* [Gregorio Galletti](https://github.com/gregalletti)
-* [Marco Gasperini](https://github.com/marcuz1996)
-* [Stefano Bagarin](https://github.com/stepolimi)
+* [Gregorio Galletti](https://github.com/gregalletti) (grigg0swagg0)
+* [Marco Gasperini](https://github.com/marcuz1996) (marcuz)
+* [Stefano Bagarin](https://github.com/stepolimi) (b4g4)
 * [Francesco Filippini](https://github.com/filippinifra)
 * [Ibrahim El Shemy](https://github.com/ibriaco)
 * [Cristian Spagnuolo](https://github.com/cris96spa)
-* [Stefano Armanes](https://github.com/stearm)
+* [Stefano Armanes](https://github.com/stearm) (ste)
 
 ## CTFs
 > Here there are all the CTFs we took part in:

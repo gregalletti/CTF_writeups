@@ -81,7 +81,6 @@ puzzle = puz.split("\n")
 def findCorner():
 	for i,row in enumerate(puzzle):
 		words = row.split(" ")
-		print(i)
 		found = True
 		for row2 in puzzle:
 			words2 = row2.split(" ")
@@ -92,7 +91,6 @@ def findCorner():
 				found = False
 				break
 		if found:
-			print(i)
 			return i
 corner_index = findCorner()
 ```
@@ -102,7 +100,7 @@ Now that we found our starting point, we wrote an iterative search script that f
 
 ```python
 big_puzzle = [[0]*200]*200
-big_puzzle[0][0] = puzzle[corner]
+big_puzzle[0][0] = puzzle[corner_index]
 
 for i in range(199):
 	for j in range(199):

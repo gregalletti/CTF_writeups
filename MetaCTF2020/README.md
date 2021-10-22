@@ -264,7 +264,7 @@ This challenge is quite similar to the previus one. we always have to do a buffe
 
 **MetaCTF{c_strings_are_the_best_strings}**
 
-#Unsolved Challenges
+# Unsolved Challenges
 ### Emotet
 They gave us a .doc file saying that it was a malware (obviously not actually dangerous), and the first thing to notice is that an usual practice in malwares is to use macros to execute commands in backgroud, not visible by the users. 
 

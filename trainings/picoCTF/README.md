@@ -15,7 +15,9 @@ Authors:
 > sdsd
 
 We can easily see that, as hinted, the modulus N is too small. In this way we can simply factor it (factordb) and get P and Q. 
+
 Now we can calculate PHI = (P-1)\*(Q-1) and D = E^(-1) mod PHI, to decrypt the given C we just calculate M = C^D mod N.
+
 Flag: **picoCTF{sma11_N_n0_g0od_73918962}**
 
 

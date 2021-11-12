@@ -26,6 +26,16 @@ Flag: **picoCTF{sma11_N_n0_g0od_73918962}**
 # Binary Exploitation
 ### Stonks
 ![c](https://img.shields.io/badge/Binary-red) ![p](https://img.shields.io/badge/Points-20-success)
+We are given a C source file, so let's search for vulnerabilities. There is a clear *format string* vulnerability at line 93, in the buy_stonks function:
+
+```c
+  printf("What is your API token?\n");
+	scanf("%300s", user_buf);
+	printf("Buying stonks with token:\n");
+	printf(user_buf);
+```
+
+Now we know we can use this to print what we need from the memory. Let's try locally, using a custom api file (the flag one) to easily recognize if we got the content.
 
 # Web Exploitation
 ### X

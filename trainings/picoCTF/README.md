@@ -86,7 +86,7 @@ Just reverse it 4 by 4 characters and we obtain the flag: **picoCTF{I_l05t_4ll_m
 We connect to a remote server and we get as result a veeeery long output, let's write it on a file and take a look. We can immediately see every lines starts with G, and then X/Y/Z and some numerical values: this is G-Code, used by 3D printers (luckily enough I already solved a G-Code challenge).
 
 We can then paste the code on [this](https://ncviewer.com/) Simulator and view the result: 
-![image](./Cattura.PNG)
+![image](./speeds.PNG)
 
 Flag: **picoCTF{num3r1cal_c0ntr0l_68a8fe29}**
 

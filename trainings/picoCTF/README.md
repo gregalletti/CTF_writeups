@@ -23,6 +23,26 @@ Now we can calculate `PHI = (P-1)*(Q-1)` and `D = E^(-1) mod PHI`, to decrypt th
 Flag: **picoCTF{sma11_N_n0_g0od_73918962}**
 
 
+### Easy Peasy
+![c](https://img.shields.io/badge/Crypto-orange) ![p](https://img.shields.io/badge/Points-40-success)
+We are given a Python script granting an OTP encryption, so let's analyze it and find some weaknesses.  
+Here is how the program works: it first encrypts the flag, then a loop is performed to get our input and encrypt it using a key of 50000 lenght, leading to different encryption of the same characters in different inputs. *start* is where the needed key part sholud start, and *stop* is where it should end.  
+The most important rule of an One Time Pad is that the key is never reused in part or in whole. We notice this in the encryption part:
+```python
+if stop >= KEY_LEN:
+	stop = stop % KEY_LEN
+	key = kf[start:] + kf[:stop]
+```
+This means that if we reach the end of the key, we will restart and reuse the key from the beginning! Knowing that, we can trick the program in our favour.
+
+Let's send 49968 characters (added to 32 of the flag we reach 50000), and then 32 chosen characters: we will obtain the characters encrypted with the SAME key as the flag.
+
+Flag: **picoCTF{abf2f7d5edf082028076bfd7a4cfe9a9}**
+
+### Mini RSA
+![c](https://img.shields.io/badge/Crypto-orange) ![p](https://img.shields.io/badge/Points-20-success)
+
+
 # Binary Exploitation
 ### Stonks
 ![c](https://img.shields.io/badge/Binary-red) ![p](https://img.shields.io/badge/Points-20-success)

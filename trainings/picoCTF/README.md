@@ -90,4 +90,17 @@ We can then paste the code on [this](https://ncviewer.com/) Simulator and view t
 
 Flag: **picoCTF{num3r1cal_c0ntr0l_68a8fe29}**
 
+# Forensics
+### MacroHard WeakEdge
 
+We are given a Powerpoint file with macros (.pptm), this seems like a "classic" MS Office malware challenge. By opening the file with Powerpoint on Windows I could not see all macros, only a `not_flag() one`, clearly not the flag.
+
+PPTM files use ZIP and XML to compress and organize the data into a single file, so I decided to analyze the file with `binwalk`: after loads of zip archives representing the various slides and their content, two interesting ones are displayed: `ppt/vbaProject.bin` and `ppt/slideMasters/hidden`.
+
+The first one should contain macros, but given that somehow they are hidden I decided to first check the second one. This turns out right, because looking at the `hidden` file we can see `Z m x h Z z o g c G l j b 0 N U R n t E M W R f d V 9 r b j B 3 X 3 B w d H N f c l 9 6 M X A 1 f Q` as result.  
+This looks like base64, so removing spaces and decoding it will lead to the flag: 
+```bash
+cat hidden | tr -d " \t\n\r" > flag.txt
+base64 -d flag.txt
+```
+Flag: **picoCTF{D1d_u_kn0w_ppts_r_z1p5}**

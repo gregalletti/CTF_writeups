@@ -30,8 +30,8 @@ Here is how the program works: it first encrypts the flag, then a loop is perfor
 The most important rule of an One Time Pad is that the key is never reused in part or in whole. We notice this in the encryption part:
 ```python
 if stop >= KEY_LEN:
-	stop = stop % KEY_LEN
-	key = kf[start:] + kf[:stop]
+   stop = stop % KEY_LEN
+   key = kf[start:] + kf[:stop]
 ```
 This means that if we reach the end of the key, we will restart and reuse the key from the beginning! Knowing that, we can trick the program in our favour.
 
@@ -63,10 +63,10 @@ Flag: **picoCTF{abf2f7d5edf082028076bfd7a4cfe9a9}**
 We are given a C source file, so let's search for vulnerabilities. There is a clear *format string* vulnerability at line 93, in the `buy_stonks` function:
 
 ```c
-  printf("What is your API token?\n");
-	scanf("%300s", user_buf);
-	printf("Buying stonks with token:\n");
-	printf(user_buf);
+printf("What is your API token?\n");
+scanf("%300s", user_buf);
+printf("Buying stonks with token:\n");
+printf(user_buf);
 ```
 
 Now we know we can use this to print what we need from the memory. Let's try locally, using a custom `api` file (the flag one) to easily recognize if we got the content, take a bunch of 'A's to try. If we then submit a sequence of `%x`s as input, we will leak the memory and see a sequence of 41, our flag file.

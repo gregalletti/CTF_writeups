@@ -92,6 +92,7 @@ Flag: **picoCTF{num3r1cal_c0ntr0l_68a8fe29}**
 
 # Forensics
 ### MacroHard WeakEdge
+![c](https://img.shields.io/badge/Forensics-blue) ![p](https://img.shields.io/badge/Points-60-success)
 
 We are given a Powerpoint file with macros (.pptm), this seems like a "classic" MS Office malware challenge. By opening the file with Powerpoint on Windows I could not see all macros, only a `not_flag() one`, clearly not the flag.
 

@@ -101,8 +101,7 @@ PPTM files use ZIP and XML to compress and organize the data into a single file,
 The first one should contain macros, but given that somehow they are hidden I decided to first check the second one. This turns out right, because looking at the `hidden` file we can see `Z m x h Z z o g c G l j b 0 N U R n t E M W R f d V 9 r b j B 3 X 3 B w d H N f c l 9 6 M X A 1 f Q` as result.  
 This looks like base64, so removing spaces and decoding it will lead to the flag: 
 ```bash
-cat hidden | tr -d " \t\n\r" > flag.txt
-base64 -d flag.txt
+cat ppt/slideMasters/hidden | tr -d ' ' | base64 -d
 ```
 Flag: **picoCTF{D1d_u_kn0w_ppts_r_z1p5}**
 

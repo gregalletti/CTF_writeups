@@ -58,7 +58,7 @@ Flag: **picoCTF{abf2f7d5edf082028076bfd7a4cfe9a9}**
 
 # Binary Exploitation
 ### Stonks
-![c](https://img.shields.io/badge/Binary-red) ![p](https://img.shields.io/badge/Points-20-success)
+![c](https://img.shields.io/badge/Binary-darkred) ![p](https://img.shields.io/badge/Points-20-success)
 
 We are given a C source file, so let's search for vulnerabilities. There is a clear *format string* vulnerability at line 93, in the `buy_stonks` function:
 
@@ -81,7 +81,7 @@ Just reverse it 4 by 4 characters and we obtain the flag: **picoCTF{I_l05t_4ll_m
 
 # Reverse Engineering
 ### Speeds and feeds
-![c](https://img.shields.io/badge/Reverse-blue) ![p](https://img.shields.io/badge/Points-50-success)
+![c](https://img.shields.io/badge/Reverse-lightblue) ![p](https://img.shields.io/badge/Points-50-success)
 
 We connect to a remote server and we get as result a veeeery long output, let's write it on a file and take a look. We can immediately see every lines starts with G, and then X/Y/Z and some numerical values: this is G-Code, used by 3D printers (luckily enough I already solved a G-Code challenge).
 

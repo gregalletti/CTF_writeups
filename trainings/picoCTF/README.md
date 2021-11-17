@@ -116,3 +116,7 @@ This gets my attention because we have another file `plan`, and by opening it we
 
 We still have one `program.deb` and 3 photos, all seems so be right.
 
+At the time of the challenge I had no access to my Linux VM, so I just tried to "decode" the images to see if they contained some sort of steganography. It turns out that the `picture3.bmp` hides the flag, so probably the `program.deb` is a debian package of steghide. 
+
+Using this online tool and the password DUEDILIGENCE i managed to extract the flag: **picoCTF{h1dd3n_1n_pLa1n_51GHT_18375919}**
+

@@ -109,14 +109,15 @@ Let's start to analyze it, and we can soon see two bad00000 patterns, indicating
 I have no idea of what this means, so let's try to google it and get a better undestanding: from [here](http://www.ece.ualberta.ca/~elliott/ee552/studentAppNotes/2003_w/misc/bmp_file_format/bmp_file_format.htm) we get to know that _DIB Header Size_ turns out to be a constant equal to 40 (0x28), and _File Offset_ the distance from the beginning of the file to the actual image data, so 14 (Header size) + 40 (InfoHeader size) = 54 (0x36), both of them composed of 4 bytes so we need to apply some padding with 00 bytes.
 
 Unfortunately at this point the image is displayed correctly but we are getting trolled, let's keep digging (we know we are on the right way).
+
 ![image](./tunnel1.bmp)
 
 After trying some steganography tools on that, by checking again `exiftool` tells us that the image is 1134 x 306 with a size of 2893400. This is pretty suspicious, indicating that maybe this is not the real resolution: we can easily see that by incrementing the height we can see a meaningful higher image and by setting this value as 42 03 we can see the flag.
+
 ![image](./tunnel2.bmp)
 
 Flag: **picoCTF{qu1t3_a_v13w_2020}**
 
-![image](./tunnel2.bmp)
 ### MacroHard WeakEdge
 ![c](https://img.shields.io/badge/Forensics-blue) ![p](https://img.shields.io/badge/Points-60-success)
 

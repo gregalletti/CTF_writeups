@@ -6,7 +6,7 @@ Authors:
 
 # General Skills
 ### X
-![c](https://img.shields.io/badge/General-grey) ![p](https://img.shields.io/badge/Points-350-success)
+![c](https://img.shields.io/badge/General-lightgrey) ![p](https://img.shields.io/badge/Points-350-success)
 
 # Cryptography
 ### Mind your Ps and Qs

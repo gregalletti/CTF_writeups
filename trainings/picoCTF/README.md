@@ -96,14 +96,17 @@ Flag: **picoCTF{num3r1cal_c0ntr0l_68a8fe29}**
 
 The given file has no extension and strings or other commands seems not to lead to something useful, so let's try to find a suitable file format through exiftool. The result suggest this is a BMP file, and we are quite sure about it by opening it with an hex editor: the magic bytes are correct (42 4d, 'BM') so we will probably need to "fix" this file to obtain the flag.
 
-Let's start to analyze it, and we can soon see two BAD00000 patterns in the header, indicating that these are the bytes we need to fix: 
+Let's start to analyze it, and we can soon see two bad00000 patterns, indicating that these are the bytes we need to fix: 
 
-`00000000  42 4d 8e 26 2c 00 00 00  00 00 ba d0 00 00 ba d0  |BM.&,...........|`
-According to BMP files structure we have: 
-- 42 4d 
-- 8e 26 2c 00
-- 00 00
-- 00 00
+`00000000  42 4d 8e 26 2c 00 00 00  00 00 ba d0 00 00 ba d0  |BM.&,...........|`, so according to BMP files structure we have: 
+- _42 4d_ = Signature
+- _8e 26 2c 00_ = File size
+- _00 00_ = Reserved 1
+- _00 00_ = Reserved 2
+- _ba d0 00 00_ = File Offset to pixel array
+- _ba d0 00 00_ = DIB Header Size
+
+I have no idea of what this means, so let's try to google it and get a better undestanding: **DIB Header Size** turns out to be a constant equal to 40 (0x28), and **File Offset** the distance from the beginning of the file to the actual image data, so 14 (Header size) + 40 (InfoHeader size) = 54 (0x36), both of them composed of 4 bytes so we need to apply some padding with 00 bytes.
 
 ### MacroHard WeakEdge
 ![c](https://img.shields.io/badge/Forensics-blue) ![p](https://img.shields.io/badge/Points-60-success)

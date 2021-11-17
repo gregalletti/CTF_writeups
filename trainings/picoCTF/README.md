@@ -94,20 +94,29 @@ Flag: **picoCTF{num3r1cal_c0ntr0l_68a8fe29}**
 ### tunn3l v1s10n
 ![c](https://img.shields.io/badge/Forensics-blue) ![p](https://img.shields.io/badge/Points-40-success)
 
-The given file has no extension and strings or other commands seems not to lead to something useful, so let's try to find a suitable file format through exiftool. The result suggest this is a BMP file, and we are quite sure about it by opening it with an hex editor: the magic bytes are correct (42 4d, 'BM') so we will probably need to "fix" this file to obtain the flag.
+The given file has no extension and strings or other commands seems not to lead to something useful, so let's try to find a suitable file format through `exiftool`. The result suggest this is a BMP file, and we are quite sure about it by opening it with an hex editor: the magic bytes are correct (42 4d, 'BM') so we will probably need to "fix" this file to obtain the flag.
 
 Let's start to analyze it, and we can soon see two bad00000 patterns, indicating that these are the bytes we need to fix: 
 
 `00000000  42 4d 8e 26 2c 00 00 00  00 00 ba d0 00 00 ba d0  |BM.&,...........|`, so according to BMP files structure we have: 
-- _42 4d_ = Signature
-- _8e 26 2c 00_ = File size
-- _00 00_ = Reserved 1
-- _00 00_ = Reserved 2
-- _ba d0 00 00_ = File Offset to pixel array
-- _ba d0 00 00_ = DIB Header Size
+- 42 4d = _Signature_
+- 8e 26 2c 00 = _File size_
+- 00 00 = _Reserved 1_
+- 00 00 = _Reserved 2_
+- ba d0 00 00 = _File Offset to pixel array_
+- ba d0 00 00 = _DIB Header Size_
 
-I have no idea of what this means, so let's try to google it and get a better undestanding: **DIB Header Size** turns out to be a constant equal to 40 (0x28), and **File Offset** the distance from the beginning of the file to the actual image data, so 14 (Header size) + 40 (InfoHeader size) = 54 (0x36), both of them composed of 4 bytes so we need to apply some padding with 00 bytes.
+I have no idea of what this means, so let's try to google it and get a better undestanding: from [here](http://www.ece.ualberta.ca/~elliott/ee552/studentAppNotes/2003_w/misc/bmp_file_format/bmp_file_format.htm) we get to know that _DIB Header Size_ turns out to be a constant equal to 40 (0x28), and _File Offset_ the distance from the beginning of the file to the actual image data, so 14 (Header size) + 40 (InfoHeader size) = 54 (0x36), both of them composed of 4 bytes so we need to apply some padding with 00 bytes.
 
+Unfortunately at this point the image is displayed correctly but we are getting trolled, let's keep digging (we know we are on the right way).
+![image](./tunnel1.bmp)
+
+After trying some steganography tools on that, by checking again `exiftool` tells us that the image is 1134 x 306 with a size of 2893400. This is pretty suspicious, indicating that maybe this is not the real resolution: we can easily see that by incrementing the height we can see a meaningful higher image and by setting this value as 42 03 we can see the flag.
+![image](./tunnel2.bmp)
+
+Flag: **picoCTF{qu1t3_a_v13w_2020}**
+
+![image](./tunnel2.bmp)
 ### MacroHard WeakEdge
 ![c](https://img.shields.io/badge/Forensics-blue) ![p](https://img.shields.io/badge/Points-60-success)
 

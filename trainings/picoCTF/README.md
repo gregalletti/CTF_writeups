@@ -100,10 +100,10 @@ Let's start to analyze it, and we can soon see two BAD00000 patterns in the head
 
 `00000000  42 4d 8e 26 2c 00 00 00  00 00 ba d0 00 00 ba d0  |BM.&,...........|`
 According to BMP files structure we have: 
--42 4d 
--8e 26 2c 00
--00 00
--00 00
+- 42 4d 
+- 8e 26 2c 00
+- 00 00
+- 00 00
 
 ### MacroHard WeakEdge
 ![c](https://img.shields.io/badge/Forensics-blue) ![p](https://img.shields.io/badge/Points-60-success)

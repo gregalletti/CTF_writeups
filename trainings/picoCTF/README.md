@@ -191,26 +191,26 @@ The `bne    .L4` is what we want to avoid, because it will lead to `.LC1` printi
 ```assembly
 func:
 	sub	sp, sp, #32
-	str	w0, [sp, 12]	// this is the needed argument, call it x
+	str	w0, [sp, 12]	; this is the needed argument, call it x
 	mov	w0, 58
-	str	w0, [sp, 16]	// store 58 
+	str	w0, [sp, 16]	; store 58 
 	mov	w0, 2
-	str	w0, [sp, 20]	// store 2
+	str	w0, [sp, 20]	; store 2
 	mov	w0, 3
-	str	w0, [sp, 24]	// store 3
-	ldr	w0, [sp, 20]	// w0 = 2
-	ldr	w1, [sp, 16]	// w1 = 58
-	lsl	w0, w1, w0	// w0 = 58 << 2 = 58 * 4 = 232
-	str	w0, [sp, 28]	// store 232
-	ldr	w1, [sp, 28]	// w1 = 232
-	ldr	w0, [sp, 24]	// w0 = 3
-	sdiv	w0, w1, w0	// w0 = 232 / 3
-	str	w0, [sp, 28]	// store 77
-	ldr	w1, [sp, 28]	// w1 = 77
-	ldr	w0, [sp, 12]	// w0 = x
-	sub	w0, w1, w0	// w0 = 77 - x
-	str	w0, [sp, 28]	// store (77 - x)
-	ldr	w0, [sp, 28]	// w0 = (77 - x)
+	str	w0, [sp, 24]	; store 3
+	ldr	w0, [sp, 20]	; w0 = 2
+	ldr	w1, [sp, 16]	; w1 = 58
+	lsl	w0, w1, w0	; w0 = 58 << 2 = 58 * 4 = 232
+	str	w0, [sp, 28]	; store 232
+	ldr	w1, [sp, 28]	; w1 = 232
+	ldr	w0, [sp, 24]	; w0 = 3
+	sdiv	w0, w1, w0	; w0 = 232 / 3
+	str	w0, [sp, 28]	; store 77
+	ldr	w1, [sp, 28]	; w1 = 77
+	ldr	w0, [sp, 12]	; w0 = x
+	sub	w0, w1, w0	; w0 = 77 - x
+	str	w0, [sp, 28]	; store (77 - x)
+	ldr	w0, [sp, 28]	; w0 = (77 - x)
 	add	sp, sp, 32
 	ret
 	.size	func, .-func

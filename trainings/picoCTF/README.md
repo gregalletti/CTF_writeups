@@ -2,7 +2,7 @@
 In this section I will store some writeups for the challenges I managed to solve in the picoGym, except the trivial ones.
 
 Authors: 
-* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **7660**)
+* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **7690**)
 
 # General Skills
 ### X
@@ -80,6 +80,43 @@ Just reverse it 4 by 4 characters and we obtain the flag: **picoCTF{I_l05t_4ll_m
 ![c](https://img.shields.io/badge/Web-purple) ![p](https://img.shields.io/badge/Points-350-success)
 
 # Reverse Engineering
+### ARMssembly 0
+![c](https://img.shields.io/badge/Reverse-lightblue) ![p](https://img.shields.io/badge/Points-40-success)
+
+We have a .S file, so let's open it and start analyzing it, knowing that the arguments are 3854998744 and 915131509.  
+Here is the main:
+```assembly
+main:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	x19, [sp, 16]
+	str	w0, [x29, 44]
+	str	x1, [x29, 32]
+	ldr	x0, [x29, 32]
+	add	x0, x0, 8
+	ldr	x0, [x0]
+	bl	atoi
+	mov	w19, w0
+	ldr	x0, [x29, 32]
+	add	x0, x0, 16
+	ldr	x0, [x0]
+	bl	atoi
+	mov	w1, w0
+	mov	w0, w19
+	bl	func1
+	mov	w1, w0
+	adrp	x0, .LC0
+	add	x0, x0, :lo12:.LC0
+	bl	printf
+	mov	w0, 0
+	ldr	x19, [sp, 16]
+	ldp	x29, x30, [sp], 48
+	ret
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu/Linaro 7.5.0-3ubuntu1~18.04) 7.5.0"
+	.section	.note.GNU-stack,"",@progbits
+```
+
 ### Speeds and feeds
 ![c](https://img.shields.io/badge/Reverse-lightblue) ![p](https://img.shields.io/badge/Points-50-success)
 

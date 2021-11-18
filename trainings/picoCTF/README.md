@@ -2,7 +2,7 @@
 In this section I will store some writeups for the challenges I managed to solve in the picoGym, except the trivial ones.
 
 Authors: 
-* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **7730**)
+* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **7800**)
 
 # General Skills
 ### X
@@ -219,6 +219,47 @@ func:
 ```
 
 The comments I added to the assembly code are self-explanatory, in this case we have that (77 - x) must be equal to 0, leading to `x = 77`. 77 in hex is 4d, thus the flag (lowercase and 8 bit) will be **picoCTF{0000004d}**
+
+### ARMssembly 2
+![c](https://img.shields.io/badge/Reverse-lightblue) ![p](https://img.shields.io/badge/Points-90-success)
+
+ARMssembly again, same process with argument 1748687564. Notice that `wrz` is a special register containing value 0.
+```assembly
+func1:
+	sub	sp, sp, #32
+	str	w0, [sp, 12]	; store 1748687564
+	str	wzr, [sp, 24]	; store 0
+	str	wzr, [sp, 28]	; store 0
+	b	.L2
+.L3:
+	ldr	w0, [sp, 24]	; w0 = 0,3,.. 
+	add	w0, w0, 3	; w0 = 3,6,..
+	str	w0, [sp, 24]	; store 3,6,.. until 1748687564 * 3
+	ldr	w0, [sp, 28]	; w0 = 0,1,..
+	add	w0, w0, 1	; w0 = 1,2,..
+	str	w0, [sp, 28]	; store 1,2,..
+.L2:
+	ldr	w1, [sp, 28]	; w1 = 0,1,2,.. until 1748687564
+	ldr	w0, [sp, 12]	; w0 = 1748687564,same,same
+	cmp	w1, w0		
+	bcc	.L3		; carry is clear so jump
+	ldr	w0, [sp, 24]	; w0 = [sp + 24]
+	add	sp, sp, 32
+	ret
+	.size	func1, .-func1
+	.section	.rodata
+	.align	3
+```
+
+`func1` is easy, just store values and jump to `.L2` that will load [sp + 28] (initially 0) and [sp + 12] (initially our input) and compare them before jumping to `.L3` with a `bcc` instruction. After googling it I found out that `BCC is Branch on Carry Clear`, and the Carry flag is usually cleared when the result is “higher than or equal”: this actually means that we jump if w1 < w0, we ignore the jump otherwise.  
+Looking at how the code is written we can conclude that this is a loop start, executing `.L3` and then again `.L2` until `bcc`, the loop exit condition.
+
+As we can see from the comments I made, at each iteration the [sp + 24] value is incremented by 3 and the [sp + 28] value is incremented by 1, while [sp + 12] remains the same. If we look at the loop from an higher level, we can conclude that the first one is the modified variable, the second one is the index of the loop, and the third one is the loop limiter. 
+
+At the end of the loop, executed 1748687564 times, we will end up with 1748687564 * 3 stored in [sp + 24], which is the value returned by `.L2` and then printed by the `main`.
+
+If we rewrite the result (5246062692) following the required flag format we get 138b09064, but this is not a 32 bit number (9 bits)! Just AND it with 0xffffffff and obtain the flag: **picoCTF{38b09064}**
+
 
 # Forensics
 ### tunn3l v1s10n

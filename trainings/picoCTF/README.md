@@ -161,6 +161,65 @@ We can then paste the code on [this](https://ncviewer.com/) Simulator and view t
 
 Flag: **picoCTF{num3r1cal_c0ntr0l_68a8fe29}**
 
+### ARMssembly 1
+![c](https://img.shields.io/badge/Reverse-lightblue) ![p](https://img.shields.io/badge/Points-70-success)
+
+This challenge is very similar to ARMssembly 0, so we can use the same approach.  
+Here is the main:
+```assembly
+main:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	str	x1, [x29, 16]
+	ldr	x0, [x29, 16]
+	add	x0, x0, 8
+	ldr	x0, [x0]
+	bl	atoi
+	str	w0, [x29, 44]
+	ldr	w0, [x29, 44]
+	bl	func
+	cmp	w0, 0
+	bne	.L4
+	adrp	x0, .LC0
+	add	x0, x0, :lo12:.LC0
+	bl	puts
+	b	.L6
+```
+
+The `bne    .L4` is what we want to avoid, because it will lead to `.LC1` printing "You Lose :(". We want instead not to take that branch and jump to `.LC0` printing "You Win!": we need w0 = 0 (the result of `func`).
+```assembly
+func:
+	sub	sp, sp, #32
+	str	w0, [sp, 12]	// this is the needed argument, call it x
+	mov	w0, 58
+	str	w0, [sp, 16]	// store 58 
+	mov	w0, 2
+	str	w0, [sp, 20]	// store 2
+	mov	w0, 3
+	str	w0, [sp, 24]	// store 3
+	ldr	w0, [sp, 20]	// w0 = 2
+	ldr	w1, [sp, 16]	// w1 = 58
+	lsl	w0, w1, w0	// w0 = 58 << 2 = 58 * 4 = 232
+	str	w0, [sp, 28]	// store 232
+	ldr	w1, [sp, 28]	// w1 = 232
+	ldr	w0, [sp, 24]	// w0 = 3
+	sdiv	w0, w1, w0	// w0 = 232 / 3
+	str	w0, [sp, 28]	// store 77
+	ldr	w1, [sp, 28]	// w1 = 77
+	ldr	w0, [sp, 12]	// w0 = x
+	sub	w0, w1, w0	// w0 = 77 - x
+	str	w0, [sp, 28]	// store (77 - x)
+	ldr	w0, [sp, 28]	// w0 = (77 - x)
+	add	sp, sp, 32
+	ret
+	.size	func, .-func
+	.section	.rodata
+	.align	3
+```
+
+The comments I added to the assembly code are self-explanatory, in this case we have that (77 - x) must be equal to 0, leading to `x = 77`. 77 in hex is 4d, thus the flag (lowercase and 8 bit) will be **picoCTF{0000004d}**
+
 # Forensics
 ### tunn3l v1s10n
 ![c](https://img.shields.io/badge/Forensics-blue) ![p](https://img.shields.io/badge/Points-40-success)

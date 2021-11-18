@@ -2,7 +2,7 @@
 In this section I will store some writeups for the challenges I managed to solve in the picoGym, except the trivial ones.
 
 Authors: 
-* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **7690**)
+* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **7730**)
 
 # General Skills
 ### X
@@ -116,6 +116,40 @@ main:
 	.ident	"GCC: (Ubuntu/Linaro 7.5.0-3ubuntu1~18.04) 7.5.0"
 	.section	.note.GNU-stack,"",@progbits
 ```
+
+What the first lines of code seem to do is to read arguments from command line and convert them into integers (notice the double `atoi` link call), and after that we can see `mov    w1, w0` and `mov    w0, w19` leaving the input values in the same order we wrote them: they are then passed to `func1` as parameters with `w0 = 3854998744` and `w1 = 915131509`.  
+
+Here is `func1` and the following functions/labels (`L2`, `L3` and `LC0`): 
+```assembly
+func1:
+	sub	sp, sp, #16
+	str	w0, [sp, 12]
+	str	w1, [sp, 8]
+	ldr	w1, [sp, 12]
+	ldr	w0, [sp, 8]
+	cmp	w1, w0
+	bls	.L2
+	ldr	w0, [sp, 12]
+	b	.L3
+.L2:
+	ldr	w0, [sp, 8]
+.L3:
+	add	sp, sp, 16
+	ret
+	.size	func1, .-func1
+	.section	.rodata
+	.align	3
+.LC0:
+	.string	"Result: %ld\n"
+	.text
+	.align	2
+	.global	main
+	.type	main, %function
+```
+
+`func1` just loads the two values in reverse order and compares them (now `w0 = 915131509` and `w1 = 3854998744`), if w1 < w0 then jumps to `.L2`: this is not our case. Then the `ldr   w0, [sp, 12]` instruction will load the first value, 3854998744, and jump to `.L3`.
+
+After getting back to the main, this value will be printed. The challenge description says that the flag format is the hex value of what will be printed, so **picoCTF{e5c69cd8}**
 
 ### Speeds and feeds
 ![c](https://img.shields.io/badge/Reverse-lightblue) ![p](https://img.shields.io/badge/Points-50-success)

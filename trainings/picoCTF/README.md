@@ -181,6 +181,16 @@ print(flag)
 
 Flag: **picoCTF{proving_wiener_6907362}**
 
+## Pixelated ![p](https://img.shields.io/badge/Points-100-success) ![c](https://img.shields.io/badge/Crypto-orange)
+
+This challenge gives us 2 images made by what seem random pixels, suggesting we can extract a flag from them. I immediately thought about performing a bitwise XOR beetween them, but unfortunately this did not work. At this point I was stuck, trying AND and OR operations too without success.  
+
+I then tried to open them on StegSolve, a jar containing a lot of useful steganography tools like in this case the **Image Combiner**: by selecting the ADD operation we get this (I still can't reach the same result with Linux commands):
+
+![image](./pixel.bmp)
+
+So here it is the flag: ****
+
 # Binary Exploitation
 ## Stonks ![p](https://img.shields.io/badge/Points-20-success) ![c](https://img.shields.io/badge/Binary-darkred)
 

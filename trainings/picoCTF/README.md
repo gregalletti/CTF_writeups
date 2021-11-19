@@ -9,6 +9,9 @@ Authors:
 ![c](https://img.shields.io/badge/General-lightgrey) ![p](https://img.shields.io/badge/Points-350-success)
 
 # Cryptography
+
+## Mini RSA ![p](https://img.shields.io/badge/Points-20-success) ![c](https://img.shields.io/badge/Crypto-orange)
+
 ## Mind your Ps and Qs ![p](https://img.shields.io/badge/Points-20-success) ![c](https://img.shields.io/badge/Crypto-orange)
 > Decrypt my super sick RSA:  
 > c: 964354128913912393938480857590969826308054462950561875638492039363373779803642185  
@@ -50,7 +53,77 @@ Translated into ASCII text, this will show the flag to submit and get the points
 
 Flag: **picoCTF{abf2f7d5edf082028076bfd7a4cfe9a9}**
 
-## Mini RSA ![p](https://img.shields.io/badge/Points-20-success) ![c](https://img.shields.io/badge/Crypto-orange)
+## New Caesar ![p](https://img.shields.io/badge/Points-60-success) ![c](https://img.shields.io/badge/Crypto-orange)
+
+What we have here is a python script: 
+```python
+import string
+
+LOWERCASE_OFFSET = ord("a") # 97
+ALPHABET = string.ascii_lowercase[:16] # abcdefghijklmnop
+
+def b16_encode(plain):
+	enc = ""
+	for c in plain:
+		binary = "{0:08b}".format(ord(c)) # just the binary value of the char, 'a' = 01100001
+		enc += ALPHABET[int(binary[:4], 2)] # MSBs of the binary converted in decimal, used as index of alphabet
+		enc += ALPHABET[int(binary[4:], 2)] # same with LSBs
+	return enc
+
+def shift(c, k):
+	t1 = ord(c) - LOWERCASE_OFFSET
+	t2 = ord(k) - LOWERCASE_OFFSET
+	return ALPHABET[(t1 + t2) % len(ALPHABET)]
+
+flag = "redacted"
+key = "redacted"
+assert all([k in ALPHABET for k in key]) # every char in the key is in the alphabet
+assert len(key) == 1 # key of lenght 1 ???
+
+b16 = b16_encode(flag)
+enc = ""
+for i, c in enumerate(b16):
+	enc += shift(c, key[i % len(key)])
+print(enc)
+```
+
+I added some comments in order to better understand the behaviour, and the most important thing we can notice is that the key lenght is only 1! This means that should be easy to invert the process and rewrite this script in order to decrypt the given ciphertext, bruteforcing the key on an alphabet of 16 characters.
+
+We can divide the encryption algorithm in 2 parts: encode and shift. Now to decrypt we will need to first shift back the characters and then to decode.  
+The switching part is kinda easy, just make t1 - t2 and we are done. The decoding part is more complex but we just reverse the whole process, so we take pairs of ciphertext letters, take their index in the ALPHABET and print them as binary (`zfill(4)` to make sure we have 4 bits).  
+After that we concatenate them and convert this into a character, and by concatenating everything we can print a flag candidate. Of course we will do this for every possible key, and eventually we will find a suitable flag.
+
+The final script is:
+```python
+import string
+enc = "ihjghbjgjhfbhbfcfjflfjiifdfgffihfeigidfligigffihfjfhfhfhigfjfffjfeihihfdieieih"
+
+LOWERCASE_OFFSET = ord("a")
+ALPHABET = string.ascii_lowercase[:16]
+
+def b16_decode(ctx):
+	flag = ""
+	for c in range(0, len(ctx) ,2):
+	    first = "{0:b}".format(ALPHABET.index(ctx[c])).zfill(4)
+	    second = "{0:b}".format(ALPHABET.index(ctx[c+1])).zfill(4)
+	    res = first + second
+	    flag += chr(int(res,2))
+	return flag
+
+def shiftBack(c, k):
+	t1 = ord(c) - LOWERCASE_OFFSET
+	t2 = ord(k) - LOWERCASE_OFFSET
+	return ALPHABET[(t1 - t2) % len(ALPHABET)]
+
+for key in ALPHABET:
+    b16 = ""
+    for i, c in enumerate(enc):
+	    b16 += shiftBack(c, key[i % len(key)])
+    flag = b16_decode(b16)
+    print(flag)
+```
+
+Flag: **picoCTF{et_tu?\_0797f143e2da9dd3e7555d7372ee1bbe}**
 
 # Binary Exploitation
 ## Stonks ![p](https://img.shields.io/badge/Points-20-success) ![c](https://img.shields.io/badge/Binary-darkred)

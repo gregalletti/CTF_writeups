@@ -2,7 +2,7 @@
 In this section I will store some writeups for the challenges I managed to solve in the picoGym, except the trivial ones.
 
 Authors: 
-* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **8030**)
+* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **8090**)
 
 # General Skills
 ## X
@@ -55,7 +55,7 @@ Flag: **picoCTF{abf2f7d5edf082028076bfd7a4cfe9a9}**
 
 ## New Caesar ![p](https://img.shields.io/badge/Points-60-success) ![c](https://img.shields.io/badge/Crypto-orange)
 
-What we have here is a ciphertext (ihjghbjgjhfbhbfcfjflfjiifdfgffihfeigidfligigffihfjfhfhfhigfjfffjfeihihfdieieih) and a python script: 
+What we have here is a ciphertext (_ihjghbjgjhfbhbfcfjflfjiifdfgffihfeigidfligigffihfjfhfhfhigfjfffjfeihihfdieieih_) and a python script: 
 ```python
 import string
 

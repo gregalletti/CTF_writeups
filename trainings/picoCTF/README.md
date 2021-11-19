@@ -2,7 +2,7 @@
 In this section I will store some writeups for the challenges I managed to solve in the picoGym, except the trivial ones.
 
 Authors: 
-* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **8340**)
+* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **8440**)
 
 # General Skills
 ## X
@@ -189,7 +189,7 @@ I then tried to open them on StegSolve, a jar containing a lot of useful stegano
 
 ![image](./pixel.bmp)
 
-So here it is the flag: ****
+So here it is the flag: **picoCTF{2a4d45c7}**
 
 # Binary Exploitation
 ## Stonks ![p](https://img.shields.io/badge/Points-20-success) ![c](https://img.shields.io/badge/Binary-darkred)

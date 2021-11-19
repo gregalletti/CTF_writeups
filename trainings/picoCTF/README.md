@@ -239,6 +239,12 @@ for i in range(128):
 
 Flag: **picoCTF{cO0ki3s_yum_2d20020d}**
 
+## Who are you?
+
+We can access [this](http://mercury.picoctf.net:36622/) website and see what seems to be a trivial User-agent challenge: the kid is telling us _Only people who use the official PicoBrowser are allowed on this site!_ so we can try to modify our `User-agent: picobrowser` in the request to get access. This works, but unfortunately there is more.. Note that I used Burp to craft requests since it was quicker for me, but every other method would work. 
+
+_I don't trust users visiting from another site._ at this point I realized I'm bad with HTTP requests parameters, so it's better to keep [this](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) open. At some point we can see the Referer parameter, the address of the previous web page from which a link to the currently requested page was followed. We can now set `Referer: http://mercury.picoctf.net:36622/`
+
 # Reverse Engineering
 ## ARMssembly 0 ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
 

@@ -125,6 +125,35 @@ for key in ALPHABET:
 
 Flag: **picoCTF{et_tu?\_0797f143e2da9dd3e7555d7372ee1bbe}**
 
+## Dachshund Attacks ![p](https://img.shields.io/badge/Points-80-success) ![c](https://img.shields.io/badge/Crypto-orange)
+
+We have a remote server where we can connect and obtain `e, n and c` of an RSA problem. The challenge text says _What if d is too small?_ (which is oddly ambiguous) and after some googling I found the [Wiener Attack](https://en.wikipedia.org/wiki/Wiener%27s_attack) (more ambiguous), feasible when d is small!  
+By searching for a python implementation I found [this one](https://github.com/orisano/owiener) awesome, and I used it to solve the problem.
+
+By setting the given `e` and `n` we can obtain `d` with the attack, and after that we can simply decrypt the given `c`, convert it into hex and then ASCII and get the flag. This is the final script:
+```python
+import owiener
+
+e = 115672417112927257671680305939934359365770610260861730036576852003995595676738019854156896978452695493499603711084199051703037741612104358554500922255601810699239639276721088454380220351087165317005776882604094492362559466589322345564816722986043365200197328901401825485278698288628276429261242166244230567489
+n = 126464990415558983403176864213946695038601049351609225147898757728512524756706217511963198935092618068670554550413258741381432620153181016246126875941976724705392460289282557576686876928892251600322535922349244519540114524945350798877163247781257922671051428624372661514140723871265632532731717598340766266343
+c = 111321497464016602005557521031123106684276292631071554434038480623506616443911260308781727450386770672481648306263904680048763443482585922984395943505671937379941613335472362526841433859265067829439266522906203272443815955305450235368266937689107285781709931596212063854029971643694610913742233468948132822071
+d = owiener.attack(e, n)
+
+if d is None:
+    print("Failed")
+else:
+    print("Hacked d={}".format(d))
+
+m = pow(c,d,n)
+
+bytes_flag = bytes.fromhex(hex(m)[2:])
+flag = bytes_flag.decode("ASCII")
+
+print(flag)
+```
+
+Flag: **picoCTF{proving_wiener_6907362}**
+
 # Binary Exploitation
 ## Stonks ![p](https://img.shields.io/badge/Points-20-success) ![c](https://img.shields.io/badge/Binary-darkred)
 

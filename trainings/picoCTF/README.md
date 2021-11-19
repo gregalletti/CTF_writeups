@@ -55,7 +55,7 @@ Flag: **picoCTF{abf2f7d5edf082028076bfd7a4cfe9a9}**
 
 ## New Caesar ![p](https://img.shields.io/badge/Points-60-success) ![c](https://img.shields.io/badge/Crypto-orange)
 
-What we have here is a python script: 
+What we have here is a ciphertext (ihjghbjgjhfbhbfcfjflfjiifdfgffihfeigidfligigffihfjfhfhfhigfjfffjfeihihfdieieih) and a python script: 
 ```python
 import string
 
@@ -87,7 +87,7 @@ for i, c in enumerate(b16):
 print(enc)
 ```
 
-I added some comments in order to better understand the behaviour, and the most important thing we can notice is that the key lenght is only 1! This means that should be easy to invert the process and rewrite this script in order to decrypt the given ciphertext, bruteforcing the key on an alphabet of 16 characters.
+I added some comments in order to better understand the behaviour, and the most important thing we can notice is that **the key lenght is only 1**! This means that should be easy to invert the process and rewrite this script in order to decrypt the given ciphertext, bruteforcing the key on an alphabet of 16 characters.
 
 We can divide the encryption algorithm in 2 parts: encode and shift. Now to decrypt we will need to first shift back the characters and then to decode.  
 The switching part is kinda easy, just make t1 - t2 and we are done. The decoding part is more complex but we just reverse the whole process, so we take pairs of ciphertext letters, take their index in the ALPHABET and print them as binary (`zfill(4)` to make sure we have 4 bits).  

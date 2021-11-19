@@ -249,6 +249,12 @@ for i in range(128):
 
 Flag: **picoCTF{cO0ki3s_yum_2d20020d}**
 
+## It is my birthdady! ![p](https://img.shields.io/badge/Points-100-success) ![c](https://img.shields.io/badge/Web-purple)
+
+Maybe is me, but the challenge description looks a bit confused. Anyway, what I got from it is that we may need to upload 2 different PDF files with the same MD5 hash. Unfortunately for the birthday boy, MD5 is not the best algorithm when talking about collisions. There are plenty of famous colliding strings and files, like [these](https://www.mscs.dal.ca/~selinger/md5collision/) that, saved as .pdf and uploaded will trigger the website and let us celebrate together.
+
+Flag: **picoCTF{c0ngr4ts_u_r_1nv1t3d_5c8c5ce2}**
+
 ## Who are you? ![p](https://img.shields.io/badge/Points-100-success) ![c](https://img.shields.io/badge/Web-purple)
 
 We can access [this](http://mercury.picoctf.net:36622/) website and see what seems to be a trivial User-agent challenge: the kid is telling us _Only people who use the official PicoBrowser are allowed on this site!_ so we can try to modify our `User-agent: picobrowser` in the request to get access. This works, but unfortunately there is more.. Note that I used Burp to craft requests since it was quicker for me, but every other method would work. 

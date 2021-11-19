@@ -9,8 +9,7 @@ Authors:
 ![c](https://img.shields.io/badge/General-lightgrey) ![p](https://img.shields.io/badge/Points-350-success)
 
 # Cryptography
-## Mind your Ps and Qs
-![c](https://img.shields.io/badge/Crypto-orange) ![p](https://img.shields.io/badge/Points-20-success)
+## Mind your Ps and Qs ![p](https://img.shields.io/badge/Points-20-success) ![c](https://img.shields.io/badge/Crypto-orange)
 > Decrypt my super sick RSA:  
 > c: 964354128913912393938480857590969826308054462950561875638492039363373779803642185  
 > n: 1584586296183412107468474423529992275940096154074798537916936609523894209759157543  
@@ -22,8 +21,7 @@ Now we can calculate `PHI = (P-1)*(Q-1)` and `D = E^(-1) mod PHI`, to decrypt th
 Flag: **picoCTF{sma11_N_n0_g0od_73918962}**
 
 
-## Easy Peasy
-![c](https://img.shields.io/badge/Crypto-orange) ![p](https://img.shields.io/badge/Points-40-success)
+## Easy Peasy ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Crypto-orange) 
 
 We are given a Python script granting an OTP encryption, so let's analyze it and find some weaknesses.  
 Here is how the program works: it first encrypts the flag, then a loop is performed to get our input and encrypt it using a key of 50000 lenght, leading to different encryption of the same characters in different inputs. *start* is where the needed key part sholud start, and *stop* is where it should end.  
@@ -52,12 +50,10 @@ Translated into ASCII text, this will show the flag to submit and get the points
 
 Flag: **picoCTF{abf2f7d5edf082028076bfd7a4cfe9a9}**
 
-## Mini RSA
-![c](https://img.shields.io/badge/Crypto-orange) ![p](https://img.shields.io/badge/Points-20-success)
+## Mini RSA ![p](https://img.shields.io/badge/Points-20-success) ![c](https://img.shields.io/badge/Crypto-orange)
 
 # Binary Exploitation
-## Stonks
-![c](https://img.shields.io/badge/Binary-darkred) ![p](https://img.shields.io/badge/Points-20-success)
+## Stonks ![p](https://img.shields.io/badge/Points-20-success) ![c](https://img.shields.io/badge/Binary-darkred)
 
 We are given a C source file, so let's search for vulnerabilities. There is a clear _format string_ vulnerability at line 93, in the `buy_stonks` function:
 
@@ -75,8 +71,7 @@ With no hesitation we can simply connect to the remote program and do the same, 
 Just reverse it 4 by 4 characters and we obtain the flag: **picoCTF{I_l05t_4ll_my_m0n3y_1cf201a0}**
 
 # Web Exploitation
-## More Cookies
-![c](https://img.shields.io/badge/Crypto-orange) ![p](https://img.shields.io/badge/Points-90-success)
+## More Cookies ![p](https://img.shields.io/badge/Points-90-success) ![c](https://img.shields.io/badge/Web-purple)
 
 As the title says this challenge is about cookies, so by inspecting the given [website](http://mercury.picoctf.net:21553/) we immediately see a cookie named `auth_name` set to `cHhjTUd0S1VpUmFROG1Cell5d3VkWlI4MWxCNHg2ZnhFOFJMb09pY3NoMmpWVEpYRDR1cStsSkJDb2U3VVV3U3Jlb0NVWHpmUkZieXNZOG9kdmE4MXgxa040SjlhSkRWbGxiaEdVZ08yS0R0VjJVMEdlUElDUXYxUTRGZyt0N2U=`, which seems base64 encoded. Let's try to decode it, but we still get nothing readable.  
 If we read the challenge description we can see that the cookie is said to be encrypted in some way, we can then guess that it is first encrypted and then base64 encoded.
@@ -91,8 +86,7 @@ By doing that, we will make the website decrypt the cookie and consider us as ad
 Flag: ****
 
 # Reverse Engineering
-## ARMssembly 0
-![c](https://img.shields.io/badge/Reverse-lightblue) ![p](https://img.shields.io/badge/Points-40-success)
+## ARMssembly 0 ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
 
 We have a .S file, so let's open it and start analyzing it, knowing that the arguments are 3854998744 and 915131509.  
 Here is the main:
@@ -162,8 +156,7 @@ func1:
 
 After getting back to the main, this value will be printed. The challenge description says that the flag format is the hex value of what will be printed, so **picoCTF{e5c69cd8}**
 
-## Speeds and feeds
-![c](https://img.shields.io/badge/Reverse-lightblue) ![p](https://img.shields.io/badge/Points-50-success)
+## Speeds and feeds ![p](https://img.shields.io/badge/Points-50-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
 
 We connect to a remote server and we get as result a veeeery long output, let's write it on a file and take a look. We can immediately see every lines starts with G, and then X/Y/Z and some numerical values: this is G-Code, used by 3D printers (luckily enough I already solved a G-Code challenge).
 
@@ -172,8 +165,7 @@ We can then paste the code on [this](https://ncviewer.com/) Simulator and view t
 
 Flag: **picoCTF{num3r1cal_c0ntr0l_68a8fe29}**
 
-## ARMssembly 1
-![c](https://img.shields.io/badge/Reverse-lightblue) ![p](https://img.shields.io/badge/Points-70-success)
+## ARMssembly 1 ![p](https://img.shields.io/badge/Points-70-success) ![c](https://img.shields.io/badge/Reverse-lightblue) 
 
 This challenge is very similar to ARMssembly 0, so we can use the same approach.  
 Here is the main:
@@ -231,8 +223,7 @@ func:
 
 The comments I added to the assembly code are self-explanatory, in this case we have that (77 - x) must be equal to 0, leading to `x = 77`. 77 in hex is 4d, thus the flag (lowercase and 8 bit) will be **picoCTF{0000004d}**
 
-## ARMssembly 2
-![c](https://img.shields.io/badge/Reverse-lightblue) ![p](https://img.shields.io/badge/Points-90-success)
+## ARMssembly 2 ![p](https://img.shields.io/badge/Points-90-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
 
 ARMssembly again, same process with argument 1748687564. Notice that `wrz` is a special register containing value 0.
 ```assembly
@@ -273,8 +264,7 @@ If we rewrite the result (5246062692) following the required flag format we get 
 
 
 # Forensics
-## tunn3l v1s10n
-![c](https://img.shields.io/badge/Forensics-blue) ![p](https://img.shields.io/badge/Points-40-success)
+## tunn3l v1s10n ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Forensics-blue)
 
 The given file has no extension and strings or other commands seems not to lead to something useful, so let's try to find a suitable file format through `exiftool`. The result suggest this is a BMP file, and we are quite sure about it by opening it with an hex editor: the magic bytes are correct (42 4d, 'BM') so we will probably need to "fix" this file to obtain the flag.
 
@@ -300,8 +290,7 @@ After trying some steganography tools on that, by checking again `exiftool` tell
 
 Flag: **picoCTF{qu1t3_a_v13w_2020}**
 
-## MacroHard WeakEdge
-![c](https://img.shields.io/badge/Forensics-blue) ![p](https://img.shields.io/badge/Points-60-success)
+## MacroHard WeakEdge ![p](https://img.shields.io/badge/Points-60-success) ![c](https://img.shields.io/badge/Forensics-blue)
 
 We are given a Powerpoint file with macros (.pptm), this seems like a "classic" MS Office malware challenge. By opening the file with Powerpoint on Windows I could not see all macros, only a `not_flag() one`, clearly not the flag.
 
@@ -314,8 +303,7 @@ cat ppt/slideMasters/hidden | tr -d ' ' | base64 -d
 ```
 Flag: **picoCTF{D1d_u_kn0w_ppts_r_z1p5}**
 
-## Trivial Flag Transfer Protocol
-![c](https://img.shields.io/badge/Forensics-blue) ![p](https://img.shields.io/badge/Points-90-success)
+## Trivial Flag Transfer Protocol ![p](https://img.shields.io/badge/Points-90-success) ![c](https://img.shields.io/badge/Forensics-blue) 
 
 We are given a .pcap file, by opening it on Wireshark I immediately saw the TFTP protocol, and following the various treams it seems to exchange some files. Remember that ith TFTP we can not encrypt in any way, so we can easily access those files with `File > Export Objects > TFTP`, getting some interesting ones.
 

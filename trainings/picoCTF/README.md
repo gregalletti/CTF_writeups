@@ -56,11 +56,25 @@ Flag: **picoCTF{abf2f7d5edf082028076bfd7a4cfe9a9}**
 ![c](https://img.shields.io/badge/Crypto-orange) ![p](https://img.shields.io/badge/Points-20-success)
 
 
+### More Cookies
+![c](https://img.shields.io/badge/Crypto-orange) ![p](https://img.shields.io/badge/Points-90-success)
+
+As the title says this challenge is about cookies, so by inspecting the given [website](http://mercury.picoctf.net:21553/) we immediately see a cookie named `auth_name` set to `cHhjTUd0S1VpUmFROG1Cell5d3VkWlI4MWxCNHg2ZnhFOFJMb09pY3NoMmpWVEpYRDR1cStsSkJDb2U3VVV3U3Jlb0NVWHpmUkZieXNZOG9kdmE4MXgxa040SjlhSkRWbGxiaEdVZ08yS0R0VjJVMEdlUElDUXYxUTRGZyt0N2U=`, which seems base64 encoded. Let's try to decode it, but we still get nothing readable.  
+If we read the challenge description we can see that the cookie is said to be encrypted in some way, we can then guess that it is first encrypted and then base64 encoded.
+
+At this point I was stuck, trying to find a suitable encrypting algorithm without success. Then an hint: _homomorphic encryption_.  
+I already faced this type of challenges, so somehow we need to modify the ciphertext in order to become the admin. This leaves only the possibility of a bit-flip attack, meaning that somewhere in the plaintext we have like isAdmin=0 and we need to make it 1.
+
+By doing that, we will make the website decrypt the cookie and consider us as admin. We don't know the position of the bit to change so we need to bruteforce it and send the request to the website that will show us the flag. This is the script I used:
+```python
+```
+
+Flag: ****
 # Binary Exploitation
 ### Stonks
 ![c](https://img.shields.io/badge/Binary-darkred) ![p](https://img.shields.io/badge/Points-20-success)
 
-We are given a C source file, so let's search for vulnerabilities. There is a clear *format string* vulnerability at line 93, in the `buy_stonks` function:
+We are given a C source file, so let's search for vulnerabilities. There is a clear _format string_ vulnerability at line 93, in the `buy_stonks` function:
 
 ```c
 printf("What is your API token?\n");

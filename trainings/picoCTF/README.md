@@ -2,7 +2,7 @@
 In this section I will store some writeups for the challenges I managed to solve in the picoGym, except the trivial ones.
 
 Authors: 
-* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **8170**)
+* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **8340**)
 
 # General Skills
 ## X
@@ -239,7 +239,7 @@ for i in range(128):
 
 Flag: **picoCTF{cO0ki3s_yum_2d20020d}**
 
-## Who are you?
+## Who are you? ![p](https://img.shields.io/badge/Points-100-success) ![c](https://img.shields.io/badge/Web-purple)
 
 We can access [this](http://mercury.picoctf.net:36622/) website and see what seems to be a trivial User-agent challenge: the kid is telling us _Only people who use the official PicoBrowser are allowed on this site!_ so we can try to modify our `User-agent: picobrowser` in the request to get access. This works, but unfortunately there is more.. Note that I used Burp to craft requests since it was quicker for me, but every other method would work. 
 
@@ -251,7 +251,7 @@ _I don't trust users who can be tracked._ this one was actually the hardest, due
 
 _This website is only for people from Sweden._, I tried to set the X-Forwarded-For parameter to a Swedish IP address and... it worked! `X-Forwarded-For: 31.15.32.0`.
 
-_You're in Sweden but you don't speak Swedish?_, this clearly points to the Accept-Language parameter, so set it to Swedish following [this table](), so `Accept-Language: sv-SE`.
+_You're in Sweden but you don't speak Swedish?_, this clearly points to the Accept-Language parameter, so set it to Swedish following [this table](http://www.lingoes.net/en/translator/langcode.htm), so `Accept-Language: sv-SE`.
 
 And finally we get the flag! I just want to say that despite being an easy challenge I learned a lot about HTTP requests and parameters, always useful.
 
@@ -270,6 +270,8 @@ DNT:1
 X-Forwarded-For: 31.15.32.0
 Connection: close
 ```
+
+Flag: **picoCTF{http_h34d3rs_v3ry_c0Ol_much_w0w_0da16bb2}**
 
 # Reverse Engineering
 ## ARMssembly 0 ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Reverse-lightblue)

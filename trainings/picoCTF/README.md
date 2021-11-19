@@ -243,11 +243,17 @@ Flag: **picoCTF{cO0ki3s_yum_2d20020d}**
 
 We can access [this](http://mercury.picoctf.net:36622/) website and see what seems to be a trivial User-agent challenge: the kid is telling us _Only people who use the official PicoBrowser are allowed on this site!_ so we can try to modify our `User-agent: picobrowser` in the request to get access. This works, but unfortunately there is more.. Note that I used Burp to craft requests since it was quicker for me, but every other method would work. 
 
-_I don't trust users visiting from another site._ at this point I realized I'm bad with HTTP requests parameters, so it's better to keep [this](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) open. At some point we can see the Referer parameter, the address of the previous web page from which a link to the currently requested page was followed. We can now set `Referer: http://mercury.picoctf.net:36622/` and go to the nextstep.
+_I don't trust users visiting from another site._ at this point I realized I'm bad with HTTP requests parameters, so it's better to keep [this](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) open. At some point we can see the Referer parameter (Origin does not work), the address of the previous web page from which a link to the currently requested page was followed. We can now set `Referer: http://mercury.picoctf.net:36622/` and go to the nextstep.
 
 _Sorry, this site only worked in 2018._, trivially set Date to something in 2018 like `Date: Tue, 25 Dec 2018 00:00:00 GMT`.
 
-_I don't trust users who can be tracked._
+_I don't trust users who can be tracked._ this one was actually the hardest, due to the fact that DNT (Do Not Track) is deprecated and I didn't think about it. However, just set it to 1 and go on: `DNT: 1`.
+
+_This website is only for people from Sweden._, I tried to set the X-Forwarded-For parameter to a Swedish IP address and... it worked! `X-Forwarded-For: 31.15.32.0`.
+
+_You're in Sweden but you don't speak Swedish?_, this clearly points to the Accept-Language parameter, so set it to Swedish following [this table](), so `Accept-Language: sv-SE`.
+
+And finally we get the flag! I just want to say that despite being an easy challenge I learned a lot about HTTP requests and parameters, always useful.
 
 The final HTTP request will be something like this:
 ```http
@@ -257,12 +263,13 @@ Upgrade-Insecure-Requests: 1
 User-Agent: picobrowser
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
 Accept-Encoding: gzip, deflate
-Accept-Language: it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Language: sv-SE
 Referer: http://mercury.picoctf.net:36622/
 Date: Tue, 25 Dec 2018 00:00:00 GMT
+DNT:1
+X-Forwarded-For: 31.15.32.0
 Connection: close
 ```
-
 
 # Reverse Engineering
 ## ARMssembly 0 ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Reverse-lightblue)

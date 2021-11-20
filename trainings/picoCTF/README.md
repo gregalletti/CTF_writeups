@@ -184,6 +184,7 @@ Flag: **picoCTF{proving_wiener_6907362}**
 ## No padding, no problem ![p](https://img.shields.io/badge/Points-90-success) ![c](https://img.shields.io/badge/Crypto-orange)
 > Oracles can be your best friend, they will decrypt anything, except the flag's ciphertext. How will you break it? 
 
+If we connect to the server we only get the possibility to submit a ciphertext and get it decrypted, nothing else.  
 We have a very important property of RSA, also called the multiplicative property: the multiplication (modulo n) of two ciphertexts is the same as the encryption of the multiplication of the two plaintexts, E(m)\*E(s) mod n = E(m\*s mod n), in fact since E(m)\*E(s) = m^e\*s^e mod n = (m\*s)^e mod n = (m\*s mod n)^e mod n. You can read more [here](http://secgroup.ext.dsi.unive.it/wp-content/uploads/2012/11/Practical-Padding-Oracle-Attacks-on-RSA.html).
 
 We have N, e and ctx_flag, we can exploit the multiplicative property to perform a Chosen Ciphertext Attack on the remote server, choosing ptx2 = 2 and obtaining ctx2 = 2^e mod n; calculate ctx3 = ctx2\*ctx_flag and then submit it to the Oracle getting ptx3. Finally, since ptx3 = ptx2 \* ptx_flag we can get ptx_flag = ptx3 / ptx2
@@ -207,6 +208,7 @@ ptx_flag = ptx3 / 2 = 2902750301958500394734566183674558850699657488512780767567
 ```
 
 And if we take the bytes and convert them into ASCII we will obtain the flag, `print(bytes.fromhex(hex(ptx_flag)[2:]))`.
+
 Flag: **picoCTF{m4yb3_Th0se_m3s54g3s_4r3_difurrent_4005534}**
 
 ## Pixelated ![p](https://img.shields.io/badge/Points-100-success) ![c](https://img.shields.io/badge/Crypto-orange)

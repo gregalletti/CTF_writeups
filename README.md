@@ -44,4 +44,5 @@ Our members:
 
 | Name |Link|Write-ups|
 |:----:|:--:|:-------:|
+|picoCTF gym|[Official URL](https://play.picoctf.org/practice)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/trainings/picoCTF)|
 |overthewire|[Official URL](https://overthewire.org/wargames/)|[Read](https://github.com/gregalletti/CTF_writeups/tree/main/trainings/overthewire)|

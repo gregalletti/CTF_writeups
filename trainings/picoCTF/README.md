@@ -2,7 +2,7 @@
 In this section I will store some writeups for the challenges I managed to solve in the picoGym, except the trivial ones.
 
 Authors: 
-* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **8930**)
+* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **9320**)
 
 # General Skills
 ## X

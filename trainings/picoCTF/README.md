@@ -735,6 +735,38 @@ Luckily, when dealing with forensics challenges and one-coloured images, StegSol
 
 Flag: **picoCTF{w1z4rdry}**
 
-## WhitePages
+## WhitePages ![p](https://img.shields.io/badge/Points-250-success) ![c](https://img.shields.io/badge/Forensics-blue) 
+> I stopped using YellowPages and moved onto WhitePages... but the page they gave me is all blank!
+
+By opening the given file (a bunch of spaces) and looking at the challenge name I immediately thought about [Whitespace](https://it.wikipedia.org/wiki/Whitespace), but using online editors and interpreters leads to nothing. Even if crazy, Whitespace has a specific logic, using spaces, tabs and new lines: here we have instead just spaces.  
+At this point I tried to better analyze the data, and looking closely I saw that only 2 type of spaces were used: a single one and a double one.
+
+Knowing that, the only thing I could think was binary code, so I tried to replace the characters with 0 and 1. The resulting string seems good, so we can try to convert it byte-to-byte into ASCII and see if there is the flag: of course the first try was unsuccessful, so I tried to invert the 0 and 1 correlation with spaces, and finally get the flag. 
+
+Here is the simple Python script I used:
+```python
+import binascii
+
+SPACE_ONE = " "
+SPACE_TWO = "  " 
+real_text = ""
+
+f = open("whitepages.txt", "r")
+text = f.read()
+
+for c in text:
+	if c == SPACE_ONE:
+		real_text += '1'
+	else:
+		real_text += '0'
+
+binary_int = int(real_text, 2)
+byte_number = binary_int.bit_length() + 7 // 8
+
+binary_array = binary_int.to_bytes(byte_number, "big")
+flag = binary_array.decode()
+
+print(flag)
+```
 
 Flag: **picoCTF{not_all_spaces_are_created_equal_7100860b0fa779a5bd8ce29f24f586dc}**

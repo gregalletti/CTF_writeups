@@ -734,3 +734,7 @@ Luckily, when dealing with forensics challenges and one-coloured images, StegSol
 ![image](./adv2.png)
 
 Flag: **picoCTF{w1z4rdry}**
+
+## WhitePages
+
+Flag: **picoCTF{not_all_spaces_are_created_equal_7100860b0fa779a5bd8ce29f24f586dc}**

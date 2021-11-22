@@ -2,7 +2,7 @@
 In this section I will store some writeups for the challenges I managed to solve in the picoGym, except the trivial ones.
 
 Authors: 
-* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **11590**)
+* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **11990**)
 
 # General Skills
 ## X
@@ -654,7 +654,11 @@ for i in range(LEN):
 print(combo)
 ```
 
-This will print `51081803XXX63640`, where the digit are unique and Xs are where we have multiple choices. I must be honest, from now on I tried to verify through Python if they would produce a real image or a corrupted one but I always failed, so I decided to try it manually on the website. I eventually found out the key being `5108180345363640`, producing a QR code that when read gives us the flag: **picoCTF{066cad9e69c5c7e5d2784185c0feb30b}**
+This will print `51081803XXX63640`, where the digit are unique and Xs are where we have multiple choices. I must be honest, from now on I tried to verify through Python if they would produce a real image or a corrupted one but I always failed, so I decided to try it manually on the website. I eventually found out the key being `5108180345363640`, producing a QR code that when read gives us the flag.
+
+![image](kiddie1.PNG)
+
+Flag: **picoCTF{066cad9e69c5c7e5d2784185c0feb30b}**
 
 _This is an improved version I made to directly verify and solve:
 

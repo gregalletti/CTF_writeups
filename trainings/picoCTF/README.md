@@ -2,7 +2,7 @@
 In this section I will store some writeups for the challenges I managed to solve in the picoGym, except the trivial ones.
 
 Authors: 
-* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **11990**)
+* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **12440**)
 
 # General Skills
 ## X
@@ -654,7 +654,7 @@ for i in range(LEN):
 print(combo)
 ```
 
-This will print `51081803XXX63640`, where the digit are unique and Xs are where we have multiple choices. I must be honest, from now on I tried to verify through Python if they would produce a real image or a corrupted one but I always failed, so I decided to try it manually on the website. I eventually found out the key being `5108180345363640`, producing a QR code that when read gives us the flag.
+This will print a sort of key template `51081803XXX63640`, where the digit are unique and Xs are where we have multiple choices. I must be honest, from now on I tried to verify through Python if they would produce a real image or a corrupted one but I always failed, so I decided to try it manually on the website. I eventually found out the key being `5108180345363640`, producing a QR code that when read gives us the flag.
 
 ![image](kiddie1.PNG)
 
@@ -704,6 +704,39 @@ With this script we directly create all the possible images, and we can immediat
 
 # Java Script Kiddie 2 ![p](https://img.shields.io/badge/Points-450-success) ![c](https://img.shields.io/badge/Web-purple)
 
+This challenge is very similar to the previous one, the only difference is that the key lenght is 32 instead of 16, but as we can see with this instruction, the "new" inserted values are not relevant. This because they will be part of the key, but never used in "decrypting" the image.
+
+This Python script prints the key template with "a" as the new values, and "X"s as placeholder for the multiple choices we can have for the keys. By manually inserting them I managed to retreive the QR code and then the flag.
+
+```python
+BYTES_LEN = 704
+KEY_LEN = 16
+
+f = open("bytes.txt")
+bytes_list = list(map(int, f.read().split(" ")))
+
+known_bytes = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52]
+keys = []
+
+for i in range (KEY_LEN):
+	keys.append([])
+
+for i in range (KEY_LEN):
+	for shifter in range (10):
+		# here is like j = 0
+		if(bytes_list[(shifter * KEY_LEN) % BYTES_LEN + i] == known_bytes[i]):
+			keys[i].append(shifter)
+print(keys)
+combo=""
+for i in range (KEY_LEN):
+	if(len(keys[i])==1):
+		combo += str(keys[i])[1:2]+"a"
+	else:
+		combo += "Xa"
+print(combo)
+```
+
+Flag: **picoCTF{59d5db659865190a07120652e6c77f84}**
 
 # Reverse Engineering
 ## ARMssembly 0 ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Reverse-lightblue)

@@ -211,6 +211,14 @@ And if we take the bytes and convert them into ASCII we will obtain the flag, `p
 
 Flag: **picoCTF{m4yb3_Th0se_m3s54g3s_4r3_difurrent_4005534}**
 
+## spelling-quiz ![p](https://img.shields.io/badge/Points-100-success) ![c](https://img.shields.io/badge/Crypto-orange)
+> I found the flag, but my brother wrote a program to encrypt all his text files. He has a spelling quiz study guide too, but I don't know if that helps.
+
+I know, this probably is not the intended solution, but I would like to share my solution anyway. Don't worry, I will discuss even the "right" one.
+
+
+Flag: **picoCTF{perhaps_the_dog_jumped_over_was_just_tired}**
+
 ## Pixelated ![p](https://img.shields.io/badge/Points-100-success) ![c](https://img.shields.io/badge/Crypto-orange)
 
 This challenge gives us 2 images made by what seem random pixels, suggesting we can extract a flag from them. I immediately thought about performing a bitwise XOR beetween them, but unfortunately this did not work. At this point I was stuck, trying AND and OR operations too without success.  

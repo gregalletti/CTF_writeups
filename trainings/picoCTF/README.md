@@ -781,6 +781,88 @@ Now we can continue in the same way (remember Alt + left_arrow to go back in dis
 
 Converting these bytes into ASCII and get the flag: **picoCTF{d15a5m_ftw_0e74cd4}**
 
+## vault-door 6 ![p](https://img.shields.io/badge/Points-350-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
+
+I skipped the first 5 vault-door challeges on purpose because they are just converting/encoding stuff, from now on they should be a little bit more challenging.  
+We can take a look at the source and we immediately see this check password method:
+```java
+public boolean checkPassword(String password) {
+        if (password.length() != 32) {
+            return false;
+        }
+        byte[] passBytes = password.getBytes();
+        byte[] myBytes = {
+            0x3b, 0x65, 0x21, 0xa , 0x38, 0x0 , 0x36, 0x1d,
+            0xa , 0x3d, 0x61, 0x27, 0x11, 0x66, 0x27, 0xa ,
+            0x21, 0x1d, 0x61, 0x3b, 0xa , 0x2d, 0x65, 0x27,
+            0xa , 0x66, 0x36, 0x30, 0x67, 0x6c, 0x64, 0x6c,
+        };
+        for (int i=0; i<32; i++) {
+            if (((passBytes[i] ^ 0x55) - myBytes[i]) != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+```
+
+So the password is 32 chars, and to obtain it we can simply reverse the comparison performed in the for loop for every character. This is the very simple Python script I used: 
+```python
+myBytes = [
+            0x3b, 0x65, 0x21, 0xa , 0x38, 0x0 , 0x36, 0x1d,
+            0xa , 0x3d, 0x61, 0x27, 0x11, 0x66, 0x27, 0xa ,
+            0x21, 0x1d, 0x61, 0x3b, 0xa , 0x2d, 0x65, 0x27,
+            0xa , 0x66, 0x36, 0x30, 0x67, 0x6c, 0x64, 0x6c,
+]
+
+'''
+flag[i] ^ 0x55 = myBytes[i]
+flag[i] = myBytes[i] ^ 0x55
+'''
+
+flag = list()
+
+for b in myBytes:
+	flag.append(chr(b ^ 0x55))
+flag = "".join(flag)
+
+print(flag)
+```
+
+Flag: **picoCTF{n0t_mUcH_h4rD3r_tH4n_x0r_3ce2919}**
+
+## vault-door 7 ![p](https://img.shields.io/badge/Points-400-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
+
+```java
+public boolean checkPassword(String password) {
+        if (password.length() != 32) {
+            return false;
+        }
+        byte[] passBytes = password.getBytes();
+        byte[] myBytes = {
+            0x3b, 0x65, 0x21, 0xa , 0x38, 0x0 , 0x36, 0x1d,
+            0xa , 0x3d, 0x61, 0x27, 0x11, 0x66, 0x27, 0xa ,
+            0x21, 0x1d, 0x61, 0x3b, 0xa , 0x2d, 0x65, 0x27,
+            0xa , 0x66, 0x36, 0x30, 0x67, 0x6c, 0x64, 0x6c,
+        };
+        for (int i=0; i<32; i++) {
+            if (((passBytes[i] ^ 0x55) - myBytes[i]) != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+```
+
+So the password is 32 chars, and to obtain it we can simply reverse the comparison performed in the for loop for every character. This is the very simple Python script I used: 
+```python
+
+```
+
+Flag: **picoCTF{}**
+
 # Forensics
 ## tunn3l v1s10n ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Forensics-blue)
 

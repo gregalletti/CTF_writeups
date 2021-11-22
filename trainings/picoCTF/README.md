@@ -221,6 +221,134 @@ I then tried to open them on StegSolve, a jar containing a lot of useful stegano
 
 So here it is the flag: **picoCTF{2a4d45c7}**
 
+## Play Nice
+> Not all ancient ciphers were so bad... The flag is not in standard format. nc mercury.picoctf.net 21003 [playfair.py](https://mercury.picoctf.net/static/3329978ea3a249ef44d929b41afc5370/playfair.py)
+
+When connecting we have this, every time:
+```
+Here is the alphabet: 0uxtb3w4kj26q9m8gioe7nvahplr5dy1fzcs
+Here is the encrypted message: xj5c181ropf5xjmyujnv0wlqrjdrbz
+What is the plaintext message? 
+```
+
+If we take a look at the source code we can see what seems a standard implementation of Playfair, except the fact that the matrix is 6x6 and not the classical 5x5. By just reversing some instructions we can perform the decryption, being alphabet and ciphertext fixed.
+
+```python
+#!/usr/bin/python3 -u
+import signal
+
+SQUARE_SIZE = 6
+
+
+def generate_square(alphabet):
+	assert len(alphabet) == pow(SQUARE_SIZE, 2)
+	matrix = []
+	for i, letter in enumerate(alphabet):
+		if i % SQUARE_SIZE == 0:
+			row = []
+		row.append(letter)
+		if i % SQUARE_SIZE == (SQUARE_SIZE - 1):
+			matrix.append(row)
+	return matrix
+
+def get_index(letter, matrix):
+	for row in range(SQUARE_SIZE):
+		for col in range(SQUARE_SIZE):
+			if matrix[row][col] == letter:
+				return (row, col)
+	print("letter not found in matrix.")
+	exit()
+
+def encrypt_pair(pair, matrix):
+	p1 = get_index(pair[0], matrix)	# find first letter in the matrix
+	p2 = get_index(pair[1], matrix)	# find second letter in the matrix
+
+	# get_index returns the pair (row, col)
+
+	if p1[0] == p2[0]:	# row
+		return matrix[p1[0]][(p1[1] + 1)  % SQUARE_SIZE] + matrix[p2[0]][(p2[1] + 1)  % SQUARE_SIZE]
+	elif p1[1] == p2[1]:	# col
+		return matrix[(p1[0] + 1)  % SQUARE_SIZE][p1[1]] + matrix[(p2[0] + 1)  % SQUARE_SIZE][p2[1]]
+	else:
+		return matrix[p1[0]][p2[1]] + matrix[p2[0]][p1[1]]
+
+def encrypt_string(s, matrix):
+	result = ""
+	if len(s) % 2 == 0:
+		plain = s
+	else:
+		plain = s + "0uxtb3w4kj26q9m8gioe7nvahplr5dy1fzcs"[0]	# just append 0 if odd
+	for i in range(0, len(plain), 2):
+		result += encrypt_pair(plain[i:i + 2], matrix)
+	return result
+
+alphabet = open("key").read().rstrip()
+m = generate_square(alphabet)	# just create a 6x6 matrix with alphabet letters (we know this)
+msg = open("msg").read().rstrip()
+enc_msg = encrypt_string(msg, m)
+print("Here is the alphabet: {}\nHere is the encrypted message: {}".format(alphabet, enc_msg))
+signal.alarm(18)
+resp = input("What is the plaintext message? ").rstrip()
+if resp and resp == msg:
+	print("Congratulations! Here's the flag: {}".format(open("flag").read()))
+
+# https://en.wikipedia.org/wiki/Playfair_cipher
+```
+
+Notice that in the code we can also see a comment leading to Playfair cipher on Wikipedia. I then tried to verify if the algorithm was really standard, bruteforcing all the possible decrypted texts, leading to a bunch of strings, among which we can see our previously obtained plaintext value: this was an alternative solution.
+
+```python
+SQUARE_SIZE = 6
+alphabet = "0uxtb3w4kj26q9m8gioe7nvahplr5dy1fzcs"
+enc = "xj5c181ropf5xjmyujnv0wlqrjdrbz"
+
+def generate_square(alphabet):
+	assert len(alphabet) == pow(SQUARE_SIZE, 2)
+	matrix = []
+	for i, letter in enumerate(alphabet):
+		if i % SQUARE_SIZE == 0:
+			row = []
+		row.append(letter)
+		if i % SQUARE_SIZE == (SQUARE_SIZE - 1):
+			matrix.append(row)
+	return matrix
+
+
+m = generate_square(alphabet)
+
+def get_index(letter, matrix):
+	for row in range(SQUARE_SIZE):
+		for col in range(SQUARE_SIZE):
+			if matrix[row][col] == letter:
+				return (row, col)
+	print("letter not found in matrix.")
+	exit()
+
+def decrypt_pair(pair, matrix):
+
+	p1 = get_index(pair[0], matrix)
+	p2 = get_index(pair[1], matrix)
+
+	if p1[0] == p2[0]:	# row
+		return matrix[p1[0]][(p1[1] - 1)  % SQUARE_SIZE] + matrix[p2[0]][(p2[1] - 1)  % SQUARE_SIZE]	# invert constants
+	elif p1[1] == p2[1]:	# col
+		return matrix[(p1[0] - 1)  % SQUARE_SIZE][p1[1]] + matrix[(p2[0] - 1)  % SQUARE_SIZE][p2[1]]	# invert constants
+	else:
+		return matrix[p1[0]][p2[1]] + matrix[p2[0]][p1[1]]
+
+def decrypt_string(s, matrix):
+	result = ""
+	for i in range(0, len(s), 2):
+		result += decrypt_pair(s[i:i + 2], matrix)
+	return result
+
+dec = decrypt_string(enc, m)
+
+print(dec)
+```
+
+If we submit this as plaintext we obtain an hex value, and this is the flag because it's not in the usual format: **3f4b60ebf36369258d8638d2038c7ad1**
+
 # Binary Exploitation
 ## Stonks ![p](https://img.shields.io/badge/Points-20-success) ![c](https://img.shields.io/badge/Binary-darkred)
 
@@ -782,7 +910,7 @@ My idea is that the binary file writes something onto the png file, so let's dis
 
 Actually I think that all the unknown variables are part of the flag, so I will treat them as they are. This because Ghidra is pretty tricky sometimes.
 The function does this:
-- Reads the flag, 16 (0x1a) characters. Interestingly enough, the string we found is 26 characters long, we are on the right way..
+- Reads the flag, 26 (0x1a) characters. Interestingly enough, the string we found is 26 characters long, we are on the right way..
 - Appends the first 4 chars of the flag to the image, so _pico_
 - Appends two characters that we still don't know, but we can imagine being the 5 and 6 characters of the flag, so _CT_
 - Appends the flag characters, from index 6 to 15 (0xf), shifted by +5

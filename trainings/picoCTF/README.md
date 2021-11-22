@@ -727,11 +727,11 @@ We get an advanced-potion-making file with no extension, so let's run file and s
 What we can immediately see are the wrong magic bytes, so if we fix them with `89 50 4E 47 0D 0A 1A 0A` we should be done! Well, no. The image is still corrupted, so let's focus on other bytes that could be wrong. If we take a look at the most important chunks and compare them with a uncorrupted PNG file, we can notice that the bytes before IHDL (`IHDL = 49 48 44 52`) are not the same (which are in all "standard" PNG I opened), being `00 12 13 14`.  
 Let's fix them, replacing with `00 00 00 0D` and now we can open the image and oh, it's all red.
 
-![image](./adv.PNG)
+![image](./potion1.png)
 
 Luckily, when dealing with forensics challenges and one-coloured images, StegSolve.jar can come in handy: open it and select a Red Mask (also a Random would work in this case) and we can **clearly** see the flag:
 
-![image](./adv2.PNG)
+![image](./potion2.png)
 
 Flag: **picoCTF{w1z4rdry}**
 
@@ -778,7 +778,7 @@ We are given these two files, so let's take a look at the image (nothing interes
 
 My idea is that the binary file writes something onto the png file, so let's disassemble it and try to see what it really does. If we get to the main function and rewrite its variables in a human readable way, we obtain this:
 
-![image](./investigate.PNG)
+![image](./investigative.PNG)
 
 Actually I think that all the unknown variables are part of the flag, so I will treat them as they are. This because Ghidra is pretty tricky sometimes.
 The function does this:

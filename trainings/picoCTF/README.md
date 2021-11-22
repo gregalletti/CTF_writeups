@@ -2,7 +2,7 @@
 In this section I will store some writeups for the challenges I managed to solve in the picoGym, except the trivial ones.
 
 Authors: 
-* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **9320**)
+* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **9870**)
 
 # General Skills
 ## X
@@ -727,11 +727,11 @@ We get an advanced-potion-making file with no extension, so let's run file and s
 What we can immediately see are the wrong magic bytes, so if we fix them with `89 50 4E 47 0D 0A 1A 0A` we should be done! Well, no. The image is still corrupted, so let's focus on other bytes that could be wrong. If we take a look at the most important chunks and compare them with a uncorrupted PNG file, we can notice that the bytes before IHDL (`IHDL = 49 48 44 52`) are not the same (which are in all "standard" PNG I opened), being `00 12 13 14`.  
 Let's fix them, replacing with `00 00 00 0D` and now we can open the image and oh, it's all red.
 
-![image](./adv.png)
+![image](./adv.PNG)
 
 Luckily, when dealing with forensics challenges and one-coloured images, StegSolve.jar can come in handy: open it and select a Red Mask (also a Random would work in this case) and we can **clearly** see the flag:
 
-![image](./adv2.png)
+![image](./adv2.PNG)
 
 Flag: **picoCTF{w1z4rdry}**
 

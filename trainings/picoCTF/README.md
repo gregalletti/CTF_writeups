@@ -590,6 +590,77 @@ BOOM, we just need to send `a; cat falg.txt` and enjoy our points!
 
 Flag: **picoCTF{moooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo0o}**
 
+# Java Script Kiddie ![p](https://img.shields.io/badge/Points-400-success) ![c](https://img.shields.io/badge/Web-purple)
+> The image link appears broken... https://jupiter.challenges.picoctf.org/problem/17205 or http://jupiter.challenges.picoctf.org:17205
+
+If we visit the website we only have one input field and one button, that seem to create an image if we provide some text. Let's now take a look to the Javascript source code and try to understand something: 
+```javascript
+	var bytes = [];
+	$.get("bytes", function(resp) {
+		bytes = Array.from(resp.split(" "), x => Number(x));
+	});
+
+	function assemble_png(u_in){
+		var LEN = 16;
+		var key = "0000000000000000";
+		var shifter;
+		if(u_in.length == LEN){
+			key = u_in;
+		}
+		var result = [];
+		for(var i = 0; i < LEN; i++){
+			shifter = key.charCodeAt(i) - 48;
+			for(var j = 0; j < (bytes.length / LEN); j ++){
+				result[(j * LEN) + i] = bytes[(((j + shifter) * LEN) % bytes.length) + i]
+			}
+		}
+		while(result[result.length-1] == 0){
+			result = result.slice(0,result.length-1);
+		}
+		document.getElementById("Area").src = "data:image/png;base64," + btoa(String.fromCharCode.apply(null, new Uint8Array(result)));
+		return false;
+		}
+```
+
+The first part makes a request to the /bytes page, and we can see by inspecting the network requests from Chrome that this endpoint sends back, as expected, a bunch of bytes: `87 130 78 188 0 84 26 157 143 239 249 82 248 212 239 82 195 80 1 207 ...` and a lot more (720 in total). The code now creates the `bytes` array by splitting these with space.
+
+The `assemble_png` takes `u_in` as parametes (we can assume being user input, so the input we provide in the text field) and if it's made of 16 characters it replaces the 0 key with it: we can assume now that we will need to find and write the right key.  
+In the loop (16 times) we take `key[i] - 48` and another loop is performed (720/16 = 45 times), where we fill `result` (with lenght of 720) array 16 elements after 16 with the "decrypted" bytes. At the end, an image will be displayed using the decrypted bytes as content, in base64. Notice that `key[i] - 48` will turn a digit's ASCII value to the actual digit it represents, in fact the digit 0 has an ASCII value of 48. 
+
+The image is a PNG file, so we can identify the needed bytes by looking at magic bytes and other fixed bytes in the header, so that we can easily reconstruct the first 16 bytes of the image, that is the first loop. `89 50 4E 47 0D 0A 1A 0A` are the magic bytes, and the other chunks are `00 00 00 0D 49 48 44 52`. Now we know these values and we can retrieve the key from the `shifter` variable, with `j = 0`.
+
+This is the Python script I used (it's bad I know):
+```python
+LEN = 16
+
+f = open("bytes.txt")
+bytes = list(map(int, f.read().split(" ")))
+
+known_bytes = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52]
+
+keys = ["","","","","","","","","","","","","","","",""]
+
+for i in range (LEN):
+	for shifter in range (10):
+		if(bytes[(shifter * LEN) % len(bytes) + i] == known_bytes[i]):
+			keys[i] += str(shifter)
+	
+combo = ""
+for i in range(LEN):
+	if(len(keys[i]) == 1):
+		combo += keys[i]
+	else:
+		combo += "X"
+print(combo)
+```
+
+This will print `51081803XXX63640`, where the digit are unique and Xs are where we have multiple choices. I must be honest, from now on I tried to verify through Python if they would produce a real image or a corrupted one but I always failed, so I decided to try it manually on the website. I eventually found out the key being `5108180345363640`, producing a QR code that when read gives us the flag: **picoCTF{066cad9e69c5c7e5d2784185c0feb30b}**
+
+_This is an improved version I made to directly verify and solve:
+
+# Java Script Kiddie 2 ![p](https://img.shields.io/badge/Points-450-success) ![c](https://img.shields.io/badge/Web-purple)
+
+
 # Reverse Engineering
 ## ARMssembly 0 ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
 

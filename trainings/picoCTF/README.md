@@ -770,3 +770,23 @@ print(flag)
 ```
 
 Flag: **picoCTF{not_all_spaces_are_created_equal_7100860b0fa779a5bd8ce29f24f586dc}**
+
+## Investigative Reversing 0 ![p](https://img.shields.io/badge/Points-300-success) ![c](https://img.shields.io/badge/Forensics-blue) 
+> We have recovered a binary and an image. See what you can make of it. There should be a flag somewhere.
+We are given these two files, so let's take a look at the image (nothing interesting by just opening it) in an hex editor. The first bytes seems ok, but at the very end we can see a strange string: `picoCTKﾀk5zsid6q_3d659f57}` kinda looks like a flag, but not really.
+
+My idea is that the binary file writes something onto the png file, so let's disassemble it and try to see what it really does. If we get to the main function and rewrite its variables in a human readable way, we obtain this:
+
+
+Actually I think that all the unknown variables are part of the flag, so I will treat them as they are. This because Ghidra is pretty tricky sometimes.
+The function does this:
+- Reads the flag, 16 (0x1a) characters. Interestingly enough, the string we found is 26 characters long, we are on the right way..
+- Appends the first 4 chars of the flag to the image, so _pico_
+- Appends two characters that we still don't know, but we can imagine being the 5 and 6 characters of the flag, so _CT_
+- Appends the flag characters, from index 6 to 15 (0xf), shifted by +5
+- Appends an unknown value (flag[15]) shifted by -3
+- From index 16 to 26, the flag is now appended as it is
+
+Knowing that, we can conclude that the last part (`_3d659f57}`) is already correct. To retrieve the first part (excluding `picoCT`) we can just subtract 5 to the ASCII value of every character and print them back: `Fｻf0und_1`. For the remaining character, just add 3 to it and obtain t.
+
+Concatenating everything leads us to the flag: **picoCTF{f0und_1t_3d659f57}**

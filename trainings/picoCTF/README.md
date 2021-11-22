@@ -660,7 +660,7 @@ This will print `51081803XXX63640`, where the digit are unique and Xs are where 
 
 Flag: **picoCTF{066cad9e69c5c7e5d2784185c0feb30b}**
 
-_This is an improved version I made to directly verify and solve:
+_This is an improved version I made to directly verify and solve:_
 
 # Java Script Kiddie 2 ![p](https://img.shields.io/badge/Points-450-success) ![c](https://img.shields.io/badge/Web-purple)
 

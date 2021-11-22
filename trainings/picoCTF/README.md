@@ -660,7 +660,47 @@ This will print `51081803XXX63640`, where the digit are unique and Xs are where 
 
 Flag: **picoCTF{066cad9e69c5c7e5d2784185c0feb30b}**
 
-_This is an improved version I made to directly verify and solve:_
+_This is an improved version I made to directly verify and solve (still bad but useful):_
+```python
+from itertools import product
+
+BYTES_LEN = 720
+KEY_LEN = 16
+
+def verify_key(key):
+	global bytes_list
+	result = [0] * BYTES_LEN
+
+	for i in range(KEY_LEN):
+		shifter = int(key[i])
+
+		for j in range(BYTES_LEN // KEY_LEN):
+			result[(j * KEY_LEN) + i] = bytes_list[(((j + shifter) * KEY_LEN) % BYTES_LEN) + i]
+
+	with open("./{}.png".format(key), 'wb') as imagefile:
+		imagefile.write(bytes(result))
+
+
+f = open("bytes.txt")
+bytes_list = list(map(int, f.read().split(" ")))
+
+known_bytes = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52]
+keys = []
+
+for i in range (KEY_LEN):
+	keys.append([])
+
+for i in range (KEY_LEN):
+	for shifter in range (10):
+		# here is like j = 0
+		if(bytes_list[(shifter * KEY_LEN) % BYTES_LEN + i] == known_bytes[i]):
+			keys[i].append(shifter)
+
+for k in product(*keys):
+	verify_key(k)
+```
+
+With this script we directly create all the possible images, and we can immediately see the right one from the preview: again scan the QR code and the flag is right there!
 
 # Java Script Kiddie 2 ![p](https://img.shields.io/badge/Points-450-success) ![c](https://img.shields.io/badge/Web-purple)
 

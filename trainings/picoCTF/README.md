@@ -834,34 +834,48 @@ Flag: **picoCTF{n0t_mUcH_h4rD3r_tH4n_x0r_3ce2919}**
 
 ## vault-door 7 ![p](https://img.shields.io/badge/Points-400-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
 
+We can take a look at the source and we immediately see this check password method, clearly explained with comments:
 ```java
-public boolean checkPassword(String password) {
-        if (password.length() != 32) {
-            return false;
-        }
-        byte[] passBytes = password.getBytes();
-        byte[] myBytes = {
-            0x3b, 0x65, 0x21, 0xa , 0x38, 0x0 , 0x36, 0x1d,
-            0xa , 0x3d, 0x61, 0x27, 0x11, 0x66, 0x27, 0xa ,
-            0x21, 0x1d, 0x61, 0x3b, 0xa , 0x2d, 0x65, 0x27,
-            0xa , 0x66, 0x36, 0x30, 0x67, 0x6c, 0x64, 0x6c,
-        };
-        for (int i=0; i<32; i++) {
-            if (((passBytes[i] ^ 0x55) - myBytes[i]) != 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
+    // Each character can be represented as a byte value using its
+    // ASCII encoding. Each byte contains 8 bits, and an int contains
+    // 32 bits, so we can "pack" 4 bytes into a single int. Here's an
+    // example: if the hex string is "01ab", then those can be
+    // represented as the bytes {0x30, 0x31, 0x61, 0x62}. When those
+    // bytes are represented as binary, they are:
+    //
+    // 0x30: 00110000
+    // 0x31: 00110001
+    // 0x61: 01100001
+    // 0x62: 01100010
+    //
+    // If we put those 4 binary numbers end to end, we end up with 32
+    // bits that can be interpreted as an int.
+    //
+    // 00110000001100010110000101100010 -> 808542562
+    //
+    // Since 4 chars can be represented as 1 int, the 32 character password can
+    // be represented as an array of 8 ints.
 ```
 
-So the password is 32 chars, and to obtain it we can simply reverse the comparison performed in the for loop for every character. This is the very simple Python script I used: 
+So what we have to do is to reverse all this algorithm, given the int arrays: `int -> binary (32 bits) -> split 4 x 8 bits -> hex -> ASCII`. This is the very simple Python script I used: 
 ```python
+int_list = [1096770097, 1952395366, 1600270708, 1601398833, 1716808014, 1734293296, 842413104, 1684157793]
 
+flag = ""
+
+for i in int_list:
+	bin_32 = ((bin(i)[2:]).zfill(32))
+	binaries=[bin_32[i:i+8] for i in range(0, 32, 8)]
+
+	for b in binaries:
+		hex_value = hex(int(b,2))
+		ascii_value = bytes.fromhex(hex_value[2:]).decode("ASCII")
+		flag += ascii_value
+
+print("picoCTF{"+flag+"}")
 ```
 
-Flag: **picoCTF{}**
+Flag: **picoCTF{A_b1t_0f_b1t_sh1fTiNg_702640db5a}**
 
 # Forensics
 ## tunn3l v1s10n ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Forensics-blue)

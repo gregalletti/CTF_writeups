@@ -2,7 +2,7 @@
 In this section I will store some writeups for the challenges I managed to solve in the picoGym, except the trivial ones.
 
 Authors: 
-* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **10090**)
+* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **11590**)
 
 # General Skills
 ## X
@@ -876,6 +876,11 @@ print("picoCTF{"+flag+"}")
 ```
 
 Flag: **picoCTF{A_b1t_0f_b1t_sh1fTiNg_702640db5a}**
+
+## vault-door 8 ![p](https://img.shields.io/badge/Points-450-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
+
+After rewriting a bit the ugly code they gave us, we can now see two important methods: 
+- `scramble`, takes the password and switches chars at index: 1-2, 0-3, 5-6, 4-7, 0-1, 3-4, 2-5, 6-7
 
 # Forensics
 ## tunn3l v1s10n ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Forensics-blue)

@@ -4,9 +4,13 @@ In this section I will store some writeups for the challenges I managed to solve
 Authors: 
 * [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ (picoGym Score: **12440**)
 
-# General Skills
-## X
-![c](https://img.shields.io/badge/General-lightgrey) ![p](https://img.shields.io/badge/Points-350-success)
+Writeups are divided by their category, there are waaay to many challenges:
+- [General Skills](https://github.com/gregalletti/CTF_writeups/tree/main/trainings/picoCTF/general)
+- [Cryptography](https://github.com/gregalletti/CTF_writeups/tree/main/trainings/picoCTF/crypto)
+- [Binary Exploitation](https://github.com/gregalletti/CTF_writeups/tree/main/trainings/picoCTF/binary)
+- [Web Exploitation](https://github.com/gregalletti/CTF_writeups/tree/main/trainings/picoCTF/web)
+- [Reverse Engineering](https://github.com/gregalletti/CTF_writeups/tree/main/trainings/picoCTF/reverse)
+- [Forensics](https://github.com/gregalletti/CTF_writeups/tree/main/trainings/picoCTF/forensics)
 
 # Cryptography
 

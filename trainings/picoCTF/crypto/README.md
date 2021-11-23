@@ -13,7 +13,6 @@ Now we can calculate `PHI = (P-1)*(Q-1)` and `D = E^(-1) mod PHI`, to decrypt th
 
 Flag: **picoCTF{sma11_N_n0_g0od_73918962}**
 
-
 ## Easy Peasy ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Crypto-orange) 
 
 We are given a Python script granting an OTP encryption, so let's analyze it and find some weaknesses.  
@@ -219,7 +218,7 @@ I then tried to open them on StegSolve, a jar containing a lot of useful stegano
 
 So here it is the flag: **picoCTF{2a4d45c7}**
 
-## Play Nice
+## Play Nice ![p](https://img.shields.io/badge/Points-110-success) ![c](https://img.shields.io/badge/Crypto-orange)
 > Not all ancient ciphers were so bad... The flag is not in standard format. nc mercury.picoctf.net 21003 [playfair.py](https://mercury.picoctf.net/static/3329978ea3a249ef44d929b41afc5370/playfair.py)
 
 When connecting we have this, every time:

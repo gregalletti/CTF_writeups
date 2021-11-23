@@ -1,0 +1,291 @@
+# Reverse Engineering
+## ARMssembly 0 ![p](https://img.shields.io/badge/Points-40-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
+
+We have a .S file, so let's open it and start analyzing it, knowing that the arguments are 3854998744 and 915131509.  
+Here is the main:
+```assembly
+main:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	x19, [sp, 16]
+	str	w0, [x29, 44]
+	str	x1, [x29, 32]
+	ldr	x0, [x29, 32]
+	add	x0, x0, 8
+	ldr	x0, [x0]
+	bl	atoi
+	mov	w19, w0
+	ldr	x0, [x29, 32]
+	add	x0, x0, 16
+	ldr	x0, [x0]
+	bl	atoi
+	mov	w1, w0
+	mov	w0, w19
+	bl	func1
+	mov	w1, w0
+	adrp	x0, .LC0
+	add	x0, x0, :lo12:.LC0
+	bl	printf
+	mov	w0, 0
+	ldr	x19, [sp, 16]
+	ldp	x29, x30, [sp], 48
+	ret
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu/Linaro 7.5.0-3ubuntu1~18.04) 7.5.0"
+	.section	.note.GNU-stack,"",@progbits
+```
+
+What the first lines of code seem to do is to read arguments from command line and convert them into integers (notice the double `atoi` link call), and after that we can see `mov    w1, w0` and `mov    w0, w19` leaving the input values in the same order we wrote them: they are then passed to `func1` as parameters with `w0 = 3854998744` and `w1 = 915131509`.  
+
+Here is `func1` and the following functions/labels (`L2`, `L3` and `LC0`): 
+```assembly
+func1:
+	sub	sp, sp, #16
+	str	w0, [sp, 12]
+	str	w1, [sp, 8]
+	ldr	w1, [sp, 12]
+	ldr	w0, [sp, 8]
+	cmp	w1, w0
+	bls	.L2
+	ldr	w0, [sp, 12]
+	b	.L3
+.L2:
+	ldr	w0, [sp, 8]
+.L3:
+	add	sp, sp, 16
+	ret
+	.size	func1, .-func1
+	.section	.rodata
+	.align	3
+.LC0:
+	.string	"Result: %ld\n"
+	.text
+	.align	2
+	.global	main
+	.type	main, %function
+```
+
+`func1` just loads the two values in reverse order and compares them (now `w0 = 915131509` and `w1 = 3854998744`), if w1 < w0 then jumps to `.L2`: this is not our case. Then the `ldr   w0, [sp, 12]` instruction will load the first value, 3854998744, and jump to `.L3`.
+
+After getting back to the main, this value will be printed. The challenge description says that the flag format is the hex value of what will be printed, so **picoCTF{e5c69cd8}**
+
+## Speeds and feeds ![p](https://img.shields.io/badge/Points-50-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
+
+We connect to a remote server and we get as result a veeeery long output, let's write it on a file and take a look. We can immediately see every lines starts with G, and then X/Y/Z and some numerical values: this is G-Code, used by 3D printers (luckily enough I already solved a G-Code challenge).
+
+We can then paste the code on [this](https://ncviewer.com/) Simulator and view the result: 
+![image](./speeds.PNG)
+
+Flag: **picoCTF{num3r1cal_c0ntr0l_68a8fe29}**
+
+## ARMssembly 1 ![p](https://img.shields.io/badge/Points-70-success) ![c](https://img.shields.io/badge/Reverse-lightblue) 
+
+This challenge is very similar to ARMssembly 0, so we can use the same approach.  
+Here is the main:
+```assembly
+main:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	str	x1, [x29, 16]
+	ldr	x0, [x29, 16]
+	add	x0, x0, 8
+	ldr	x0, [x0]
+	bl	atoi
+	str	w0, [x29, 44]
+	ldr	w0, [x29, 44]
+	bl	func
+	cmp	w0, 0
+	bne	.L4
+	adrp	x0, .LC0
+	add	x0, x0, :lo12:.LC0
+	bl	puts
+	b	.L6
+```
+
+The `bne    .L4` is what we want to avoid, because it will lead to `.LC1` printing "You Lose :(". We want instead not to take that branch and jump to `.LC0` printing "You Win!": we need w0 = 0 (the result of `func`).
+```assembly
+func:
+	sub	sp, sp, #32
+	str	w0, [sp, 12]	; this is the needed argument, call it x
+	mov	w0, 58
+	str	w0, [sp, 16]	; store 58 
+	mov	w0, 2
+	str	w0, [sp, 20]	; store 2
+	mov	w0, 3
+	str	w0, [sp, 24]	; store 3
+	ldr	w0, [sp, 20]	; w0 = 2
+	ldr	w1, [sp, 16]	; w1 = 58
+	lsl	w0, w1, w0	; w0 = 58 << 2 = 58 * 4 = 232
+	str	w0, [sp, 28]	; store 232
+	ldr	w1, [sp, 28]	; w1 = 232
+	ldr	w0, [sp, 24]	; w0 = 3
+	sdiv	w0, w1, w0	; w0 = 232 / 3
+	str	w0, [sp, 28]	; store 77
+	ldr	w1, [sp, 28]	; w1 = 77
+	ldr	w0, [sp, 12]	; w0 = x
+	sub	w0, w1, w0	; w0 = 77 - x
+	str	w0, [sp, 28]	; store (77 - x)
+	ldr	w0, [sp, 28]	; w0 = (77 - x)
+	add	sp, sp, 32
+	ret
+	.size	func, .-func
+	.section	.rodata
+	.align	3
+```
+
+The comments I added to the assembly code are self-explanatory, in this case we have that (77 - x) must be equal to 0, leading to `x = 77`. 77 in hex is 4d, thus the flag (lowercase and 8 bit) will be **picoCTF{0000004d}**
+
+## ARMssembly 2 ![p](https://img.shields.io/badge/Points-90-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
+
+ARMssembly again, same process with argument 1748687564. Notice that `wrz` is a special register containing value 0.
+```assembly
+func1:
+	sub	sp, sp, #32
+	str	w0, [sp, 12]	; store 1748687564
+	str	wzr, [sp, 24]	; store 0
+	str	wzr, [sp, 28]	; store 0
+	b	.L2
+.L3:
+	ldr	w0, [sp, 24]	; w0 = 0,3,.. 
+	add	w0, w0, 3	; w0 = 3,6,..
+	str	w0, [sp, 24]	; store 3,6,.. until 1748687564 * 3
+	ldr	w0, [sp, 28]	; w0 = 0,1,..
+	add	w0, w0, 1	; w0 = 1,2,..
+	str	w0, [sp, 28]	; store 1,2,..
+.L2:
+	ldr	w1, [sp, 28]	; w1 = 0,1,2,.. until 1748687564
+	ldr	w0, [sp, 12]	; w0 = 1748687564,same,same
+	cmp	w1, w0		
+	bcc	.L3		; carry is clear so jump
+	ldr	w0, [sp, 24]	; w0 = [sp + 24]
+	add	sp, sp, 32
+	ret
+	.size	func1, .-func1
+	.section	.rodata
+	.align	3
+```
+
+`func1` is easy, just store values and jump to `.L2` that will load [sp + 28] (initially 0) and [sp + 12] (initially our input) and compare them before jumping to `.L3` with a `bcc` instruction. After googling it I found out that `BCC is Branch on Carry Clear`, and the Carry flag is usually cleared when the result is “higher than or equal”: this actually means that we jump if w1 < w0, we ignore the jump otherwise.  
+Looking at how the code is written we can conclude that this is a loop start, executing `.L3` and then again `.L2` until `bcc`, the loop exit condition.
+
+As we can see from the comments I made, at each iteration the [sp + 24] value is incremented by 3 and the [sp + 28] value is incremented by 1, while [sp + 12] remains the same. If we look at the loop from an higher level, we can conclude that the first one is the modified variable, the second one is the index of the loop, and the third one is the loop limiter. 
+
+At the end of the loop, executed 1748687564 times, we will end up with 1748687564 * 3 stored in [sp + 24], which is the value returned by `.L2` and then printed by the `main`.
+
+If we rewrite the result (5246062692) following the required flag format we get 138b09064, but this is not a 32 bit number (9 bits)! Just AND it with 0xffffffff and obtain the flag: **picoCTF{38b09064}**
+
+## Hurry up! Wait! ![p](https://img.shields.io/badge/Points-100-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
+
+We get a .exe file, so let's download it and disassemble it with Ghidra. It's stripped, so we can search the `entry` function to get the `libc_start_main` calling `FUN_00101fcc`, let's rename it as `main` and go on with the analysis.
+
+Here we can see 3 functions calls (FUN_00101d7c, FUN_0010298a, FUN_00101d52) but if we dig into them we can conclude that the first one is an initialization function and the third "closes" a string with '\0', so we should focus on the second one, call it `print_flag`:
+
+![image](./print_flag.PNG)
+
+As we can see there are a lot of calls to other functions, but there is no point on renaming them. Just by opening and analyzing the first two, they access local data corresponding to 70 and 69 respectively: converting them into ASCII, they are 'p' and 'i'... seems like pico!  
+Now we can continue in the same way (remember Alt + left_arrow to go back in disassemble) and get:
+`70 69 63 6f 43 54 46 7b 64 31 35 61 35 6d 5f 66 74 77 5f 30 65 37 34 63 64 34 7d`
+
+Converting these bytes into ASCII and get the flag: **picoCTF{d15a5m_ftw_0e74cd4}**
+
+## vault-door 6 ![p](https://img.shields.io/badge/Points-350-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
+
+I skipped the first 5 vault-door challeges on purpose because they are just converting/encoding stuff, from now on they should be a little bit more challenging.  
+We can take a look at the source and we immediately see this check password method:
+```java
+public boolean checkPassword(String password) {
+        if (password.length() != 32) {
+            return false;
+        }
+        byte[] passBytes = password.getBytes();
+        byte[] myBytes = {
+            0x3b, 0x65, 0x21, 0xa , 0x38, 0x0 , 0x36, 0x1d,
+            0xa , 0x3d, 0x61, 0x27, 0x11, 0x66, 0x27, 0xa ,
+            0x21, 0x1d, 0x61, 0x3b, 0xa , 0x2d, 0x65, 0x27,
+            0xa , 0x66, 0x36, 0x30, 0x67, 0x6c, 0x64, 0x6c,
+        };
+        for (int i=0; i<32; i++) {
+            if (((passBytes[i] ^ 0x55) - myBytes[i]) != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+```
+
+So the password is 32 chars, and to obtain it we can simply reverse the comparison performed in the for loop for every character. This is the very simple Python script I used: 
+```python
+myBytes = [
+            0x3b, 0x65, 0x21, 0xa , 0x38, 0x0 , 0x36, 0x1d,
+            0xa , 0x3d, 0x61, 0x27, 0x11, 0x66, 0x27, 0xa ,
+            0x21, 0x1d, 0x61, 0x3b, 0xa , 0x2d, 0x65, 0x27,
+            0xa , 0x66, 0x36, 0x30, 0x67, 0x6c, 0x64, 0x6c,
+]
+
+'''
+flag[i] ^ 0x55 = myBytes[i]
+flag[i] = myBytes[i] ^ 0x55
+'''
+
+flag = list()
+
+for b in myBytes:
+	flag.append(chr(b ^ 0x55))
+flag = "".join(flag)
+
+print(flag)
+```
+
+Flag: **picoCTF{n0t_mUcH_h4rD3r_tH4n_x0r_3ce2919}**
+
+## vault-door 7 ![p](https://img.shields.io/badge/Points-400-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
+
+We can take a look at the source and we immediately see this check password method, clearly explained with comments:
+```java
+    // Each character can be represented as a byte value using its
+    // ASCII encoding. Each byte contains 8 bits, and an int contains
+    // 32 bits, so we can "pack" 4 bytes into a single int. Here's an
+    // example: if the hex string is "01ab", then those can be
+    // represented as the bytes {0x30, 0x31, 0x61, 0x62}. When those
+    // bytes are represented as binary, they are:
+    //
+    // 0x30: 00110000
+    // 0x31: 00110001
+    // 0x61: 01100001
+    // 0x62: 01100010
+    //
+    // If we put those 4 binary numbers end to end, we end up with 32
+    // bits that can be interpreted as an int.
+    //
+    // 00110000001100010110000101100010 -> 808542562
+    //
+    // Since 4 chars can be represented as 1 int, the 32 character password can
+    // be represented as an array of 8 ints.
+```
+
+So what we have to do is to reverse all this algorithm, given the int arrays: `int -> binary (32 bits) -> split 4 x 8 bits -> hex -> ASCII`. This is the very simple Python script I used: 
+```python
+int_list = [1096770097, 1952395366, 1600270708, 1601398833, 1716808014, 1734293296, 842413104, 1684157793]
+
+flag = ""
+
+for i in int_list:
+	bin_32 = ((bin(i)[2:]).zfill(32))
+	binaries=[bin_32[i:i+8] for i in range(0, 32, 8)]
+
+	for b in binaries:
+		hex_value = hex(int(b,2))
+		ascii_value = bytes.fromhex(hex_value[2:]).decode("ASCII")
+		flag += ascii_value
+
+print("picoCTF{"+flag+"}")
+```
+
+Flag: **picoCTF{A_b1t_0f_b1t_sh1fTiNg_702640db5a}**
+
+## vault-door 8 ![p](https://img.shields.io/badge/Points-450-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
+
+After rewriting a bit the ugly code they gave us, we can now see two important methods: 
+- `scramble`, takes the password and switches chars at index: 1-2, 0-3, 5-6, 4-7, 0-1, 3-4, 2-5, 6-7

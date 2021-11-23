@@ -203,8 +203,12 @@ Flag: **picoCTF{m4yb3_Th0se_m3s54g3s_4r3_difurrent_4005534}**
 ## spelling-quiz ![p](https://img.shields.io/badge/Points-100-success) ![c](https://img.shields.io/badge/Crypto-orange)
 > I found the flag, but my brother wrote a program to encrypt all his text files. He has a spelling quiz study guide too, but I don't know if that helps.
 
-I know, this probably is not the intended solution, but I would like to share my solution anyway. Don't worry, I will discuss even the "right" one.
+I know, this probably is not the cleanest solution, but I would like to share it anyway.
 
+In the .zip file we can see a flag.txt file, so I immediately tried to recognize the algorithm used to encrypt it. Even Cyberchef was not able to get it, so I tried [quipqiup](https://quipqiup.com/) because I was too lazy to do the things myself.  
+By inserting our flag and selecting Solve (statistics) we can immediately see a meaningful string (*perhaps_the_dog_jumped_over_was_just_tired*), our flag. I selected statistics because of the keywords **spelling**, making me think about frequency analysis.
+
+It turns out that this is the right path, but notice that I did not even looked at the `encrypt.py` source code or the `study-guide.txt` they provided us. If quipqiup wasn't enough, I could have used the study-guide (a bunch of strings probably encrypted in the same way of the flag) to perform a frequency analysis, and with the results obtain the flag.
 
 Flag: **picoCTF{perhaps_the_dog_jumped_over_was_just_tired}**
 

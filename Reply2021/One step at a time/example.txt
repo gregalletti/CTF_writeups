@@ -1,0 +1,19 @@
+Maze example:
+ZgV(;sMXSw_EOvy/Y9Y
+p[{>|#nD>Q1={48#&,.
+V[uZiB4D\f%hQBW$"Vk
+0$qCvf!WGs)"k=^@^i<
+fS6}3RtG*(pZ;0)x]}.
+Vw(Y`=dB%|G?iCO@L>B
+l#4~t2@7B81U:*7'!t9
+BF5%4-DlkRkuKa|#vJm
+
+Map example:
+#nD>Q1={48
+1
+6
+4
+2@7B81U:*7
+
+
+Output example: h

@@ -1,4 +1,4 @@
-# picoCTF - picoGym (Score: **12650**)
+# picoCTF - picoGym (Score: **12770**)
 In this section I will store some writeups for the challenges I managed to solve in the picoGym, except the trivial ones.
 
 Writeups are divided by their category, there are waaay to many challenges:

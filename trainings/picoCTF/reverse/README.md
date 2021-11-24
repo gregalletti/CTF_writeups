@@ -189,6 +189,57 @@ Now we can continue in the same way (remember Alt + left_arrow to go back in dis
 
 Converting these bytes into ASCII and get the flag: **picoCTF{d15a5m_ftw_0e74cd4}**
 
+## gogo ![p](https://img.shields.io/badge/Points-110-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
+
+We are given an executable and nothing more, if we try to execute it or to connect to the server we are asked for a password: let's open that in `Ghidra` and see some disassembled code.
+
+By looking at the main (a bit confused) we can see an interesting checkPassword method, let's ignore all the weird instructions and focus on relevant ones. The only thing we can obtain from this is that the password is 0x20 (32) characters long, and the loop will check character by character our input XORed with an unknown char, comparing it with an expected one.
+
+Now it's better to explore the behaviour with `gdb` writing down an interesting address to set the breakpoint at, like `0x080d4b08`, the initialization of the index variable. After running it with password made of 32 "A"s and breaking (`b *0x080d4b08`) we can now see the actual assembly instructions performed, here are the most relevant:
+```assembly
+   0x80d4b18 <main.checkPassword+152>:	movzx  ebp,BYTE PTR [ecx+eax*1]			; see #1 
+   0x80d4b1c <main.checkPassword+156>:	cmp    eax,0x20					; correct = 32?
+   0x80d4b1f <main.checkPassword+159>:	jae    0x80d4b66 <main.checkPassword+230>	; if yes, got it
+   0x80d4b21 <main.checkPassword+161>:	movzx  esi,BYTE PTR [esp+eax*1+0x4]		; see #2
+   0x80d4b26 <main.checkPassword+166>:	xor    ebp,esi					; see #3
+   0x80d4b28 <main.checkPassword+168>:	movzx  esi,BYTE PTR [esp+eax*1+0x24]		; see #4
+   0x80d4b2d <main.checkPassword+173>:	xchg   ebp,eax					; switch values
+   0x80d4b2e <main.checkPassword+174>:	xchg   esi,ebx					; switch values
+   0x80d4b30 <main.checkPassword+176>:	cmp    al,bl					; AL is the lower 8 bits of EAX, same for BL
+   0x80d4b32 <main.checkPassword+178>:	xchg   esi,ebx					; switch back
+   0x80d4b34 <main.checkPassword+180>:	xchg   ebp,eax					; switch back
+   0x80d4b35 <main.checkPassword+181>:	jne    0x80d4b0e <main.checkPassword+142>	; if not equal, go back to loop
+   0x80d4b37 <main.checkPassword+183>:	inc    ebx					; if equal, correct+1 and
+   0x80d4b38 <main.checkPassword+184>:	jmp    0x80d4b0e <main.checkPassword+142>	; go back to loop
+```
+
+From this we get that:
+- **#1**: by looking at registers value we see `eax = 0`, this means that `ebp` is set to the content of `ecx`: if we look at it with `x /4gx $ecx` we can see that it contains our input. Thus, we store our input in `ebp`
+![image](./ecx.PNG)
+
+- **#2**: again `eax = 0`, so `esi` is set to the content of `esp + 0x4`: if we look at it with `x /4gx $esp + 0x4` we can see that it contains some values, the ones we will use to XOR our input
+![image](./esp4.PNG)
+
+- **#3**: performs the actual XOR and stores the result in `ebp`, in fact with our input (0x41) and the actual value of `esi` (0x38) we observe `ebp = 0x79`
+- **#4**: again we store in esi the value of `esp + 0x24`: if we look at it with `x /4gx $esp + 0x24` we can see that it contains some values, the expected ones (because later we compare THIS value to the XOR result)
+![image](./esp24.PNG)
+
+Now we know everything we need to revert the operation by XORing the two retreived byte sequences and get the password (bytes order must be inverted w.r.t. previous screenshots):
+```python
+>>> xor_values = 0x3836313833366631336533643632376466613337356264623833383932313465
+>>> exp_values = 0x4a53475d414503545d025a0a5357450d05005d555410010e4155574b45504601
+>>> pwd = hex(xor_values^exp_values)
+>>> print(pwd)
+0x72657665727365656e67696e6565726963616e626172656c79666f7277617264
+>>> print(bytes.fromhex(pwd[2:]))
+b'reverseengineericanbarelyforward'
+```
+
+Boom! Let's put it as password aaaaandd..... another question: _What is the unhashed key?_  
+I think nothing relevant is left in the source code, so this must be a value we already found.. also they are talking about a key, so maybe is the numbers we used to XOR the password with? If we take the ASCII representation of `xor_values we` have `861836f13e3d627dfa375bdb8389214e`. This is the MD5 hash of **goldfish**.
+
+After sending this we get the flag: **picoCTF{p1kap1ka_p1c001b3038b}**
+
 ## vault-door 6 ![p](https://img.shields.io/badge/Points-350-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
 
 I skipped the first 5 vault-door challeges on purpose because they are just converting/encoding stuff, from now on they should be a little bit more challenging.  

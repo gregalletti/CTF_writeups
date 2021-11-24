@@ -195,6 +195,8 @@ We are given an executable and nothing more, if we try to execute it or to conne
 
 By looking at the main (a bit confused) we can see an interesting checkPassword method, let's ignore all the weird instructions and focus on relevant ones. The only thing we can obtain from this is that the password is 0x20 (32) characters long, and the loop will check character by character our input XORed with an unknown char, comparing it with an expected one.
 
+![image](./gogo_check.PNG)
+
 Now it's better to explore the behaviour with `gdb` writing down an interesting address to set the breakpoint at, like `0x080d4b08`, the initialization of the index variable. After running it with password made of 32 "A"s and breaking (`b *0x080d4b08`) we can now see the actual assembly instructions performed, here are the most relevant:
 ```assembly
    0x80d4b18 <main.checkPassword+152>:	movzx  ebp,BYTE PTR [ecx+eax*1]			; see #1 
@@ -215,13 +217,16 @@ Now it's better to explore the behaviour with `gdb` writing down an interesting 
 
 From this we get that:
 - **#1**: by looking at registers value we see `eax = 0`, this means that `ebp` is set to the content of `ecx`: if we look at it with `x /4gx $ecx` we can see that it contains our input. Thus, we store our input in `ebp`
+
 ![image](./ecx.PNG)
 
 - **#2**: again `eax = 0`, so `esi` is set to the content of `esp + 0x4`: if we look at it with `x /4gx $esp + 0x4` we can see that it contains some values, the ones we will use to XOR our input
+
 ![image](./esp4.PNG)
 
 - **#3**: performs the actual XOR and stores the result in `ebp`, in fact with our input (0x41) and the actual value of `esi` (0x38) we observe `ebp = 0x79`
 - **#4**: again we store in esi the value of `esp + 0x24`: if we look at it with `x /4gx $esp + 0x24` we can see that it contains some values, the expected ones (because later we compare THIS value to the XOR result)
+
 ![image](./esp24.PNG)
 
 Now we know everything we need to revert the operation by XORing the two retreived byte sequences and get the password (bytes order must be inverted w.r.t. previous screenshots):

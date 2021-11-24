@@ -80,6 +80,17 @@ Luckily, when dealing with forensics challenges and one-coloured images, StegSol
 
 Flag: **picoCTF{w1z4rdry}**
 
+## Milkslap ![p](https://img.shields.io/badge/Points-120-success) ![c](https://img.shields.io/badge/Forensics-blue) 
+> http://mercury.picoctf.net:48380/
+
+We are redirected to this cool website where a guy gets slapped. By inspecting the code nothing seems interesting, but when exploring the Sources tab I notice that the background is a series of images all stored in the `concat_v.png` file (I won't post it here because is way too long), and not a gif. Cool, download it and take a look.
+
+Nothing strange seems to be applied to this image, but given the strange type and the challenge category I tried some stego tools. `Binwalk` was clearly drunk, while `steghide` found anything. At this point I tried for the first time `zsteg` with the simple command `zsteg concat_v.png` and this is the result:
+
+![image](./milk.PNG)
+
+Flag: **picoCTF{imag3_m4n1pul4t10n_sl4p5}*
+
 ## WhitePages ![p](https://img.shields.io/badge/Points-250-success) ![c](https://img.shields.io/badge/Forensics-blue) 
 > I stopped using YellowPages and moved onto WhitePages... but the page they gave me is all blank!
 

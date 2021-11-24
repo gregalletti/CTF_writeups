@@ -89,7 +89,7 @@ Nothing strange seems to be applied to this image, but given the strange type an
 
 ![image](./milk.PNG)
 
-Flag: **picoCTF{imag3_m4n1pul4t10n_sl4p5}*
+Flag: **picoCTF{imag3_m4n1pul4t10n_sl4p5}**
 
 ## WhitePages ![p](https://img.shields.io/badge/Points-250-success) ![c](https://img.shields.io/badge/Forensics-blue) 
 > I stopped using YellowPages and moved onto WhitePages... but the page they gave me is all blank!

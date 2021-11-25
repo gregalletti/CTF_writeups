@@ -177,3 +177,34 @@ r.interactive()
 ```
 
 Flag: **picoCTF{97c85bbf2168f674263a1c5629b411a3}**
+  
+## Here's a LIBC ![p](https://img.shields.io/badge/Points-90-success) ![c](https://img.shields.io/badge/Binary-darkred)
+
+After inspecting the source code of the main in `Ghidra`, we can see that the program converts some lowercase-uppercase letters of our input through a `do_stuff()` function:
+```c
+void do_stuff(void)
+
+{
+  char cVar1;
+  undefined local_89;
+  char result [112];
+  undefined8 local_18;
+  ulong i;
+  
+  local_18 = 0;
+  __isoc99_scanf("%[^\n]",result);
+  __isoc99_scanf(&DAT_0040093a,&local_89);
+  i = 0;
+  while (i < 100) {
+    cVar1 = convert_case((ulong)(uint)(int)result[i],i,i);
+    result[i] = cVar1;
+    i = i + 1;
+  }
+  puts(result);
+  return;
+}
+```
+             
+                 
+                 
+               

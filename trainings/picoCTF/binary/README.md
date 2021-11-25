@@ -12,7 +12,7 @@ printf(user_buf);
 
 Now we know we can use this to print what we need from the memory. Let's try locally, using a custom `api` file (the flag one) to easily recognize if we got the content, take a bunch of 'A's to try. If we then submit a sequence of `%x`s as input, we will leak the memory and see a sequence of 41, our flag file.
 
-With no hesitation we can simply connect to the remote program and do the same, leaking at some point (after converting it into ascii) `ocip{FTC0l_I4_t5m_ll0m_y_y3n2fc10a10\xff\xfb\x00}` that is clearly our flag. 
+With no hesitation we can simply connect to the remote program and do the same, leaking at some point (after converting it into ASCII) `ocip{FTC0l_I4_t5m_ll0m_y_y3n2fc10a10\xff\xfb\x00}` that is clearly our flag. 
 
 Just reverse it 4 by 4 characters and we obtain the flag: **picoCTF{I_l05t_4ll_my_m0n3y_1cf201a0}**
 
@@ -153,7 +153,7 @@ warning: Unable to access 7029 bytes of target memory at 0x62148c, halting searc
 1 pattern found.
 ```
 
-So the heap address 0x602088 dell'heap (call it `tcache_pointer`) contains the pointer to the last freed chunk (0x603890), the one we want to modify.  
+So the heap address 0x602088 (call it `tcache_pointer`) contains the pointer to the last freed chunk (0x603890), the one we want to modify.  
 To make the exploit work, we need to change the address of the `tcache_pointer` from pointing to the `rand_chunk` (0x603890) to pointing to the `flag_chunk` (0x603800). This is perfect because we can only modify a byte in memory, and 0x603890 can be easily modified to 0x603800 by replacing the last byte with a 0 byte.
 
 We can now calculate the offset we will send to the program as `0x602088 - 0x6034a0 = -5144`, this is the relative offset that will be fixed for every execution, even if the two values changes due to memory space randomization. _Notice that in classical heap challenges we typically have an heap address leak and then we can calculate all needed offsets; here the concept is the same, with `first_chunk` behaving as the leaked address._

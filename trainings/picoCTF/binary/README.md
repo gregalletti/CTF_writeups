@@ -98,7 +98,7 @@ What this program does is:
 - take `my_address` and `my_value` and use them `*(first_chunk + my_address) = my_value`, use address as offset from the first chunk and modify a byte
 - allocate a `new_chunk` of the same size of the others and print it 
 
-# Idea
+### Idea
 We can identify a main vulnerability here: due to the fact that some chunks are freed (with size of 0x80) and a new one is allocated (with same size) the GCLIB's **tcache** mechanism will take part of this.  
 [tcache](https://sourceware.org/glibc/wiki/MallocInternals#Thread_Local_Cache_.28tcache.29) (Thread Local Cache) is a powerful yet dangerous performance optimization method, that basically works like this (refer to the link for a better explanation).  
 To speed up memory allocation, the allocator does not always search through all of the heap memory but it tries to reuse as many chunks as possible instead. That is, if we free a 0x80 size chunk and then we malloc a 0x80 size chunk, the former will be used to allocate the latter.
@@ -110,7 +110,7 @@ IMAGE
 The idea is that we can exploit the `tcache`, because of `new_chunk` allocation and print after `rand_chunk` free. We need to change the tcache value to point at the `flag_chunk` so that the print will actually print the flag.  
 Luckily enough is the program itself to provided us a way to write a chosen value in a chosen address in memory.
 
-# Pwn
+### Pwn
 Now what we can do to really understand the program flow is to run it with `gdb` and carefully look at registers and memory addresses. First I run `disassemble main` to see all assembly instructions and their address. I will not report here the output, but we can now mark down 3 important addresses where we can break and analyze the memory state: 0x4008c3, 0x4009a8, 0x4009b4.
 
 **_0x4008c3_**: if break here, after the very first `malloc` executed, `RAX` will contain its return value. That is, the `first_chunk` (0x6034a0 in this case).

@@ -225,7 +225,7 @@ At this point we can prepare the ROP chain in this (pretty classic) way:
 - search for the `/bin/sh` string in the libc
 - using the new base address, call the `system()` function passing `/bin/sh` and get the shell
 
-So we can say we have 2 ROP chains, the first with `puts -> do_stuff` and the second with `puts -> system`. The `puts` in the second chain is needed for stack alignment, in fact look at the bytes of the second payload if we do not include it: 
+So we can say we have 2 ROP chains, the first with `puts -> do_stuff` and the second with `puts -> system`. The `puts` in the second chain is needed for stack alignment, in fact look at the bytes of the second payload if we do not include it, we have 4 bytes less that mess everything up: 
 
 ![image](./libc_align.PNG)
 
@@ -269,4 +269,4 @@ r.sendline(payload)
 r.interactive()
 ```
 
-Flag: **picoCTF{1_<3_sm4sh_st4cking_  8652b55904cb7c}**
+Flag: **picoCTF{1_<3_sm4sh_st4cking_  8652b55904cb7c}** (yes, two spaces before the hex part)

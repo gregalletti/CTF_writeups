@@ -105,7 +105,7 @@ To speed up memory allocation, the allocator does not always search through all 
 
 If we run the program with some random arguments, this is the result we get this, confirming all said before (the output is part of the previously freed `rand_chunk`):
 
-IMAGE
+![image](./heapedit.PNG)
 
 The idea is that we can exploit the `tcache`, because of `new_chunk` allocation and print after `rand_chunk` free. We need to change the tcache value to point at the `flag_chunk` so that the print will actually print the flag.  
 Luckily enough is the program itself to provided us a way to write a chosen value in a chosen address in memory.

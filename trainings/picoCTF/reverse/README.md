@@ -241,9 +241,95 @@ b'reverseengineericanbarelyforward'
 ```
 
 Boom! Let's put it as password aaaaandd..... another question: _What is the unhashed key?_  
-I think nothing relevant is left in the source code, so this must be a value we already found.. also they are talking about a key, so maybe is the numbers we used to XOR the password with? If we take the ASCII representation of `xor_values we` have `861836f13e3d627dfa375bdb8389214e`. This is the MD5 hash of **goldfish**.
+I think nothing relevant is left in the source code, so this must be a value we already found.. also they are talking about a key, so maybe is the numbers we used to XOR the password with? If we take the ASCII representation of `xor_values` we have `861836f13e3d627dfa375bdb8389214e`. This is the MD5 hash of **goldfish**.
 
 After sending this we get the flag: **picoCTF{p1kap1ka_p1c001b3038b}**
+
+## ARMssembly 3 ![p](https://img.shields.io/badge/Points-130-success) ![c](https://img.shields.io/badge/Reverse-lightblue) 
+
+Another challenge of the ARMssembly series, let's follow the same approach (input = 597130609):
+```assembly
+func1:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0		; x29 = sp
+	str	w0, [x29, 28]	; store input at (x29+28)
+	str	wzr, [x29, 44]	; store 0 at (x29+44)
+	b	.L2
+.L4:
+	ldr	w0, [x29, 28]	; w0 = 597130609, 298565304, ..
+	and	w0, w0, 1		; w0 = w0 & 1 = 1, 0, ..
+	cmp	w0, 0			; w0 == 0 ? (is odd?)
+	beq	.L3				; if yes, jump to L3 (j, nj)
+	ldr	w0, [x29, 44]	; w0 = 0, 3, ..
+	bl	func2			; (X) jump to func2 passing w0
+	str	w0, [x29, 44]	; store 0, 3, ..
+.L3:
+	ldr	w0, [x29, 28]	; w0 = 597130609, 298565304
+	lsr	w0, w0, 1		; w0 = w0 << 1 (divide by 2) = 298565304, ..
+	str	w0, [x29, 28]	; store w0
+.L2:
+	ldr	w0, [x29, 28]	; w0 = 597130609, 298565304, ..
+	cmp	w0, 0			; w0 == 0 ?
+	bne	.L4				; if not, jump to L4 (j, j, j)
+	ldr	w0, [x29, 44]
+	ldp	x29, x30, [sp], 48
+	ret
+	.size	func1, .-func1
+	.align	2
+	.global	func2
+	.type	func2, %function
+func2:
+	sub	sp, sp, #16
+	str	w0, [sp, 12]	; store 0
+	ldr	w0, [sp, 12]	; w0 = 0
+	add	w0, w0, 3		; w0 = 3
+	add	sp, sp, 16
+	ret					; back to (X) returning (parameter + 3)
+	.size	func2, .-func2
+	.section	.rodata
+	.align	3
+main:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	str	x1, [x29, 16]
+	ldr	x0, [x29, 16]
+	add	x0, x0, 8
+	ldr	x0, [x0]
+	bl	atoi
+	bl	func1
+	str	w0, [x29, 44]
+	adrp	x0, .LC0
+	add	x0, x0, :lo12:.LC0
+	ldr	w1, [x29, 44]
+	bl	printf
+	nop
+	ldp	x29, x30, [sp], 48
+	ret
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu/Linaro 7.5.0-3ubuntu1~18.04) 7.5.0"
+	.section	.note.GNU-stack,"",@progbits
+```
+
+`main` simply gets the integer parameter and passes it to `func1` which stores the input at (sp+28) and 0 at (sp+44), then calls `.L2`. Here we check if the parameter is 0, and if not we jumpup to `.L4`, seems like a loop condition on (sp+28).  
+At `.L4` we take (sp+28) and perform an AND with 1, which basically means checking if the number is even or odd: if odd we jump to `func2` passing (sp+44), initially 0, that just add 3 to the parameter and returns it.  
+
+After that we get to `.L3` that performs a Right Shift on (sp+28), that means dividing by 2 the number, and saves it before getting back to the loop condition at `.L2`.
+
+With this said, we can conclude that in the loop our input is taken, its parity is checked (odd means result += 3) and divided by 2, until 0.  
+To get an immediate result, we can look at the binary input (100011100101110111110101110001): 
+- if the LSB is 1 we have result += 3
+- then Right Shift it and go on  
+- this means we can simply count the number of '1' occurrencies and multiply this by 3
+```
+>>> bin_input = bin(597130609)
+>>> bin_input.count('1')*3
+54
+>>> hex(54)
+'0x36'
+```
+
+The flag in the right format is: **picoCTF{00000036}**
 
 ## vault-door 6 ![p](https://img.shields.io/badge/Points-350-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
 

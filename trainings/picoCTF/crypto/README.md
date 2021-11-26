@@ -349,3 +349,78 @@ print(dec)
 ```
 
 If we submit this as plaintext we obtain an hex value, and this is the flag because it's not in the usual format: **3f4b60ebf36369258d8638d2038c7ad1**
+
+## Double DES ![p](https://img.shields.io/badge/Points-130-success) ![c](https://img.shields.io/badge/Crypto-orange)
+
+From the source code we can see that it's a quite regular 2DES encryption, despite the fact that the keys are only 6 bytes long instead of the classical 8 bytes. A padding is applied to them and to the plaintext to reach 8 bytes long blocks.
+
+It's well known that **2DES is vulnerable to meet-in-the-middle** attacks. In fact if we look at [Wikipedia](https://en.wikipedia.org/wiki/Meet-in-the-middle_attack) we can see a really handy formula for this challenge:
+```
+
+```
+
+The fact that the keys are shorter makes the attack even faster. The remote server gives the encrypted flag and let us provide a plaintext to encrypt, giving us the corresponding ciphertext.  
+The idea is to get all of this (we can choose the plaintext as we want) and then perform the attack: we will encrypt our plaintext with all the possible keys first, then decrypy the ciphertext with all the possible keys. I saved all the results in a dictionary (`dic`) to get a faster access to the values and have an immediate key-ctx corrispondence.
+
+After that we will compare the results: if there is a match between two of them we will have a candidate key1-key2 couple to use to double decrypt the encrypted flag.
+
+This last step is done by just reversing the given `encrypt_double` function into `decrypt_double` function, while `pad` remains the same.
+
+_Note: normally we would have to test the whole set of candidate keys, while in this challenge we can stop at the first one and get the flag correctly._
+
+This is the script I used (I struggled a lot with payload sending, then I realized it has to be an hex value):
+```python
+from pwn import *
+import itertools
+from Crypto.Cipher import DES
+
+menu_end = "Here is the flag:\n"
+data_end = "What data would you like to encrypt? "
+
+r = remote("mercury.picoctf.net", 31991)
+
+log.info("Getting encrypted flag...")
+r.recvline()
+enc_flag = r.recvlineS().strip()
+log.success("Encrypted flag = {}".format(enc_flag))
+
+payload = b"ABCDE"
+log.info("Sending my custom data ({})...".format(payload))
+r.sendlineafter(data_end, enhex(payload))	
+enc_payload = r.recvlineS().strip()
+log.success("Encrypted payload = {}".format(enc_payload))
+enc_payload = bytes.fromhex(enc_payload)
+
+def pad(msg):
+    block_len = 8
+    over = len(msg) % block_len
+    pad = block_len - over
+    return (msg + " " * pad).encode()
+
+def double_decrypt(m, key1, key2):
+    cipher2 = DES.new(key2, DES.MODE_ECB)
+    dec_msg = cipher2.decrypt(m)
+
+    cipher1 = DES.new(key1, DES.MODE_ECB)
+    return cipher1.decrypt(dec_msg)
+
+dic = {}
+
+for key1 in map(''.join, itertools.product('0123456789', repeat=6)):
+	key1 = pad(key1)
+	cipher1 = DES.new(key1, DES.MODE_ECB)
+	enc_k1 = cipher1.encrypt(pad(payload.decode()))
+	dic[enc_k1] = key1
+
+for key2 in map(''.join, itertools.product('0123456789', repeat=6)):
+	key2 = pad(key2)
+	cipher2 = DES.new(key2, DES.MODE_ECB)
+	dec_k2 = cipher2.decrypt(enc_payload)
+	if(dec_k2 in dic):
+		key1 = dic[dec_k2]
+		log.info("found {} and {} with {}".format(key1,key2,dec_k2))
+		log.success(double_decrypt(unhex(enc_flag), key1, key2))
+		break
+```
+
+Flag (non-standard format): **6d4e063d16d250b953d009e2ef07e241**

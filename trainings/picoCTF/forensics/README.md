@@ -91,6 +91,85 @@ Nothing strange seems to be applied to this image, but given the strange type an
 
 Flag: **picoCTF{imag3_m4n1pul4t10n_sl4p5}**
 
+## Disk, disk, sleuth! II ![p](https://img.shields.io/badge/Points-130-success) ![c](https://img.shields.io/badge/Forensics-blue) 
+> All we know is the file with the flag is named `down-at-the-bottom.txt`
+
+We get a disk image file to download, so let's proceed in the same way as for the first "Sleuth" challenge. We unzip the image with `gzip -d dds2-alpine.flag.img.gz` and get the image. Now the first tihing I did was to search for the filename with strings:
+```console
+kali@kali:~/Desktop$ strings dds2-alpine.flag.img | grep "bottom"
+down-at-the-bottom.txt
+No bracket in bottom line
+ffffffff810e49be t __unregister_kprobe_bottom
+down-at-the-bottom.txt
+ffffffff82081f18 t memory_map_bottom_up
+bottom margin
+```
+
+Ok the file is here, now we need to know **where**: we can try to run [mmls](http://www.sleuthkit.org/sleuthkit/man/mmls.html) to see the partition structure:
+```console
+kali@kali:~/Desktop$ mmls dds2-alpine.flag.img 
+DOS Partition Table
+Offset Sector: 0
+Units are in 512-byte sectors
+
+      Slot      Start        End          Length       Description
+000:  Meta      0000000000   0000000000   0000000001   Primary Table (#0)
+001:  -------   0000000000   0000002047   0000002048   Unallocated
+002:  000:000   0000002048   0000262143   0000260096   Linux (0x83)
+```
+
+As we can see, the one we should focus is the one starting at 2048: we can run [fls](http://www.sleuthkit.org/sleuthkit/man/fls.html) to obtain the directory nodes in that partition, we only need to specify the image offset we just found: 
+```console
+kali@kali:~/Desktop$ fls -o 2048 dds2-alpine.flag.img 
+d/d 11: lost+found
+r/r 12: .dockerenv
+d/d 20321:      bin
+d/d 4065:       boot
+d/d 6097:       dev
+d/d 2033:       etc
+d/d 26417:      home
+d/d 8129:       lib
+d/d 14225:      media
+d/d 16257:      mnt
+d/d 18289:      opt
+d/d 16258:      proc
+d/d 18290:      root
+d/d 16259:      run
+d/d 18292:      sbin
+d/d 12222:      srv
+d/d 16260:      sys
+d/d 18369:      tmp
+d/d 12223:      usr
+d/d 14229:      var
+V/V 32513:      $OrphanFiles
+```
+
+I would normally explore every directory but now we can see a `root` one, always cool to analyze first. We know the inode value of this directory, so let's access it again with `fls`:
+```console
+kali@kali:~/Desktop$ fls -o 2048 dds2-alpine.flag.img 18290
+r/r 18291:      down-at-the-bottom.txt
+```
+
+Eeeeeeasy, root node is always the best. The only thing to do now is to print that out using [icat](https://www.sleuthkit.org/sleuthkit/man/icat.html) because we already know the inode value of this file:
+```console
+kali@kali:~/Desktop$ icat -o 2048 dds2-alpine.flag.img 18291
+   _     _     _     _     _     _     _     _     _     _     _     _     _  
+  / \   / \   / \   / \   / \   / \   / \   / \   / \   / \   / \   / \   / \ 
+ ( p ) ( i ) ( c ) ( o ) ( C ) ( T ) ( F ) ( { ) ( f ) ( 0 ) ( r ) ( 3 ) ( n )
+  \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/ 
+   _     _     _     _     _     _     _     _     _     _     _     _     _  
+  / \   / \   / \   / \   / \   / \   / \   / \   / \   / \   / \   / \   / \ 
+ ( s ) ( 1 ) ( c ) ( 4 ) ( t ) ( 0 ) ( r ) ( _ ) ( n ) ( 0 ) ( v ) ( 1 ) ( c )
+  \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/ 
+   _     _     _     _     _     _     _     _     _     _     _  
+  / \   / \   / \   / \   / \   / \   / \   / \   / \   / \   / \ 
+ ( 3 ) ( _ ) ( f ) ( f ) ( 2 ) ( 7 ) ( f ) ( 1 ) ( 3 ) ( 9 ) ( } )
+  \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/   \_/ 
+
+```
+
+Flag: **picoCTF{f0r3ns1c4t0r_n0v1c3_ff27f139}**
+
 ## WhitePages ![p](https://img.shields.io/badge/Points-250-success) ![c](https://img.shields.io/badge/Forensics-blue) 
 > I stopped using YellowPages and moved onto WhitePages... but the page they gave me is all blank!
 

@@ -422,7 +422,7 @@ for key2 in map(''.join, itertools.product('0123456789', repeat=6)):
 
 Flag (non-standard format): **6d4e063d16d250b953d009e2ef07e241**
 
-## Compress and Attack
+## Compress and Attack ![p](https://img.shields.io/badge/Points-130-success) ![c](https://img.shields.io/badge/Crypto-orange)
 
 We are given a pretty simple source code:
 ```python
@@ -458,7 +458,7 @@ if __name__ == '__main__':
     main() 
 ```
 
-Salsa20 is used, but unfortunately there are no known vulnerabilities at the moment.
+`Salsa20` is used, but unfortunately there are no known vulnerabilities at the moment.
 
 At this point I thought about the fact that maybe there is a reason why they give us the length of the encrypted text: our input is concatenated to the flag and then compressed. Mmmh, let's take a look at how zlib works: reading [this](https://www.euccas.me/zlib/) I focused on this statement, _Codes for more frequently occurring data symbols are shorter than codes for less frequently occurring data symbols._
 

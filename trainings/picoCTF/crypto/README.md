@@ -354,10 +354,7 @@ If we submit this as plaintext we obtain an hex value, and this is the flag beca
 
 From the source code we can see that it's a quite regular 2DES encryption, despite the fact that the keys are only 6 bytes long instead of the classical 8 bytes. A padding is applied to them and to the plaintext to reach 8 bytes long blocks.
 
-It's well known that **2DES is vulnerable to meet-in-the-middle** attacks. In fact if we look at [Wikipedia](https://en.wikipedia.org/wiki/Meet-in-the-middle_attack) we can see a really handy formula for this challenge:
-```
-
-```
+It's well known that **2DES is vulnerable to meet-in-the-middle** attacks. In fact if we look at [Wikipedia](https://en.wikipedia.org/wiki/Meet-in-the-middle_attack) we can see a really handy formula for this challenge.
 
 The fact that the keys are shorter makes the attack even faster. The remote server gives the encrypted flag and let us provide a plaintext to encrypt, giving us the corresponding ciphertext.  
 The idea is to get all of this (we can choose the plaintext as we want) and then perform the attack: we will encrypt our plaintext with all the possible keys first, then decrypy the ciphertext with all the possible keys. I saved all the results in a dictionary (`dic`) to get a faster access to the values and have an immediate key-ctx corrispondence.

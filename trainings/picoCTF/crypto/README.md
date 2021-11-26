@@ -421,3 +421,80 @@ for key2 in map(''.join, itertools.product('0123456789', repeat=6)):
 ```
 
 Flag (non-standard format): **6d4e063d16d250b953d009e2ef07e241**
+
+## Compress and Attack
+
+We are given a pretty simple source code:
+```python
+import zlib
+from random import randint
+import os
+from Crypto.Cipher import Salsa20
+
+flag = open("./flag").read()
+
+
+def compress(text):
+    return zlib.compress(bytes(text.encode("utf-8")))
+
+def encrypt(plaintext):
+    secret = os.urandom(32)
+    cipher = Salsa20.new(key=secret)
+    return cipher.nonce + cipher.encrypt(plaintext)
+
+def main():
+    while True:
+        usr_input = input("Enter your text to be encrypted: ")
+        compressed_text = compress(flag + usr_input)
+        encrypted = encrypt(compressed_text)
+        
+        nonce = encrypted[:8]
+        encrypted_text =  encrypted[8:]
+        print(nonce)
+        print(encrypted_text)
+        print(len(encrypted_text))
+
+if __name__ == '__main__':
+    main() 
+```
+
+Salsa20 is used, but unfortunately there are no known vulnerabilities at the moment.
+
+At this point I thought about the fact that maybe there is a reason why they give us the length of the encrypted text: our input is concatenated to the flag and then compressed. Mmmh, let's take a look at how zlib works: reading [this](https://www.euccas.me/zlib/) I focused on this statement, _Codes for more frequently occurring data symbols are shorter than codes for less frequently occurring data symbols._
+
+So probably, knowing that `picoCTF{` is part of the flag for sure, we can exploit this. Let's try to submit that as input and see what happens:
+
+![image](compress.PNG)
+
+In the image above you can see that the two inputs provided, even if of the same size, give us back a really different ciphertext length. Cool, maybe we are on the right path.
+
+I wrote a Python script to see if this really worked, and I initially found `picoCTF{s`. Now I tried to bruteforce all the remaining characters, knowing that the ciphertext lenght must be always 48 and the alphabet is made of letters, underscore and braces (hint).  
+I handled the fact that the server will disconnect us after a fixed amount of time by just reconnecting again.
+
+```python
+from pwn import *
+import string
+
+TARGET_LEN = 48
+menu_end = "Enter your text to be encrypted: "
+payload = "picoCTF{"
+alphabet = string.ascii_letters + "_}"
+
+r = remote("mercury.picoctf.net", 29350)
+
+while(True):
+	for char in alphabet:
+		try:
+			r.sendlineafter(menu_end, payload + char)
+			r.recvline() # discard value
+			r.recvline() # discard value
+			length = int(r.recvlineS().strip()) # get ciphertext length
+
+			if (length == TARGET_LEN):
+				payload += char
+				log.success(payload)
+		except:
+			r = remote("mercury.picoctf.net", 29350)
+```
+
+Flag: **picoCTF{sheriff_you_solved_the_crime}**

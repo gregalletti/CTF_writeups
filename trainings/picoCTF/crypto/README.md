@@ -502,7 +502,7 @@ Flag: **picoCTF{sheriff_you_solved_the_crime}**
 ## Scrambled: RSA ![p](https://img.shields.io/badge/Points-140-success) ![c](https://img.shields.io/badge/Crypto-orange)
 > Hmmm I wonder if you have learned your lesson... Let's see if you understand RSA and how the encryption works. Connect with nc mercury.picoctf.net 6276
 
-After connecting we can see a really big flag ciphertext, clearly longer than the modulus, so something is wrong here: either we need to make the modulus ourselves or this is not a standard RSA.  
+After connecting we can see a **really big flag ciphertext**, clearly longer than the modulus, so something is wrong here: either we need to make the modulus ourselves or this is not a standard RSA.  
 To verify that, let's try by making the server encrypt 0 or 1, that in textbook's RSA should be again 0 and 1. This won't happen, so we are pretty sure to face a non-standard RSA encryption, maybe using some sort of concatenation beetween encrypted text.
 
 We can try to submit 0, take note of the value and then submit 00:
@@ -529,13 +529,13 @@ I will encrypt whatever you give me: 01
 Here you go: 68125905803584897939395945472319480052294228333077529208856928179942254290732871448615610534723935288435362546324743887705287822778655576077370212904034030148153021774659260876705998503468046423210510399016715431863226790797026565729979162228677382627522293175513326835936045810295425812424829537781063955681011029085912618409937643027762992745164022277133649274192660814146122869924769472813364335904283518317093321763129560241606640976655495127215542069464364730714019165611385532900116749145052707683134651917009490172249552363422864807189777733647074317442927636235849785390074368886838213811318169465262476208
 ```
 
-thus I had the proof that 0_enc is contained in 01_enc. Let's formalize a bit: 01_enc = 0_enc + x (note that x may seem 1_encrypted but is not), so x = 01_enc - 0_enc
+thus I had the proof that `0_enc` is contained in `01_enc`. Let's formalize a bit: `01_enc = 0_enc + x` (note that `x` may seem `1_enc` but is not), so `x = 01_enc - 0_enc`, we can see `x` just as a **representation** of `1_enc`.
 ```console
 I will encrypt whatever you give me: 012
 Here you go: 5647350904095569483699801158524892980435994806564645359618035700216645707850259039156526617853492774406168553127778088879980051323173918469346285274530833669541481330155853304928929274508774221846069086233441018229454331640932173850801985780853985202100779908030678049093908951517787244363637230647806900100810110290859126184099376430277629927451640222771336492741926608141461228699247694728133643359042835183170933217631295602416066409766554951272155420694643647307140191656113855329001167491450527076831346519170094901722495523634228648071897777336470743174429276362358497853900743688868382138113181694652624762086812590580358489793939594547231948005229422833307752920885692817994225429073287144861561053472393528843536254632474388770528782277865557607737021290403403014815302177465926087670599850346804642321051039901671543186322679079702656572997916222867738262752229317551332683593604581029542581242482953778106395568
 ```
 
-In this string we can find both 0_enc and x, in fact 012_enc = y + x + 0_enc, so x = 01_enc - 0_enc and y = 012_enc - 0_enc + 0_enc - 01_enc = 012_enc - 01_enc:
+In this string we can find both `0_enc` and `x`, in fact `012_enc = y + x + 0_enc`, so `x = 01_enc - 0_enc` and `y = 012_enc - 0_enc + 0_enc - 01_enc = 012_enc - 01_enc`, again `y` is a representation of `012_enc`:
 ```
 56473509040955694836998011585248929804359948065646453596180357002166457078502590391565266178534927744061685531277780888799800513231739184693462852745308336695414813301558533049289292745087742218460690862334410182294543316409321738508019857808539852021007799080306780490939089515177872443636372306478069001008
 1011029085912618409937643027762992745164022277133649274192660814146122869924769472813364335904283518317093321763129560241606640976655495127215542069464364730714019165611385532900116749145052707683134651917009490172249552363422864807189777733647074317442927636235849785390074368886838213811318169465262476208
@@ -543,7 +543,7 @@ In this string we can find both 0_enc and x, in fact 012_enc = y + x + 0_enc, so
 ```
 
 and so on, always with different position because the concatenation is scrambled.  
-I think we now have enough information to sketch an attack idea: we know that 012_enc contains 01_enc (in some order), so we can apply the same to the flag. We know the flag starts with picoCTF{, so we can immediately try and verify this: if the given flag_enc contains picoCTF{_enc we know we are on the right path.
+I think we now have enough information to sketch an attack idea: we know that `012_enc` contains `01_enc` (in some order), so we can apply the same to the flag. We know the flag starts with `picoCTF{`, so we can immediately try and verify this: if the given `flag_enc` contains `picoCTF{_enc` we know we are on the right path.
 
 Again with different numbers (server keeps disconnecting me):
 ```console
@@ -559,10 +559,10 @@ flag contains both i_enc and p_enc
 ```
 
 Let's generalize this to write a script:
-- encrypt p, get p_enc, check if p_enc is in flag_enc
-- encrypt pi, get i_enc = pi_enc-p_enc, check if i_enc is in flag_enc
-- encrypt pic, get c_enc=pic_enc-pi_enc, check if c_enc is in flag_enc
-- continue until }_enc 
+- encrypt p, get `p_enc`, check if p_enc is in flag_enc
+- encrypt pi, get `i_enc = pi_enc - p_enc`, check if i_enc is in flag_enc
+- encrypt pic, get `c_enc = pic_enc - pi_enc`, check if c_enc is in flag_enc
+- continue until `}_enc` 
 
 ```python
 from pwn import *

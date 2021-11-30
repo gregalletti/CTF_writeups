@@ -331,6 +331,55 @@ To get an immediate result, we can look at the binary input (1000111001011101111
 
 The flag in the right format is: **picoCTF{00000036}**
 
+## Let's get dynamic
+```python
+flag_1 = [""] * 7
+flag_2 = [""] * 7
+
+# data from Ghidra
+flag_1[0] = "bc85b660f86f4b"
+flag_1[1] = "1681db12439c495c"
+flag_1[2] = "42d1a76c289682b0"
+flag_1[3] = "f36d20d4ad376ecc"
+flag_1[4] = "eef9e715d337b2a2"
+flag_1[5] = "11fdbd9c77abf0f8"
+flag_1[6] = "6f"
+
+flag_2[0] = "6fefc7e21f8a1428"
+flag_2[1] = "55fff4606feb2a23"
+flag_2[2] = "19a7901244a3ee87"
+flag_2[3] = "8d535eae906117f6"
+flag_2[4] = "85a0a444d075f5ce"
+flag_2[5] = "48f6e1952ea1fdf1"
+flag_2[6] = "31"
+
+def get_bytes(array):
+    new_array = []
+
+    for e in array:
+        padded = e.zfill(16)    # avoid null bytes that terminate strings
+        my_bytes = bytearray.fromhex(padded)    # get bytes
+        my_bytes.reverse()  # reverse order
+        padded = my_bytes.hex()     # get hex value back
+
+        for i in range(0, len(padded), 2):
+            new_array.append(padded[i:i+2])
+
+    return new_array
+
+first_part = get_bytes(flag_1)
+second_part = get_bytes(flag_2)
+
+flag = ""
+for i in range(0, len(first_part)):
+    res = int(first_part[i], 16) ^ int(second_part[i], 16) ^ 19 ^ i
+    flag += chr(res)
+
+print("Got flag: {}".format(flag))
+```
+
+Flag: **picoCTF{dyn4m1c_4n4ly1s_1s_5up3r_us3ful_273a6b6e}**
+
 ## vault-door 6 ![p](https://img.shields.io/badge/Points-350-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
 
 I skipped the first 5 vault-door challeges on purpose because they are just converting/encoding stuff, from now on they should be a little bit more challenging.  

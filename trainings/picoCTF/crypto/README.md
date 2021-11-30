@@ -598,6 +598,8 @@ with log.progress('Getting flag: ') as l:
 				known_enc.append(new_enc)
 				l.status(payload)
 				break
+				
+log.success("Obtained flag {}".format(payload))
 ```
 
 Flag: **picoCTF{bad_1d3a5_2268684}**

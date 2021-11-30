@@ -10,4 +10,4 @@ Writeups are divided by their category, there are waaay to many challenges:
 - [Forensics](https://github.com/gregalletti/CTF_writeups/tree/main/trainings/picoCTF/forensics/README.md) ![c](https://img.shields.io/badge/Forensics-blue)
 
 Authors: 
-* [Gregorio Galletti](https://github.com/gregalletti) - _griggoswaggo_ 
+* [Gregorio Galletti](https://github.com/gregalletti) - _grigg0swagg0_ 

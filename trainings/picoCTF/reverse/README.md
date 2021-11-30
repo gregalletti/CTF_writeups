@@ -331,12 +331,22 @@ To get an immediate result, we can look at the binary input (1000111001011101111
 
 The flag in the right format is: **picoCTF{00000036}**
 
-## Let's get dynamic
+## Let's get dynamic ![p](https://img.shields.io/badge/Points-130-success) ![c](https://img.shields.io/badge/Reverse-lightblue) 
+
+My brain can't manage this Assembly more, so I need to get this `chall.S` file and compile it, to see what is going on here. Let's compile that `gcc chall.S` and get `a.out`. By running it with `gdb` and disassemble the `main` we can now see the function calls in the program: one of the most promising is `memcmp`, so let's set a breakpoint.  
+We run the program and an input is required, submit a random string and then we get to the breakpoint: our input string is compared to what seems the flag string, but we can only see `picoCTF`...
+
+I searched among a lot of registers and addresses but I could not find the remaining part, so I decided to open `a.out` with `Ghidra` and try to read the C instructions: after setting `flag_1` array and `flag_2` array (here you can see `flag_1_start` and `flag_2_start`), a loop is performed 0x31 times.
+```c
+Ghidra here
+```
+
+This loop takes the index `i`, the i-th element of `flag_1`, the i-th element of `flag_2`, and the number `0x13` and XOR these values together, then this result is compared to our input: nice, we can now reverse this with a simple Python script taking the needed values directly from `Ghidra`:
 ```python
 flag_1 = [""] * 7
 flag_2 = [""] * 7
 
-# data from Ghidra
+# data from Ghidra, rewrite as hex strings without '0x'
 flag_1[0] = "bc85b660f86f4b"
 flag_1[1] = "1681db12439c495c"
 flag_1[2] = "42d1a76c289682b0"
@@ -357,10 +367,10 @@ def get_bytes(array):
     new_array = []
 
     for e in array:
-        padded = e.zfill(16)    # avoid null bytes that terminate strings
+        padded = e.zfill(16)    				# avoid null bytes that terminate strings
         my_bytes = bytearray.fromhex(padded)    # get bytes
-        my_bytes.reverse()  # reverse order
-        padded = my_bytes.hex()     # get hex value back
+        my_bytes.reverse()  					# reverse order
+        padded = my_bytes.hex()     			# get hex value back
 
         for i in range(0, len(padded), 2):
             new_array.append(padded[i:i+2])

@@ -600,4 +600,4 @@ with log.progress('Getting flag: ') as l:
 				break
 ```
 
-Flag: ****
+Flag: **picoCTF{bad_1d3a5_2268684}**

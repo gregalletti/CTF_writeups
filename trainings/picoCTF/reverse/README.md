@@ -390,6 +390,41 @@ print("Got flag: {}".format(flag))
 
 Flag: **picoCTF{dyn4m1c_4n4ly1s_1s_5up3r_us3ful_273a6b6e}**
 
+## not crypto ![p](https://img.shields.io/badge/Points-150-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
+
+By running `file` and `checksec` command we can see that the executable is stripped and PIE is enabled. If we run `ltrace` we get:
+```java
+acidburn@acidburn-VirtualBox:~/Desktop/picoCTF$ ltrace ./not-crypto 
+puts("I heard you wanted to bargain fo"...I heard you wanted to bargain for a flag... whatcha got?
+)                = 57
+fread(0x7ffdb5072d60, 1, 64, 0x7fb6fcfbea00 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+)               = 64
+memcmp(0x7ffdb5072e70, 0x7ffdb5072d60, 64, 164)            = 80
+puts("Nope, come back later"Nope, come back later
+)                              = 22
++++ exited (status 1) +++
+```
+
+This means that our input is read and compared with a `memcmp` to the actual flag, so we can try this approach: since we have only the local file and we don't need to exploit it in remote server, we can track everything with `gdb`. The first thing we need is to retrieve the `memcmp` call address in the executable.
+
+Get the `entry point` address with `info files` and set a breakpoint `b *0x555555555070`, or as I did just print the disassembled instructions (since functions are not really recognized) with `x /200i 0x555555555070`. We can see loads of operations but we are seaching for a specific one, which can be found at `0x5555555553b9:	call   0x555555555060 <memcmp@plt>`.
+
+So let's put a breakpoint here and see what the parameters are: 
+```bash
+ ► 0x5555555553b9    call   memcmp@plt <memcmp@plt>
+        s1: 0x7fffffffde60 ◂— 0x7b4654436f636970 ('picoCTF{')
+        s2: 0x7fffffffdd50 ◂— 0x616173640a415b1b
+        n: 0x40
+```
+
+This looks like the start of the flag, so let's print it: 
+```bash
+pwndbg> x /s 0x7fffffffde60
+0x7fffffffde60:	"picoCTF{c0mp1l3r_0pt1m1z4t10n_15_pur3_w1z4rdry_but_n0_pr0bl3m?}", <incomplete sequence \302>
+```
+
+Flag: **picoCTF{c0mp1l3r_0pt1m1z4t10n_15_pur3_w1z4rdry_but_n0_pr0bl3m?}**
+
 ## Easy as GDB ![p](https://img.shields.io/badge/Points-160-success) ![c](https://img.shields.io/badge/Reverse-lightblue)
 
 By running `file` command we can see the program is stripped, let's open it with `Ghidra` and search for the `entry` function: it calls the `libc_start_main` with parameter `FUN_000109af`, we will rename this as `main` and go on. The main function just gets our input and then performs a check between this and what seems an encoded or encrypted flag, because we can access its characters but they just make no sense.

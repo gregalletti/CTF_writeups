@@ -170,6 +170,113 @@ kali@kali:~/Desktop$ icat -o 2048 dds2-alpine.flag.img 18291
 
 Flag: **picoCTF{f0r3ns1c4t0r_n0v1c3_ff27f139}**
 
+## Pitter, Patter, Platters ![p](https://img.shields.io/badge/Points-200-success) ![c](https://img.shields.io/badge/Forensics-blue)
+> 'Suspicious' is written all over this disk image.
+
+We have this disk image, so let's try to analyze it (yes, I did not mount it, but I wanted to try with a similar approach to the one used in _Disk, disk, sleuth! II_). 
+
+If we run `fls` to see the list of directories and files we get:
+```console
+kali@kali:~/Desktop$ fls suspicious.dd.sda1
+d/d 11: lost+found
+d/d 2009:       boot
+d/d 4017:       tce
+r/r 12: suspicious-file.txt
+V/V 8033:       $OrphanFiles
+```
+
+suspicious-file.txt at offset 12 seems... well... suspicious. Let's try to print it with `icat`:
+```console
+kali@kali:~/Desktop$ icat suspicious.dd.sda1 12
+Nothing to see here! But you may want to look here -->
+```
+
+Oh, okay. The arrow led me to access the closer directories like `tce`, and so on until I saw all the files in this disk with no success.
+
+At this point I was stucked until I read the hint _Have you heard of slack space?_, so let's use the very cool `-s` argument (never heard of that until I read the [documentation](https://www.sleuthkit.org/sleuthkit/man/icat.html))
+```console
+kali@kali:~/Desktop$ icat -s suspicious.dd.sda1 12
+Nothing to see here! But you may want to look here -->
+}1937befc_3<_|Lm_111t5_3b{FTCocip
+```
+
+This is clearly the flag, even if reversed. Reverse it back and get the real flag (yes, `{` and `}` need to be reversed but `<` not>).
+
+Flag: **picoCTF{b3_5t111_mL|_<3_cfeb7391}**
+
+## scrambled-bytes ![p](https://img.shields.io/badge/Points-200-success) ![c](https://img.shields.io/badge/Forensics-blue) 
+
+We are given a `.pcap` file and a `.py` script representing the sending algorithm, so we can start exploring the latter and then see how to analyze the traffic.
+```python
+#!/usr/bin/env python3
+
+import argparse
+from progress.bar import IncrementalBar
+
+from scapy.all import *
+import ipaddress
+
+import random
+from time import time
+
+def check_ip(ip):
+  try:
+    return ipaddress.ip_address(ip)
+  except:
+    raise argparse.ArgumentTypeError(f'{ip} is an invalid address')
+
+def check_port(port):
+  try:
+    port = int(port)
+    if port < 1 or port > 65535:
+      raise ValueError
+    return port
+  except:
+    raise argparse.ArgumentTypeError(f'{port} is an invalid port')
+
+def main(args):
+  with open(args.input, 'rb') as f:
+    payload = bytearray(f.read())
+  random.seed(int(time()))
+  random.shuffle(payload)
+  with IncrementalBar('Sending', max=len(payload)) as bar:
+    for b in payload:
+      send(
+        IP(dst=str(args.destination)) /
+        UDP(sport=random.randrange(65536), dport=args.port) /
+        Raw(load=bytes([b^random.randrange(256)])),
+      verbose=False)
+      bar.next()
+
+if __name__=='__main__':
+  parser = argparse.ArgumentParser()
+  parser.add_argument('destination', help='destination IP address', type=check_ip)
+  parser.add_argument('port', help='destination port number', type=check_port)
+  parser.add_argument('input', help='input file')
+  main(parser.parse_args())
+```
+
+This program seems to: 
+- take the file, the destination IP and port as arguments
+- use `random.seed(int(time()))` to shuffle the payload
+- XOR each byte of the payload with `random.randrange(256)`, different for each byte
+- send UDP packet with `random.randrange(65536)` source port 
+
+Now we have enough information to analyze the traffic with Wireshark in a better way: in fact we can use the `udp && !icmp` filter (I don't know why icmp packets are shown) and see the packets. Then we know that source IP and destination IP-port will be fixed, so by looking at the traffic we can conclude that the source is 172.17.0.2 and the destination is 172.17.0.3, at port 56742. Let's filter the results also on this, just to be sure:
+```js
+udp && ip.src == 172.17.0.2 && ip.dst ==172.17.0.3 && udp.dstport == 56742 && !icmp
+```
+
+We are pretty sure of this result because by looking at one packet we can see that the Data field is made of 1 byte only, but we still need to XOR these back. How?
+
+I was kinda stuck on this, but then I went back to the Python file: `random.seed(int(time()))` is used, and guess what? In the **first packet** we see in the traffic we should have its timestamp! 
+
+![image](./timestamp.PNG)
+
+Now the idea is that if we have the seed of random function we can simulate the send program on our own and replicate all the values generated (basic notions [here](https://www.w3schools.com/python/ref_random_seed.asp)): _If you use the same seed value twice you will get the same random number twice._
+
+I then exported the filtered packets in a new .pcap file and then in a .txt file with 
+
 ## WhitePages ![p](https://img.shields.io/badge/Points-250-success) ![c](https://img.shields.io/badge/Forensics-blue) 
 > I stopped using YellowPages and moved onto WhitePages... but the page they gave me is all blank!
 

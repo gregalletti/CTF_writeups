@@ -148,9 +148,37 @@ Flag: **7be0798af71f79eadb9254d3554aa301**
 
 > Hint: There's a logical way to solve this challenge that doesn't require much time. There are two major (both have 500k+ subscribers) work-related subreddits.
 
+We can immediately list all Vedder's major work-related interest, thus the subreddits.
+- Planet Fitness
+- fitness
+- bodybuilding
+- nutrition
+- first aid
 
+Then we can manually filter on the number of subscribers, so:
+- r/bodybuilding
+- r/fitness
+- r/nutrition
 
-Flag: ****
+are the candidates.
+
+Doing this manually seems impossible, we must cover a 2 weeks period of 3 really big subreddits. So let's search for a Reddit script in Python. [This one](https://praw.readthedocs.io/en/stable/tutorials/comments.html) seems promising to extract comments, but unfortunately by following this way I would need to look through all comments of all subreddits, a little bit too much for my cheap virtual machine.
+
+Then I found [this](https://github.com/Watchful1/Sketchpad/blob/master/overlapCounter.py) that makes exactly what we need, in a more efficient way than my script for sure. At this point I modified the target subreddits and the lookback period, but setting all the 3 topics above I think is a bit too general, also because the resulting users are too much.
+
+I then tried again removing *bodybuilding* and adding *indiana*, to make the corrispondance better: in the description also the **local area** is mentioned.
+
+Guess what? We have now only one user matching this, **dtdnumberone** commented in `fitness`, `nutrition` and `indiana` in the last 14 days! 
+```
+1 commenters in all subreddits
+dtdnumberone
+```
+
+Let's verify if this is really Vedder by manually visiting the reddit profile and looking at the comments [here](https://www.reddit.com/user/dtdnumberone/comments/). Here we can also see other comments on other subreddits we could have used to find him, but being "Chicago" and "ChicagoSuburbs" we are sure we got him.
+
+Now let's search for the shortest comment and write down the flag: out of a few comments this (https://www.reddit.com/r/Fitness/comments/r4rant/comment/hmqpa52/?utm_source=share&utm_medium=web2x&context=3) is clearly the shortest, so we can grab r4rant and hmqpa52.
+
+Flag: **MetaCTF{dtdnumberone_r4rant_hmqpa52}**
 
 ### New Spot
 ![c](https://img.shields.io/badge/Recoinnassance-pink) ![p](https://img.shields.io/badge/Points-600-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)

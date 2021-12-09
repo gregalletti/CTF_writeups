@@ -98,9 +98,43 @@ Flag: ****
 
 ### Where's Vedder?
 ![c](https://img.shields.io/badge/Recoinnassance-pink) ![p](https://img.shields.io/badge/Points-525-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
-**Reason of failure**: no idea of US things
+**Reason of failure**: no idea of US things, no time
+> Please help find our dear friend Vedder Casyn. His last known location was this location. We believe it's within a public forest area in his home state.
+> The answer should represent the MD5 hash of the address of the location.
 
-Flag: ****
+I must say that, I was really close on this.
+
+We know Vedder from the last year CTF, so we already know its social profiles [github](https://github.com/veddercasyn), (twitter)[https://twitter.com/veddercasyn], (linkedin)[https://www.linkedin.com/in/vedder-casyn/] and its (website)[https://veddercasyn.me/].
+
+From these we know that he lives in Hammond, Indiana. This is the crucial point, I focused on this challenge the last hour, and I lost a lot of time by searching for forests in Hammond. Not Indiana. I'm just dumb because the description says **home state**, but when I realized that it was too late.
+
+However, we are given this location to search:
+
+![image](./location.jpg)
+
+I had no clue of what the building on the left was, but then after A LOT of research I found out that US funeral homes look like this (actually cool), so this is what we want to search.
+
+Then we can see another building on the left that may be useful to filter the funeral homes we find, and in front of that what seems a parking lot.
+
+The last two things are the trees right behind the buildings (pretty high ones) and a street right in front of them. Nice, we can start by searching the public forests in Indiana (:expressionless:).  
+This area must be big, there is no way they want us to search for all little parks in a whole state. This is why all my researches through public institutes websites is useless.
+
+By just looking at the Satellite view in Google Maps we can see that the northern part of Indiana seems empty, while the southern one seems more promising (guess where I searched for all the time...).
+
+I think that maybe now the fastest way is to search for funeral homes here, and filter out the ones that are not within a forest area (actually look for *more green* areas):
+
+![image](./map.PNG)
+
+Look! Just one of the result is totally within a green area: Dembo Funeral Home.  
+Let's zoom in and see if we are good:
+
+![image](./dembo.PNG)
+
+Everything matches: the street, the trees, the parking lot and the buildings. The address is: `628 IN-64, English, IN 47118` that in MD5 is `7be0798af71f79eadb9254d3554aa301`.
+
+This was a really good challenge overall, but I can't help hating Mr. Casyn for all he did to me.
+
+Flag: **7be0798af71f79eadb9254d3554aa301**
 
 ### Online Presence
 ![c](https://img.shields.io/badge/Recoinnassance-pink) ![p](https://img.shields.io/badge/Points-550-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)

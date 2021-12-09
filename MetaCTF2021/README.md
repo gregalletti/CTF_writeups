@@ -107,7 +107,7 @@ Flag: ****
 
 I must say that, I was really close on this.
 
-We know Vedder from the last year CTF, so we already know its social profiles [github](https://github.com/veddercasyn), (twitter)[https://twitter.com/veddercasyn], (linkedin)[https://www.linkedin.com/in/vedder-casyn/] and its (website)[https://veddercasyn.me/].
+We know Vedder from the last year CTF, so we already know its social profiles [github](https://github.com/veddercasyn), [twitter](https://twitter.com/veddercasyn), [linkedin](https://www.linkedin.com/in/vedder-casyn/) and its [website](https://veddercasyn.me/).
 
 From these we know that he lives in Hammond, Indiana. This is the crucial point, I focused on this challenge the last hour, and I lost a lot of time by searching for forests in Hammond. Not Indiana. I'm just dumb because the description says **home state**, but when I realized that it was too late.
 
@@ -147,6 +147,9 @@ Flag: **7be0798af71f79eadb9254d3554aa301**
 > The answer format is the username followed by the post ID and comment ID in the URL to their shortest comment, underscore delimited. For example, for this comment, the answer would be MetaCTF{Specialistimran_r5mmdj_hmnszk4}.
 
 > Hint: There's a logical way to solve this challenge that doesn't require much time. There are two major (both have 500k+ subscribers) work-related subreddits.
+
+
+
 Flag: ****
 
 ### New Spot

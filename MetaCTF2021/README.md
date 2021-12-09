@@ -67,12 +67,14 @@ We are given [this file](https://metaproblems.com/2c4d19e43f1a8c225fcd413bdebeae
 ![c](https://img.shields.io/badge/Other-lightgreen) ![p](https://img.shields.io/badge/Points-100-success) ![a](https://img.shields.io/badge/author-b4g4-lightgrey)
 
 > 192.168.0.1 is periodically (once every 4 seconds) sending the flag to 192.168.0.2 over UDP port 8000. Go get it.
+
 > ssh ctf-1@host.cg21.metaproblems.com -p 7000
 
 ### Interception II
 ![c](https://img.shields.io/badge/Other-lightgreen) ![p](https://img.shields.io/badge/Points-150-success) ![a](https://img.shields.io/badge/author-b4g4-lightgrey)
 
 > Someone on this network is periodically sending the flag to ... someone else on this network, over TCP port 8000. Go get it.
+
 > ssh ctf-46ed3559da08@host.cg21.metaproblems.com -p 7000
 
 ## Unsolved Challenges
@@ -100,6 +102,7 @@ Flag: ****
 ![c](https://img.shields.io/badge/Recoinnassance-pink) ![p](https://img.shields.io/badge/Points-525-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 **Reason of failure**: no idea of US things, no time
 > Please help find our dear friend Vedder Casyn. His last known location was this location. We believe it's within a public forest area in his home state.
+
 > The answer should represent the MD5 hash of the address of the location.
 
 I must say that, I was really close on this.
@@ -139,7 +142,11 @@ Flag: **7be0798af71f79eadb9254d3554aa301**
 ### Online Presence
 ![c](https://img.shields.io/badge/Recoinnassance-pink) ![p](https://img.shields.io/badge/Points-550-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 **Reason of failure**: no time
+> Sources say Vedder may have used Reddit the past two weeks. It would make sense for him to post some comments on some major subreddits related to his main career interests or near his local area. Can you help find his account?
 
+> The answer format is the username followed by the post ID and comment ID in the URL to their shortest comment, underscore delimited. For example, for this comment, the answer would be MetaCTF{Specialistimran_r5mmdj_hmnszk4}.
+
+> Hint: There's a logical way to solve this challenge that doesn't require much time. There are two major (both have 500k+ subscribers) work-related subreddits.
 Flag: ****
 
 ### New Spot

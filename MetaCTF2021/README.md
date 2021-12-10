@@ -176,12 +176,60 @@ dtdnumberone
 
 Let's verify if this is really Vedder by manually visiting the reddit profile and looking at the comments [here](https://www.reddit.com/user/dtdnumberone/comments/). Here we can also see other comments on other subreddits we could have used to find him, but being "Chicago" and "ChicagoSuburbs" we are sure we got him.
 
-Now let's search for the shortest comment and write down the flag: out of a few comments this (https://www.reddit.com/r/Fitness/comments/r4rant/comment/hmqpa52/?utm_source=share&utm_medium=web2x&context=3) is clearly the shortest, so we can grab r4rant and hmqpa52.
+Now let's search for the shortest comment and write down the flag: out of a few comments this (https://www.reddit.com/r/Fitness/comments/r4rant/comment/hmqpa52/?utm_source=share&utm_medium=web2x&context=3) is clearly the shortest, so we can grab `r4rant` and `hmqpa52`.
 
 Flag: **MetaCTF{dtdnumberone_r4rant_hmqpa52}**
 
 ### New Spot
 ![c](https://img.shields.io/badge/Recoinnassance-pink) ![p](https://img.shields.io/badge/Points-600-success) ![a](https://img.shields.io/badge/author-grigg0swagg0-lightgrey)
 **Reason of failure**: no time
+> We are looking for where Vedder might frequently visit these days. He may like visiting a regular event that's free in his area hosted by a friend that is about his primary career interests. I'm not sure where he might say he hangs out at now, but it seems everyone has a finsta these days...
 
-Flag: ****
+As the previous challenges, we can group our ideas and write down the key elements we know and what we need to search:
+- **primary career interest**: this must be fitness, his main job
+- **regular event**
+- **free event**
+- **in his area**: must be Chicagoland area, not only Hammond
+- **hosted by a friend**
+
+After a rapid search I found [this article](https://www.socialtables.com/blog/event-technology/event-planning-apps/) and the first free app is [EventBrite](https://www.eventbrite.com/), so we can start by searching here.
+
+Let's put `Chicago` as area (the range is quite large), select `Free` event and see if we are lucky: of course not, there are too much events not related to fitness. We can filter on `Category > Sports & Fitness` but again nothing seems relevant. At this point I was kindad lost and I tried a lot of other event websites with no success, so I came back here and tried to insert a tag to narrow down the results. 
+
+Luckily, the `Category` filter was reset and I managed to find something interesting by using the tag `planet fitness`: by doing the same search with `Category` filter we can't see that. Also `personal trainer` tag will work.
+
+In the first results we can see [this event](https://www.eventbrite.com/e/chicagoland-personal-trainer-and-nutritionist-meeting-tickets-222485168127?aff=ebdssbdestsearch): **free, every month on Saturday, in Chicago, about PT and Nutrition**: checkmate.
+
+Here we can also see the host: `by Justin Rodriguez`, so this is Vedder's friend!
+
+Now I think is time for the Instagram part because we found all we needed here, so we can open and search for Justin aaaaand... too many results, really too many: this is not the way.  
+After struggling a bit, I realized I did not even look at the event page: here we can see an address! Seems like an Hotel, so we can search for it on Insta. [This](https://www.instagram.com/thegraychi/?hl=it) is the profile, but looking at the photos in which is tagged leads to a lot of useless posts for us.
+
+At this point we can change and search for the location of the Hotel through insta, searching for all photos posted in this place: scrolling the [results](https://www.instagram.com/explore/locations/1025962323/the-kimpton-gray-hotel/?hl=it) we can see at some point a specific [post](https://www.instagram.com/p/CXERCP1Ln17/) by `jrod_312_` talking about Saturdays each month, seems familiar huh?
+
+The username also seems related to `Justin Rodriguez`, so I immediately analyzed his profile with no success. After a while I went back to the post and saw a tag on the 3rd photo, `the_1_and_only_vc`. Take a look at his [profile](https://www.instagram.com/the_1_and_only_vc/?hl=it) and yes, it's our man.
+
+I really thought the challenge would end here, but of course no.  
+We can now look at his only post and see that we need to geolocate an address starting from these images:
+
+![image](./vedder1.PNG)
+![image](./vedder2.PNG)
+![image](./vedder3.PNG)
+
+I know nothing about Chicagoland or even US, but this place seems like a public park to me, maybe with some bike trails or something like that. Also we can clearly see water, so this park needs to be near a lake, but I can't really tell how big this lake should be.
+
+Now let's be hones, I was lucky here because I spent so much time in Hammond searching for Vedder that I immediately tried with **Wolf Lake**:
+![image](./wolf.PNG)
+
+Also, we can see some "little islands" in the middle of the lake, very similar to the ones in the 3rd photo! Ok we can try and search what we can find here. I don't know what happened, but on the right we can already see a park, Forsythe Park, and by zooming in we can see that there is also a trail next to it (or whithin? I don't know).
+
+Let's explore the area with Street View to find some proofs:
+![image](./park.PNG)
+
+This is really too similar to not be the right answer, so I press the "I believe" button and pretend I know that I'm in Forsythe Park, also because the address changes too often by moving with Street View.
+
+To compose the flag, let's take the address: `1800 Caroline Ave, Whiting, IN 46394` and get the MD5, `f77589c3deb4af100c08acc9c1d49036`
+
+Again, Vedder, I hate you.
+
+Flag: **f77589c3deb4af100c08acc9c1d49036**
